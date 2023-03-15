@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "989703418113",
+    "project_id": "agripiyalo-de992",
+    "storage_bucket": "agripiyalo-de992.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989703418113:android:9d1711ebbb743c2dd2ab00",
+        "android_client_info": {
+          "package_name": "agri.agriapp.agripiyalo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989703418113-tj32cseg748td6f2slqkhu74ichrme2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi_sKFn90pV2pbZbVu3zRGB2NzH2ZVpKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989703418113-tj32cseg748td6f2slqkhu74ichrme2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

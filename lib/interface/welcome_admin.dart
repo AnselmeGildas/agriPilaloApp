@@ -8,6 +8,7 @@ import 'package:deogracias/interface/list_services.dart';
 import 'package:deogracias/interface/message_aux_clients.dart';
 import 'package:deogracias/interface/new_password.dart';
 import 'package:deogracias/interface/nouveau_service.dart';
+import 'package:deogracias/interface/nouvelle_vague.dart';
 import 'package:deogracias/interface/profil_admin.dart';
 import 'package:deogracias/modele/budget.dart';
 import 'package:deogracias/services/user.dart';
@@ -474,6 +475,45 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                               )
                             ],
                           )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 15, bottom: 10),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NouvelleVague(),
+                                ));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: [
+                              Text(
+                                "Ajouter une nouvelle vague",
+                                style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade900,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.arrow_right,
+                                color: Colors.lightBlue.shade900,
+                              )
+                            ],
+                          )),
+                    ),
+                    SizedBox(
+                      height: 0,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 25),

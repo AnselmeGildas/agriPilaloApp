@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 class Vagues {
   final String uid;
   final String nom;
+  final bool cloture;
+  final String user_uid;
   final String description;
   final String created_at;
   final String created_at_heure;
@@ -16,6 +18,8 @@ class Vagues {
   Vagues({
     required this.uid,
     required this.nom,
+    required this.cloture,
+    required this.user_uid,
     required this.description,
     required this.created_at,
     required this.created_at_heure,
@@ -27,6 +31,8 @@ class Vagues {
     Timestamp created = (document.data() as Map)['created_at'];
     Timestamp updated = (document.data() as Map)['updated_at'];
     return Vagues(
+        cloture: (document.data() as Map)["cloture"],
+        user_uid: (document.data() as Map<String, dynamic>)['user_uid'],
         uid: document.id,
         nom: (document.data() as Map<String, dynamic>)['nom'],
         description: (document.data() as Map<String, dynamic>)['description'],
@@ -39,6 +45,8 @@ class Vagues {
   Vagues copyWith({
     String? uid,
     String? nom,
+    bool? cloture,
+    String? user_uid,
     String? description,
     String? created_at,
     String? created_at_heure,
@@ -48,6 +56,8 @@ class Vagues {
     return Vagues(
       uid: uid ?? this.uid,
       nom: nom ?? this.nom,
+      cloture: cloture ?? this.cloture,
+      user_uid: user_uid ?? this.user_uid,
       description: description ?? this.description,
       created_at: created_at ?? this.created_at,
       created_at_heure: created_at_heure ?? this.created_at_heure,
@@ -61,6 +71,8 @@ class Vagues {
 
     result.addAll({'uid': uid});
     result.addAll({'nom': nom});
+    result.addAll({'cloture': cloture});
+    result.addAll({'user_uid': user_uid});
     result.addAll({'description': description});
     result.addAll({'created_at': created_at});
     result.addAll({'created_at_heure': created_at_heure});
@@ -74,6 +86,8 @@ class Vagues {
     return Vagues(
       uid: map['uid'] ?? '',
       nom: map['nom'] ?? '',
+      cloture: map['cloture'] ?? false,
+      user_uid: map['user_uid'] ?? '',
       description: map['description'] ?? '',
       created_at: map['created_at'] ?? '',
       created_at_heure: map['created_at_heure'] ?? '',
@@ -88,7 +102,7 @@ class Vagues {
 
   @override
   String toString() {
-    return 'Vagues(uid: $uid, nom: $nom, description: $description, created_at: $created_at, created_at_heure: $created_at_heure, updated_att: $updated_att, updated_at_heure: $updated_at_heure)';
+    return 'Vagues(uid: $uid, nom: $nom, cloture: $cloture, user_uid: $user_uid, description: $description, created_at: $created_at, created_at_heure: $created_at_heure, updated_att: $updated_att, updated_at_heure: $updated_at_heure)';
   }
 
   @override
@@ -98,6 +112,8 @@ class Vagues {
     return other is Vagues &&
         other.uid == uid &&
         other.nom == nom &&
+        other.cloture == cloture &&
+        other.user_uid == user_uid &&
         other.description == description &&
         other.created_at == created_at &&
         other.created_at_heure == created_at_heure &&
@@ -109,6 +125,8 @@ class Vagues {
   int get hashCode {
     return uid.hashCode ^
         nom.hashCode ^
+        cloture.hashCode ^
+        user_uid.hashCode ^
         description.hashCode ^
         created_at.hashCode ^
         created_at_heure.hashCode ^

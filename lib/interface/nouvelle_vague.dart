@@ -29,6 +29,7 @@ class _NouvelleVagueState extends State<NouvelleVague> {
     String nom = provider.nom;
     String description = provider.description;
     String vague_uid = "";
+    bool affiche = provider.affiche;
     return Scaffold(
       drawer: DrawerAdmin(),
       backgroundColor: Colors.green.shade800,
@@ -67,9 +68,9 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
-                      fit: BoxFit.cover)),
+                      fit: BoxFit.fill)),
             ),
             SizedBox(
               height: 40,
@@ -224,11 +225,7 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                         final result = await FirebaseFirestore.instance
                             .collection("vagues")
                             .where("nom", isEqualTo: nom_vague.text)
-                            .get()
-                            .then((value) {
-                          final vague = value.docs.first;
-                          vague_uid = vague.id;
-                        });
+                            .get();
 
                         final is_empty = result.docs.isEmpty;
 
@@ -255,6 +252,7 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           _speak("Création de la vague en cours");
+
                           await FirebaseFirestore.instance
                               .collection("vagues")
                               .add({
@@ -264,6 +262,14 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                             "created_at": DateTime.now(),
                             "updated_at": DateTime.now(),
                             "user_uid": user.uid
+                          });
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .where("nom", isEqualTo: nom_vague.text)
+                              .get()
+                              .then((value) {
+                            final vague = value.docs.first;
+                            vague_uid = vague.id;
                           });
 
                           await FirebaseFirestore.instance
@@ -299,7 +305,7 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                               .collection("vagues")
                               .doc(vague_uid)
                               .collection("oeuf_tables")
-                              .doc("oeuf_de_tzable")
+                              .doc("oeuf_de_table")
                               .set({
                             "created_at": DateTime.now(),
                             "updated_at": DateTime.now(),
@@ -343,9 +349,33 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                             "prix_unitaire": 5000,
                             "type_sack": "Grand sack sack"
                           });
+                          nom_vague.clear();
+                          description_vague.clear();
+                          _speak("Cette vague a été créé avec succès");
+                          provider.affiche_false();
+
+                          final snakbar = SnackBar(
+                            content: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "La vague a été créé avec succès",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.lato(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            backgroundColor: Colors.black87,
+                            elevation: 10,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.all(5),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         }
                       }
                     } catch (e) {
+                      // print(e);
                       provider.affiche_false();
                       _speak("une erreur s'est produite");
                       final snakbar = SnackBar(
@@ -368,14 +398,18 @@ class _NouvelleVagueState extends State<NouvelleVague> {
                       ScaffoldMessenger.of(context).showSnackBar(snakbar);
                     }
                   },
-                  child: Text(
-                    "Ajouter cette vague".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.alike(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  )),
+                  child: affiche
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          "Ajouter cette vague".toUpperCase(),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.alike(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        )),
             ),
             SizedBox(
               height: 80,

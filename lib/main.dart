@@ -38,6 +38,7 @@ import 'package:deogracias/provider/provider_gestion_departement.dart';
 import 'package:deogracias/provider/provider_historique_vente.dart';
 import 'package:deogracias/provider/provider_message_client.dart';
 import 'package:deogracias/provider/provider_nouvelle_bete.dart';
+import 'package:deogracias/provider/provider_nouvelle_vague.dart';
 import 'package:deogracias/provider/provider_peret.dart';
 import 'package:deogracias/provider/provider_poussin_mort_retablie.dart';
 import 'package:deogracias/provider/provider_profil.dart';
@@ -224,6 +225,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProviderSignalerBeteMortRetablie(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProviderNouvelleVague(),
         ),
       ],
       child: MaterialApp(

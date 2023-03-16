@@ -32,7 +32,9 @@ class StreamStockBete extends StatelessWidget {
                 nombre_mort: 0,
                 updated_at: ""))
       ],
-      child: StockDuBete(),
+      child: StockDuBete(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, non_constant_identifier_names, use_build_context_synchronously, prefer_const_constructors_in_immutables, unused_field
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_vente_bete.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +13,12 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class VenteDeBete extends StatefulWidget {
-  VenteDeBete({super.key});
-
+  VenteDeBete({
+    super.key,
+    required this.vague_uid,
+  });
+  final String vague_uid;
   @override
   State<VenteDeBete> createState() => _VenteDeBeteState();
 }
@@ -48,6 +51,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
     final bete = Provider.of<Betes>(context);
     final provider = Provider.of<ProviderVenteBete>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     reduire = provider.reduire;
     montant_reduit = provider.montant_reduit;
     nombre = provider.nombre;
@@ -56,7 +60,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
     total = number1 * bete.prix_unitaire;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -71,7 +75,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
         elevation: 0,
         centerTitle: false,
         title: Text(
-          "Vente de " + bete.nom,
+          bete.nom,
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
         ),
@@ -84,7 +88,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -92,12 +96,12 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               Text(
                 "Vente de betes",
@@ -137,18 +141,18 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                 height: 44,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Text(
-                    "Vous disposez de ".toUpperCase() +
+                    "Vous disposez de " +
                         bete.nombre_restant.toString() +
-                        " unités de ".toUpperCase() +
-                        bete.nom.toUpperCase() +
-                        " en stock de votre entreprise.".toUpperCase(),
+                        " unités de " +
+                        bete.nom +
+                        " en stock de votre entreprise.",
                     textAlign: TextAlign.justify,
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 13)),
+                        fontSize: 19)),
               ),
               SizedBox(
                 height: 50,
@@ -334,8 +338,8 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                     onPressed: () async {
                       try {
                         provider.affiche_true();
-                        _montant = montant_total.isNotEmpty
-                            ? int.parse(montant_total)
+                        _montant = prix_total.text.isNotEmpty
+                            ? int.parse(prix_total.text)
                             : 0;
                         _montant_en_reduction =
                             montant_en_reduction.text.isNotEmpty
@@ -391,7 +395,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else if (bete.prix_unitaire == 0) {
-                          if (_montant <= 0) {
+                          if (prix_total.text.isEmpty) {
                             _speak("Vous devez saisir le montant total de vente de " +
                                 _montant.toString() +
                                 " " +
@@ -430,6 +434,17 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers.uid)
+                                .update({
+                              "solde_total": budget_tiers.solde_total + _montant
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("vente_betes")
                                 .add({
                               "created_at": DateTime.now(),
@@ -443,6 +458,8 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({
@@ -518,8 +535,19 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                                 "solde_total":
                                     budget.solde_total + _montant_en_reduction
                               });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers.uid)
+                                  .update({
+                                "solde_total": budget_tiers.solde_total +
+                                    _montant_en_reduction
+                              });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
                                   .collection("vente_betes")
                                   .add({
                                 "created_at": DateTime.now(),
@@ -533,6 +561,8 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
                                   .collection("betes")
                                   .doc(bete.uid)
                                   .update({
@@ -574,8 +604,18 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                                 .update({
                               "solde_total": budget.solde_total + total
                             });
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers.uid)
+                                .update({
+                              "solde_total": budget_tiers.solde_total + total
+                            });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("vente_betes")
                                 .add({
                               "created_at": DateTime.now(),
@@ -589,6 +629,8 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({

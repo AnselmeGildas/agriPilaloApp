@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_stock_bete.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -13,8 +12,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class ListeBetes extends StatefulWidget {
-  ListeBetes({super.key});
-
+  ListeBetes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<ListeBetes> createState() => _ListeBetesState();
 }
@@ -30,10 +29,10 @@ class _ListeBetesState extends State<ListeBetes> {
     final provider = Provider.of<Search>(context);
     _search = provider.value;
     affiche = provider.afficher;
-    final vague = Provider.of<Vagues>(context);
+
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -59,7 +58,7 @@ class _ListeBetesState extends State<ListeBetes> {
     }
 
     return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -118,7 +117,8 @@ class _ListeBetesState extends State<ListeBetes> {
                   ? ListTile(
                       trailing: IconButton(
                           onPressed: () {
-                            _DeleteBete(context, bete.nom, bete.uid);
+                            _DeleteBete(
+                                context, bete.nom, bete.uid, widget.vague_uid);
                           },
                           icon: Icon(Icons.delete)),
                       onTap: () {
@@ -126,7 +126,8 @@ class _ListeBetesState extends State<ListeBetes> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => StreamStockBete(
-                                  vague_uid: vague.uid, bete_uid: bete.uid),
+                                  vague_uid: widget.vague_uid,
+                                  bete_uid: bete.uid),
                             ));
                       },
                       leading: bete.nom.isNotEmpty
@@ -150,7 +151,8 @@ class _ListeBetesState extends State<ListeBetes> {
                       ? ListTile(
                           trailing: IconButton(
                               onPressed: () {
-                                _DeleteBete(context, bete.nom, bete.uid);
+                                _DeleteBete(context, bete.nom, bete.uid,
+                                    widget.vague_uid);
                               },
                               icon: Icon(Icons.delete)),
                           onTap: () {
@@ -159,7 +161,7 @@ class _ListeBetesState extends State<ListeBetes> {
                                 MaterialPageRoute(
                                   builder: (context) => StreamStockBete(
                                     bete_uid: bete.uid,
-                                    vague_uid: vague.uid,
+                                    vague_uid: widget.vague_uid,
                                   ),
                                 ));
                           },
@@ -188,8 +190,8 @@ class _ListeBetesState extends State<ListeBetes> {
         ));
   }
 
-  Future<void> _DeleteBete(
-      BuildContext context, String bete_nom, String bete_uid) async {
+  Future<void> _DeleteBete(BuildContext context, String bete_nom,
+      String bete_uid, String vague_uid) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -233,6 +235,8 @@ class _ListeBetesState extends State<ListeBetes> {
                       onPressed: () async {
                         try {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("betes")
                               .doc(bete_uid)
                               .delete();

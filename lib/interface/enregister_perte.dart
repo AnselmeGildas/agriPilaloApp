@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field, use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_peret.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +12,13 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class EnregistrerPerte extends StatelessWidget {
-  EnregistrerPerte({super.key});
+  EnregistrerPerte({
+    super.key,
+    required this.vague_uid,
+  });
+  final String vague_uid;
+
   bool affiche = false;
   String description = "";
   String montant = "";
@@ -27,12 +32,13 @@ class EnregistrerPerte extends StatelessWidget {
     final provider = Provider.of<ProviderPerte>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     description = provider.description;
     montant = provider.montant;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       appBar: AppBar(
         actions: [
           Image.asset(
@@ -60,7 +66,7 @@ class EnregistrerPerte extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -68,7 +74,7 @@ class EnregistrerPerte extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -209,6 +215,8 @@ class EnregistrerPerte extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(vague_uid)
                             .collection("pertes")
                             .add({
                           "user_uid": user.uid,
@@ -220,6 +228,12 @@ class EnregistrerPerte extends StatelessWidget {
                             .collection("budget")
                             .doc(budget.uid)
                             .update({"perte": budget.perte + _montant});
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(vague_uid)
+                            .collection("budget")
+                            .doc(budget_tiers.uid)
+                            .update({"perte": budget_tiers.perte + _montant});
                         _mont.clear();
                         _desc.clear();
                         provider.affiche_false();

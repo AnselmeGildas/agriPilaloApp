@@ -1,18 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, non_constant_identifier_names, avoid_function_literals_in_foreach_calls
 
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_achat_de_poussin.dart';
 import 'package:deogracias/modele/achat_poussins.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class AchatsPoussinsEffectues extends StatefulWidget {
-  AchatsPoussinsEffectues({super.key});
-
+  AchatsPoussinsEffectues({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<AchatsPoussinsEffectues> createState() =>
       _AchatsPoussinsEffectuesState();
@@ -29,11 +27,11 @@ class _AchatsPoussinsEffectuesState extends State<AchatsPoussinsEffectues> {
     final provider = Provider.of<Search>(context);
     affiche = provider.afficher;
     value = provider.value;
-    final vague = Provider.of<Vagues>(context);
+
     if (achat_poussins.isEmpty) {
       return Scaffold(
           backgroundColor: Colors.green.shade800,
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -58,7 +56,7 @@ class _AchatsPoussinsEffectuesState extends State<AchatsPoussinsEffectues> {
           body: Center(child: CircularProgressIndicator(color: Colors.white)));
     }
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -121,7 +119,7 @@ class _AchatsPoussinsEffectuesState extends State<AchatsPoussinsEffectues> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   StreamDeAchatPoussinEffectue(
-                                      vague_uid: vague.uid,
+                                      vague_uid: widget.vague_uid,
                                       achat_poussin_uid: achat_poussin.uid,
                                       user_uid: achat_poussin.user_uid)));
                     },
@@ -155,7 +153,7 @@ class _AchatsPoussinsEffectuesState extends State<AchatsPoussinsEffectues> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       StreamDeAchatPoussinEffectue(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           achat_poussin_uid: achat_poussin.uid,
                                           user_uid: achat_poussin.user_uid)));
                         },

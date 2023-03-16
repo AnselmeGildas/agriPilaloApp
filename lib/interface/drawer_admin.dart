@@ -4,6 +4,7 @@ import 'package:deogracias/interface/appreciations.dart';
 import 'package:deogracias/interface/connexion.dart';
 import 'package:deogracias/interface/liste_des_clients.dart';
 import 'package:deogracias/interface/commandes_journalieres.dart';
+import 'package:deogracias/interface/vagues.dart';
 import 'package:deogracias/interface/welcome_admin.dart';
 import 'package:deogracias/provider/provider_drawer_admin.dart';
 import 'package:deogracias/services/user.dart';
@@ -99,10 +100,8 @@ class DrawerAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.change_vagues();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CommandesJournalieres()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LesVagues()));
                 },
                 tileColor: _vagues ? Colors.lightBlue.shade900 : null,
                 title: Text(

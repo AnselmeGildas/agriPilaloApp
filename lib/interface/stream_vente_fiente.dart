@@ -2,6 +2,7 @@
 
 import 'package:deogracias/base_donne/servicebasededonnees.dart';
 import 'package:deogracias/interface/vente_de_fiente.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,11 @@ class StreamVenteFiente extends StatelessWidget {
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
             create: (context) =>
+                context.read<serviceBD>().budget_tiers(vague_uid),
+            initialData: BudgetTiers(
+                uid: "", solde_total: 0, depense: 0, perte: 0, created_at: "")),
+        StreamProvider(
+            create: (context) =>
                 context.read<serviceBD>().fiente(vague_uid, fiente_uid),
             initialData: Fientes(
                 uid: "",
@@ -30,7 +36,9 @@ class StreamVenteFiente extends StatelessWidget {
                 nombre_restant: 0,
                 montant_vendu: 0))
       ],
-      child: VenteDeFiente(),
+      child: VenteDeFiente(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

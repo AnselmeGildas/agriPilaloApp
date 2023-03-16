@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_perte.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/pertes.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -13,8 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ListePerte extends StatefulWidget {
-  ListePerte({super.key});
-
+  ListePerte({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<ListePerte> createState() => _ListePerteState();
 }
@@ -31,9 +31,10 @@ class _ListePerteState extends State<ListePerte> {
     value = provider.value;
     affiche = provider.afficher;
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     if (pertes.isEmpty) {
       return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -60,9 +61,9 @@ class _ListePerteState extends State<ListePerte> {
         ),
       );
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -124,7 +125,7 @@ class _ListePerteState extends State<ListePerte> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => StreamPerte(
-                                vague_uid: vague.uid,
+                                vague_uid: widget.vague_uid,
                                 perte_uid: perte.uid,
                                 user_uid: perte.user_uid),
                           ));
@@ -139,8 +140,16 @@ class _ListePerteState extends State<ListePerte> {
                     ),
                     trailing: IconButton(
                         onPressed: () {
-                          _update(context, perte.uid, perte.description,
-                              perte.montant, budget.uid, budget.perte);
+                          _update(
+                              context,
+                              perte.uid,
+                              perte.description,
+                              perte.montant,
+                              budget.uid,
+                              budget.perte,
+                              budget_tiers.uid,
+                              budget_tiers.perte,
+                              widget.vague_uid);
                         },
                         icon: Icon(Icons.edit)),
                     subtitle: Row(children: [
@@ -170,7 +179,7 @@ class _ListePerteState extends State<ListePerte> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => StreamPerte(
-                                    vague_uid: vague.uid,
+                                    vague_uid: widget.vague_uid,
                                     perte_uid: perte.uid,
                                     user_uid: perte.user_uid),
                               ));
@@ -186,8 +195,16 @@ class _ListePerteState extends State<ListePerte> {
                         ),
                         trailing: IconButton(
                             onPressed: () {
-                              _update(context, perte.uid, perte.description,
-                                  perte.montant, budget.uid, budget.perte);
+                              _update(
+                                  context,
+                                  perte.uid,
+                                  perte.description,
+                                  perte.montant,
+                                  budget.uid,
+                                  budget.perte,
+                                  budget_tiers.uid,
+                                  budget_tiers.perte,
+                                  widget.vague_uid);
                             },
                             icon: Icon(Icons.edit)),
                         subtitle: Row(
@@ -222,13 +239,15 @@ class _ListePerteState extends State<ListePerte> {
   }
 
   Future<void> _update(
-    BuildContext context,
-    String depense_uid,
-    String depense_description,
-    int depense_montzant,
-    String budget_uid,
-    int budget_depense,
-  ) async {
+      BuildContext context,
+      String depense_uid,
+      String depense_description,
+      int depense_montzant,
+      String budget_uid,
+      int budget_depense,
+      String budget_tiers_uid,
+      int budget_tiers_perte,
+      String vague_uid) async {
     TextEditingController _description = TextEditingController();
     TextEditingController _montant = TextEditingController();
     _description.text = depense_description;
@@ -328,6 +347,21 @@ class _ListePerteState extends State<ListePerte> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers_uid)
+                                .update({
+                              "perte": _depense > depense_montzant
+                                  ? budget_tiers_perte +
+                                      (_depense - depense_montzant)
+                                  : budget_tiers_perte -
+                                      (depense_montzant - _depense)
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(vague_uid)
                                 .collection("pertes")
                                 .doc(depense_uid)
                                 .update({

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/provider/provider_recharger_stock_bete.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class RechargerStockDuBete extends StatefulWidget {
-  RechargerStockDuBete({super.key});
-
+  RechargerStockDuBete({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<RechargerStockDuBete> createState() => _RechargerStockDuBeteState();
 }
@@ -35,7 +34,7 @@ class _RechargerStockDuBeteState extends State<RechargerStockDuBete> {
     nombre = provider.nombre;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -63,7 +62,7 @@ class _RechargerStockDuBeteState extends State<RechargerStockDuBete> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -71,7 +70,7 @@ class _RechargerStockDuBeteState extends State<RechargerStockDuBete> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -81,7 +80,7 @@ class _RechargerStockDuBeteState extends State<RechargerStockDuBete> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  "Réchargement du stock de " + bete.nom,
+                  "Réchargement du stock",
                   softWrap: true,
                   maxLines: 2,
                   textAlign: TextAlign.center,
@@ -192,6 +191,8 @@ class _RechargerStockDuBeteState extends State<RechargerStockDuBete> {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("betes")
                               .doc(bete.uid)
                               .update({

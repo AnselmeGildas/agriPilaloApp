@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, non_constant_identifier_names, avoid_function_literals_in_foreach_calls
 
 import 'package:deogracias/interface/stream_vente_a_credit_non_paye.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'drawer_admin.dart';
 
 class VentesACreditsNonPayes extends StatefulWidget {
-  VentesACreditsNonPayes({super.key});
-
+  VentesACreditsNonPayes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<VentesACreditsNonPayes> createState() => _VentesACreditsNonPayesState();
 }
@@ -65,7 +64,6 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
           body: Center(child: CircularProgressIndicator(color: Colors.white)));
     }
 
-    final vague = Provider.of<Vagues>(context);
     return Scaffold(
       drawer: DrawerAdmin(),
       appBar: AppBar(
@@ -131,7 +129,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       StreamVenteACreditNonPaye(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           vente_a_credit_uid:
                                               vente_a_credit.uid,
                                           vente_a_credit_user_uid:
@@ -175,7 +173,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       StreamVenteACreditNonPaye(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           vente_a_credit_uid:
                                               vente_a_credit.uid,
                                           vente_a_credit_user_uid:

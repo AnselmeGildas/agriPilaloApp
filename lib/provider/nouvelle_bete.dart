@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_final_fields, unused_field, must_be_immutable, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/provider/provider_nouvelle_bete.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../interface/drawer_admin.dart';
-
 class NouvelleBete extends StatelessWidget {
-  NouvelleBete({super.key});
-
+  NouvelleBete({super.key, required this.vague_uid});
+  final String vague_uid;
   String nom = "";
   String nombre_initial = "";
   int _nombre_initial = 0;
@@ -35,7 +34,7 @@ class NouvelleBete extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       appBar: AppBar(
         actions: [
           Image.asset(
@@ -63,7 +62,7 @@ class NouvelleBete extends StatelessWidget {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -71,7 +70,7 @@ class NouvelleBete extends StatelessWidget {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -108,7 +107,7 @@ class NouvelleBete extends StatelessWidget {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Nom ",
+                      "Nom de l'animal ",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontSize: 18,
@@ -259,6 +258,8 @@ class NouvelleBete extends StatelessWidget {
                           is_empty = result.docs.isEmpty;
                           if (is_empty) {
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(vague_uid)
                                 .collection("betes")
                                 .add({
                               "user_uid": user.uid,

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, unused_element, prefer_interpolation_to_compose_strings, avoid_function_literals_in_foreach_calls
 
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
@@ -10,8 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class RubriqueStocks extends StatefulWidget {
-  RubriqueStocks({super.key});
-
+  RubriqueStocks({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<RubriqueStocks> createState() => _RubriqueStocksState();
 }
@@ -49,7 +49,7 @@ class _RubriqueStocksState extends State<RubriqueStocks> {
         oeufs_tables.isEmpty) {
       return Scaffold(
         backgroundColor: Colors.green.shade800,
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
@@ -79,7 +79,7 @@ class _RubriqueStocksState extends State<RubriqueStocks> {
 
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -107,7 +107,7 @@ class _RubriqueStocksState extends State<RubriqueStocks> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -115,7 +115,7 @@ class _RubriqueStocksState extends State<RubriqueStocks> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -168,174 +168,183 @@ class _RubriqueStocksState extends State<RubriqueStocks> {
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40)),
               ),
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width * 0.98,
               child: Column(
                 children: [
                   SizedBox(
                     height: 40,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.lightBlue.shade800),
-                    width: MediaQuery.of(context).size.width * 0.99,
-                    height: 45,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Betes".toUpperCase(),
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.alike(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 0,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                        border: TableBorder.all(
-                            color: Colors.lightBlue.shade800,
-                            style: BorderStyle.solid,
-                            width: 3),
-                        columns: [
-                          DataColumn(
-                              label: Text(
-                            "bete".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Nombre initial".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Nombre vendu".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Nombre restant".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Montant total".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Nombre malade".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                          DataColumn(
-                              label: Text(
-                            "Nombre perdu(mort)".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.lightBlue.shade800,
-                                fontWeight: FontWeight.bold),
-                          )),
-                        ],
-                        rows: betes.map((bete) {
-                          return DataRow(cells: [
-                            DataCell(Text(
-                              bete.nom,
-                              style: GoogleFonts.alike(
+                  betes.isNotEmpty
+                      ? Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.lightBlue.shade800),
+                              width: MediaQuery.of(context).size.width * 0.99,
+                              height: 45,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Betes".toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.alike(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 0,
+                            ),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                  border: TableBorder.all(
+                                      color: Colors.lightBlue.shade800,
+                                      style: BorderStyle.solid,
+                                      width: 3),
+                                  columns: [
+                                    DataColumn(
+                                        label: Text(
+                                      "bete".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Nombre initial".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Nombre vendu".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Nombre restant".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Montant total".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Nombre malade".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Nombre perdu(mort)".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                  ],
+                                  rows: betes.map((bete) {
+                                    return DataRow(cells: [
+                                      DataCell(Text(
+                                        bete.nom,
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        bete.nombre_initial.toString(),
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        (bete.nombre_initial -
+                                                bete.nombre_restant)
+                                            .toString(),
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        bete.nombre_restant.toString(),
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        bete.montant_vendu.toString() + " XOF",
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        bete.nombre_malade.toString(),
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                      DataCell(Text(
+                                        bete.nombre_mort.toString(),
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      ))
+                                    ]);
+                                  }).toList()),
+                            ),
+                            Container(
+                              height: 47,
+                              width: MediaQuery.of(context).size.width * 0.999,
+                              decoration: BoxDecoration(
                                   color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              bete.nombre_initial.toString(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              (bete.nombre_initial - bete.nombre_restant)
-                                  .toString(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              bete.nombre_restant.toString(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              bete.montant_vendu.toString() + " XOF",
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              bete.nombre_malade.toString(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                            DataCell(Text(
-                              bete.nombre_mort.toString(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.lightBlue.shade800,
-                                  fontWeight: FontWeight.bold),
-                            ))
-                          ]);
-                        }).toList()),
-                  ),
-                  Container(
-                    height: 47,
-                    width: MediaQuery.of(context).size.width * 0.999,
-                    decoration: BoxDecoration(
-                        color: Colors.lightBlue.shade800,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10))),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Text(
-                            "Total de vente de betes :".toUpperCase(),
-                            style: GoogleFonts.alike(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15),
-                          child: Text(
-                            total_betes.toString() + " XOF",
-                            style: GoogleFonts.alike(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      topLeft: Radius.circular(10),
+                                      topRight: Radius.circular(10))),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 15.0),
+                                    child: Text(
+                                      "Total de vente de betes :".toUpperCase(),
+                                      style: GoogleFonts.alike(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      total_betes.toString() + " XOF",
+                                      style: GoogleFonts.alike(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                          ],
                         )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
+                      : Container(),
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),

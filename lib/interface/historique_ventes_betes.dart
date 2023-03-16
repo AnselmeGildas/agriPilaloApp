@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, unused_element
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_historique_vente_bete.dart';
 import 'package:deogracias/modele/budget.dart';
-import 'package:deogracias/modele/vagues.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/vente_betes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -12,16 +12,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HistoriqueVentesBetes extends StatelessWidget {
-  const HistoriqueVentesBetes({super.key});
-
+  const HistoriqueVentesBetes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final vente_betes = Provider.of<List<VenteBetes>>(context);
     final budget = Provider.of<Budget>(context);
-    final vague = Provider.of<Vagues>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     if (vente_betes.isEmpty) {
       return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: vague_uid),
         backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -51,7 +51,7 @@ class HistoriqueVentesBetes extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -87,7 +87,10 @@ class HistoriqueVentesBetes extends StatelessWidget {
                       vente.created_at,
                       vente.created_at_heure,
                       budget.uid,
-                      budget.solde_total);
+                      budget.solde_total,
+                      budget_tiers.uid,
+                      budget_tiers.solde_total,
+                      vague_uid);
                 },
                 icon: Icon(Icons.delete)),
             title: Text(
@@ -127,7 +130,7 @@ class HistoriqueVentesBetes extends StatelessWidget {
                       vente_uid: vente.uid,
                       bete_uid: vente.bete_uid,
                       user_uid: vente.user_uid,
-                      vague_uid: vague.uid,
+                      vague_uid: vague_uid,
                     ),
                   ));
             },
@@ -139,17 +142,19 @@ class HistoriqueVentesBetes extends StatelessWidget {
   }
 
   Future<void> _DeleteVenteBete(
-    BuildContext context,
-    String bete_nom,
-    String bete_uid,
-    String vente_bete_uid,
-    int montant,
-    int nombre,
-    String created_at,
-    String created_at_heure,
-    String budget_uid,
-    int budget_montant,
-  ) async {
+      BuildContext context,
+      String bete_nom,
+      String bete_uid,
+      String vente_bete_uid,
+      int montant,
+      int nombre,
+      String created_at,
+      String created_at_heure,
+      String budget_uid,
+      int budget_montant,
+      String budget_tiers_uid,
+      int budget_tiers_solde_total,
+      String vague_uid) async {
     int _bete_nombre_restant = 0;
     int _bete_montant_vendu = 0;
     return showDialog<void>(
@@ -211,6 +216,8 @@ class HistoriqueVentesBetes extends StatelessWidget {
                           _speak("Suppression en cours");
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("betes")
                               .doc(bete_uid)
                               .get()
@@ -227,10 +234,23 @@ class HistoriqueVentesBetes extends StatelessWidget {
                               .update(
                                   {"solde_total": budget_montant - montant});
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("vente_betes")
                               .doc(vente_bete_uid)
                               .delete();
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers_uid)
+                              .update({
+                            "solde_total": budget_tiers_solde_total - montant
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("betes")
                               .doc(bete_uid)
                               .update({

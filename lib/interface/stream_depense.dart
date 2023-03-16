@@ -51,7 +51,9 @@ class StreamDepense extends StatelessWidget {
                 date_inscription: "",
                 deleted: false))
       ],
-      child: DepenseEffectue(),
+      child: DepenseEffectue(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

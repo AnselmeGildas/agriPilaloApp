@@ -30,7 +30,9 @@ class StreamStockFiente extends StatelessWidget {
                 nombre_restant: 0,
                 montant_vendu: 0))
       ],
-      child: StockDuFiente(),
+      child: StockDuFiente(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

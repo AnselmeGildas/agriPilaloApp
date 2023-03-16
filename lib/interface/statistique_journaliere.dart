@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_function_literals_in_foreach_calls, non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
@@ -12,11 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class StatistiqueJournaliere extends StatefulWidget {
-  const StatistiqueJournaliere({super.key});
-
+  const StatistiqueJournaliere({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<StatistiqueJournaliere> createState() => _StatistiqueJournaliereState();
 }
@@ -71,7 +70,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
 
     if (nombre_betes <= 0 && nombre_fientes <= 0 && nombre_oeuf <= 0) {
       return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -101,7 +100,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
     }
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -117,7 +116,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
         elevation: 0,
         centerTitle: false,
         title: Text(
-          "Ventes journalières",
+          "Vente journalière",
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
         ),
@@ -130,7 +129,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -146,7 +145,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
               height: 40,
             ),
             Text(
-              "Ventes d'aujourd'hui " + date_today,
+              "Ventes du " + date_today,
               textAlign: TextAlign.center,
               style: GoogleFonts.alike(color: Colors.white, fontSize: 20),
             ),
@@ -180,7 +179,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Container(
               decoration: BoxDecoration(
@@ -191,7 +190,7 @@ class _StatistiqueJournaliereState extends State<StatistiqueJournaliere> {
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40)),
               ),
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width * 0.98,
               child: Column(
                 children: [
                   SizedBox(

@@ -1,7 +1,9 @@
 // ignore_for_file: unused_local_variable, non_constant_identifier_names, prefer_const_constructors, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/modele/vente_oeuf_tables.dart';
 import 'package:deogracias/services/user.dart';
@@ -11,22 +13,21 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
-  const HistoriqueDeVenteDeOeufDeTable({super.key});
-
+  const HistoriqueDeVenteDeOeufDeTable({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<donnesUtilisateur>(context);
     final oeuf_table = Provider.of<OeufTables>(context);
     final vente_oeuf_table = Provider.of<VenteOeufTables>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     int nombre1 = vente_oeuf_table.nombre;
     double nombre2 = vente_oeuf_table.nombre / 30;
     int nombre3 = nombre2.floor();
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -52,7 +53,10 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                     budget.solde_total,
                     oeuf_table.prix_unitaire,
                     oeuf_table.nombre_restant,
-                    oeuf_table.montant_vendu);
+                    oeuf_table.montant_vendu,
+                    budget_tiers.uid,
+                    budget_tiers.solde_total,
+                    vague_uid);
               },
               icon: Icon(Icons.edit)),
           Image.asset(
@@ -79,7 +83,7 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -132,7 +136,7 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
               height: 44,
             ),
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width * 0.97,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(25)),
               child: Column(
@@ -180,7 +184,7 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      vente_oeuf_table.unite
+                      nombre3 < 1
                           ? Expanded(
                               child: Text(
                               "Vente de " +
@@ -231,9 +235,10 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                         width: 10,
                       ),
                       Expanded(
-                          child: vente_oeuf_table.unite
+                          child: nombre3 < 1
                               ? Text(
-                                  vente_oeuf_table.nombre.toString(),
+                                  vente_oeuf_table.nombre.toString() +
+                                      " unités",
                                   style: GoogleFonts.alike(
                                       color: Colors.lightBlue.shade800,
                                       fontWeight: FontWeight.bold),
@@ -271,17 +276,12 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                         width: 10,
                       ),
                       Expanded(
-                        child: vente_oeuf_table.unite
-                            ? Text(
-                                oeuf_table.prix_unitaire.toString() + " XOF",
-                                style: GoogleFonts.alike(
-                                    color: Colors.lightBlue.shade800,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : Text(
-                                oeuf_table.prix_unitaire_plateaux.toString() +
-                                    " XOF"),
-                      )
+                          child: Text(
+                        oeuf_table.prix_unitaire.toString() + " XOF",
+                        style: GoogleFonts.alike(
+                            color: Colors.lightBlue.shade800,
+                            fontWeight: FontWeight.bold),
+                      ))
                     ],
                   ),
                   SizedBox(
@@ -291,7 +291,31 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "Effectuée par ",
+                        "Prix unitaire du plateau",
+                        style: GoogleFonts.alike(
+                            color: Colors.lightBlue.shade800,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: Text(
+                        oeuf_table.prix_unitaire_plateaux.toString() + " XOF",
+                        style: GoogleFonts.alike(
+                            color: Colors.lightBlue.shade800,
+                            fontWeight: FontWeight.bold),
+                      ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "Vendu par ",
                         style: GoogleFonts.alike(
                             color: Colors.lightBlue.shade800,
                             fontWeight: FontWeight.bold),
@@ -420,7 +444,10 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
       int budget_solde_total,
       int bete_prix_unitaire,
       int bete_nombre_restant,
-      int bete_montant_vendu) async {
+      int bete_montant_vendu,
+      String budget_tiers_uid,
+      int budget_tiers_solde_total,
+      String vague_uid) async {
     TextEditingController _nombre = TextEditingController();
     TextEditingController _montant = TextEditingController();
     _nombre.text = vente_nombre.toString();
@@ -544,7 +571,19 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                                 "solde_total": budget_solde_total +
                                     (nombre * bete_prix_unitaire)
                               });
+
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": budget_tiers_solde_total +
+                                    (nombre * bete_prix_unitaire)
+                              });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_oeuf_tables")
                                   .doc(vente_uid)
                                   .update({
@@ -555,6 +594,8 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("oeuf_tables")
                                   .doc(bete_uid)
                                   .update({
@@ -571,7 +612,19 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                                 "solde_total": budget_solde_total -
                                     (nombre * bete_prix_unitaire)
                               });
+
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": budget_tiers_solde_total -
+                                    (nombre * bete_prix_unitaire)
+                              });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_oeuf_tables")
                                   .doc(vente_uid)
                                   .update({
@@ -582,6 +635,8 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("oeuf_tables")
                                   .doc(bete_uid)
                                   .update({
@@ -615,6 +670,21 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": montant < vente_montant
+                                    ? budget_tiers_solde_total -
+                                        (vente_montant - montant)
+                                    : budget_tiers_solde_total +
+                                        (montant - vente_montant)
+                              });
+
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_oeuf_tables")
                                   .doc(vente_uid)
                                   .update({
@@ -625,6 +695,8 @@ class HistoriqueDeVenteDeOeufDeTable extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("oeuf_tables")
                                   .doc(bete_uid)
                                   .update({

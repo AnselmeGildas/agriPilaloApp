@@ -1,8 +1,6 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names
-
-import 'package:deogracias/interface/drawer_admin.dart';
+// ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_name, non_constant_identifier_names
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_signaler_bete.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +9,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class SignalerBetes extends StatefulWidget {
-  SignalerBetes({super.key});
-
+  SignalerBetes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBetes> createState() => _SignalerBetesState();
 }
@@ -31,7 +29,7 @@ class _SignalerBetesState extends State<SignalerBetes> {
 
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -55,9 +53,9 @@ class _SignalerBetesState extends State<SignalerBetes> {
           ),
           body: Center(child: CircularProgressIndicator(color: Colors.black)));
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -120,7 +118,7 @@ class _SignalerBetesState extends State<SignalerBetes> {
                             MaterialPageRoute(
                               builder: (context) => StreamSignalerBete(
                                 bete_uid: bete.uid,
-                                vague_uid: vague.uid,
+                                vague_uid: widget.vague_uid,
                               ),
                             ));
                       },
@@ -151,7 +149,7 @@ class _SignalerBetesState extends State<SignalerBetes> {
                                 MaterialPageRoute(
                                   builder: (context) => StreamSignalerBete(
                                     bete_uid: bete.uid,
-                                    vague_uid: vague.uid,
+                                    vague_uid: widget.vague_uid,
                                   ),
                                 ));
                           },

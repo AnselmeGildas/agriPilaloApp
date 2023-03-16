@@ -54,7 +54,9 @@ class StreamDeAchatPoussinEffectue extends StatelessWidget {
                 date_inscription: "",
                 deleted: false))
       ],
-      child: AchatDePoussinEffectue(),
+      child: AchatDePoussinEffectue(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

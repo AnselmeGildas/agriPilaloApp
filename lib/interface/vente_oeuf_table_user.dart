@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/provider/provider_vente_oeuf.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,8 @@ import '../modele/budget.dart';
 import '../services/user.dart';
 
 class VenteOeufTableUser extends StatefulWidget {
-  VenteOeufTableUser({super.key});
-
+  VenteOeufTableUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<VenteOeufTableUser> createState() => _VenteOeufTableUserState();
 }
@@ -47,12 +48,13 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
     final oeuf = Provider.of<OeufTables>(context);
     final provider = Provider.of<ProviderVenteOeufTable>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     vente_par_plateau = provider.vente_par_plateau;
     reduire = provider.reduire;
     total1 = provider.nombre.isNotEmpty ? int.parse(provider.nombre) : 0;
     total = !vente_par_plateau
         ? total1 * oeuf.prix_unitaire
-        : total * oeuf.prix_unitaire_plateaux;
+        : total1 * oeuf.prix_unitaire_plateaux;
     nombre = provider.nombre;
     montant_total = provider.montant_total;
     return Scaffold(
@@ -93,9 +95,12 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
+            ),
+            SizedBox(
+              height: 40,
             ),
             Text(
               "Vente d'oeuf de tables",
@@ -168,7 +173,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
               children: [
                 RadioListTile(
                   title: Text(
-                    "oui, en plateaux".toUpperCase(),
+                    "oui,par plateaux".toUpperCase(),
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 15,
@@ -182,7 +187,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                 ),
                 RadioListTile(
                   title: Text(
-                    "non, en unités".toUpperCase(),
+                    "non, par unités".toUpperCase(),
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 15,
@@ -342,8 +347,8 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                   onPressed: () async {
                     try {
                       provider.affiche_true();
-                      _montant = montant_total.isNotEmpty
-                          ? int.parse(montant_total)
+                      _montant = prix_total.text.isNotEmpty
+                          ? int.parse(prix_total.text)
                           : 0;
 
                       _nombre = nombre.isNotEmpty
@@ -351,7 +356,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                               ? int.parse(nombre_vendu.text)
                               : int.parse(nombre_vendu.text) * 30
                           : 0;
-                      _montant > 0 ? total = _montant : total;
+                      reduire ? total = _montant : total;
                       if (nombre_vendu.text.isEmpty ||
                           total <= 0 ||
                           _nombre <= 0) {
@@ -429,6 +434,17 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                                 {"solde_total": budget.solde_total + total});
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
+                            .collection("budget")
+                            .doc(budget_tiers.uid)
+                            .update({
+                          "solde_total": budget_tiers.solde_total + total
+                        });
+
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("vente_oeuf_tables")
                             .add({
                           "created_at": DateTime.now(),
@@ -442,6 +458,8 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("oeuf_tables")
                             .doc(oeuf.uid)
                             .update({

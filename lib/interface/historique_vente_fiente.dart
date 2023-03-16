@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_historique_de_vente_de_fiente.dart';
 import 'package:deogracias/modele/budget.dart';
-import 'package:deogracias/modele/vagues.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/ventes_fientes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -12,15 +12,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HistoriqueVentesFientes extends StatelessWidget {
-  const HistoriqueVentesFientes({super.key});
-
+  const HistoriqueVentesFientes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final ventes_fientes = Provider.of<List<VenteFientes>>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     if (ventes_fientes.isEmpty) {
       return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: vague_uid),
         backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -48,9 +49,9 @@ class HistoriqueVentesFientes extends StatelessWidget {
         ),
       );
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -79,7 +80,7 @@ class HistoriqueVentesFientes extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => StreamHistoriqueVenteFiente(
-                        vague_uid: vague.uid,
+                        vague_uid: vague_uid,
                         vente_uid: vente.uid,
                         user_uid: vente.user_uid,
                         fiente_uid: vente.fiente_uid),
@@ -111,7 +112,10 @@ class HistoriqueVentesFientes extends StatelessWidget {
                       vente.created_at,
                       vente.created_at_heure,
                       budget.uid,
-                      budget.solde_total);
+                      budget.solde_total,
+                      budget_tiers.uid,
+                      budget_tiers.solde_total,
+                      vague_uid);
                 },
                 icon: Icon(Icons.delete)),
             subtitle: Row(
@@ -136,16 +140,18 @@ class HistoriqueVentesFientes extends StatelessWidget {
   }
 
   Future<void> _DeleteVenteFiente(
-    BuildContext context,
-    String fiente_uid,
-    String vente_uid,
-    int montant,
-    int nombre,
-    String created_at,
-    String created_at_heure,
-    String budget_uid,
-    int budget_montant,
-  ) async {
+      BuildContext context,
+      String fiente_uid,
+      String vente_uid,
+      int montant,
+      int nombre,
+      String created_at,
+      String created_at_heure,
+      String budget_uid,
+      int budget_montant,
+      String budget_tiers_uid,
+      int budget_tiers_solde_total,
+      String vague_uid) async {
     int _bete_nombre_restant = 0;
     int _bete_montant_vendu = 0;
     return showDialog<void>(
@@ -206,6 +212,8 @@ class HistoriqueVentesFientes extends StatelessWidget {
                           _speak("Suppression en cours");
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("fientes")
                               .doc(fiente_uid)
                               .get()
@@ -221,11 +229,24 @@ class HistoriqueVentesFientes extends StatelessWidget {
                               .doc(budget_uid)
                               .update(
                                   {"solde_total": budget_montant - montant});
+
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers_uid)
+                              .update({
+                            "solde_total": budget_tiers_solde_total - montant
+                          });
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("vente_fientes")
                               .doc(vente_uid)
                               .delete();
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("fientes")
                               .doc(fiente_uid)
                               .update({

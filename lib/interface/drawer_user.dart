@@ -9,7 +9,6 @@ import 'package:deogracias/interface/signaler_poussin_user.dart';
 import 'package:deogracias/interface/stock_fientes_user.dart';
 import 'package:deogracias/interface/stock_oeufs_user.dart';
 import 'package:deogracias/interface/stocks_betes_user.dart';
-import 'package:deogracias/interface/vente_oeuf_table_user.dart';
 import 'package:deogracias/interface/ventes_betes_user.dart';
 import 'package:deogracias/interface/ventes_des_fientes_user.dart';
 import 'package:deogracias/provider/provider_drawer_user.dart';
@@ -101,7 +100,7 @@ class DrawerUser extends StatelessWidget {
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-              ListTile(
+              /*ListTile(
                 tileColor: vente_oeuf ? Colors.lightBlue.shade900 : null,
                 onTap: () {
                   provider.change_vente_oeuf();
@@ -109,13 +108,13 @@ class DrawerUser extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (contextb) => VenteOeufTableUser()));
-                },
+                },-*
                 title: Text(
                   "Ventes d'oeuf de tables",
                   style: GoogleFonts.alike(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-              ),
+              ),*/
               ListTile(
                 tileColor: vente_bete ? Colors.lightBlue.shade900 : null,
                 onTap: () {

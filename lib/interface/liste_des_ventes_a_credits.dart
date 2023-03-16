@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, non_constant_identifier_names
 
 import 'package:deogracias/interface/stream_vente_a_credit.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 import 'drawer_admin.dart';
 
 class ListeDesVentesACredits extends StatefulWidget {
-  ListeDesVentesACredits({super.key});
-
+  ListeDesVentesACredits({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<ListeDesVentesACredits> createState() => _ListeDesVentesACreditsState();
 }
@@ -56,7 +55,7 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
           ),
           body: Center(child: CircularProgressIndicator(color: Colors.white)));
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
       drawer: DrawerAdmin(),
       appBar: AppBar(
@@ -120,7 +119,7 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => StreamVenteACredit(
-                                  vague_uid: vague.uid,
+                                  vague_uid: widget.vague_uid,
                                   vente_a_credit_uid: vente_a_credit.uid,
                                   vente_a_credit_user_uid:
                                       vente_a_credit.user_uid)));
@@ -157,7 +156,7 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StreamVenteACredit(
-                                      vague_uid: vague.uid,
+                                      vague_uid: widget.vague_uid,
                                       vente_a_credit_uid: vente_a_credit.uid,
                                       vente_a_credit_user_uid:
                                           vente_a_credit.user_uid)));

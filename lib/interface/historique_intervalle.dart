@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, avoid_function_literals_in_foreach_calls, prefer_const_constructors, unnecessary_this, prefer_interpolation_to_compose_strings
 
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
@@ -10,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class HistoriqueIntervalle extends StatelessWidget {
   const HistoriqueIntervalle({
     super.key,
@@ -19,11 +18,13 @@ class HistoriqueIntervalle extends StatelessWidget {
     required this.deuxieme_date_in_milli,
     required this.premiere_date,
     required this.deuxieme_date,
+    required this.vague_uid,
   });
   final int premiere_date_in_milli;
   final int deuxieme_date_in_milli;
   final String premiere_date;
   final String deuxieme_date;
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final list_vente_betes = Provider.of<List<VenteBetes>>(context);
@@ -75,7 +76,7 @@ class HistoriqueIntervalle extends StatelessWidget {
     if (nombre_fiente <= 0 && nombre_oeuf <= 0 && nombre_bete <= 0) {
       return Scaffold(
         backgroundColor: Colors.green.shade800,
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: vague_uid),
         appBar: AppBar(
           actions: [
             Image.asset(
@@ -105,7 +106,7 @@ class HistoriqueIntervalle extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.green.shade800,
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: vague_uid),
         appBar: AppBar(
           actions: [
             Image.asset(
@@ -133,7 +134,7 @@ class HistoriqueIntervalle extends StatelessWidget {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -141,7 +142,7 @@ class HistoriqueIntervalle extends StatelessWidget {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -186,7 +187,7 @@ class HistoriqueIntervalle extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 60,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -197,7 +198,7 @@ class HistoriqueIntervalle extends StatelessWidget {
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40)),
                 ),
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width * 0.97,
                 child: Column(
                   children: [
                     SizedBox(

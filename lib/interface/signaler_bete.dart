@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_constructors_in_immutables, unused_local_variable, unused_field, prefer_interpolation_to_compose_strings, use_build_context_synchronously, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_signaler_bete.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerBete extends StatefulWidget {
-  SignalerBete({super.key});
-
+  SignalerBete({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBete> createState() => _SignalerBeteState();
 }
@@ -54,9 +55,9 @@ class _SignalerBeteState extends State<SignalerBete> {
     _montant = provider.montant;
     _montant_saisi = _montant.isNotEmpty ? int.parse(_montant) : 0;
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -85,7 +86,7 @@ class _SignalerBeteState extends State<SignalerBete> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -383,6 +384,17 @@ class _SignalerBeteState extends State<SignalerBete> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers.uid)
+                              .update({
+                            "perte": budget_tiers.perte + _montant_saisi,
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("betes")
                               .doc(bete.uid)
                               .update({
@@ -393,6 +405,8 @@ class _SignalerBeteState extends State<SignalerBete> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("pertes")
                               .add({
                             "created_at": DateTime.now(),
@@ -402,6 +416,8 @@ class _SignalerBeteState extends State<SignalerBete> {
                           });
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("betes")
                               .doc(bete.uid)
                               .update({

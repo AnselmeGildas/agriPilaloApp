@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/provider/provider_recharger_oeuf.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class StockOeufs extends StatefulWidget {
-  StockOeufs({super.key});
-
+  StockOeufs({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<StockOeufs> createState() => _StockOeufsState();
 }
@@ -35,7 +35,7 @@ class _StockOeufsState extends State<StockOeufs> {
     recharger_par_plateau = provider.recharger_par_plateau;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -63,7 +63,7 @@ class _StockOeufsState extends State<StockOeufs> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -71,7 +71,7 @@ class _StockOeufsState extends State<StockOeufs> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -81,7 +81,7 @@ class _StockOeufsState extends State<StockOeufs> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  "Réchargement du stock de " + oeuf.nom,
+                  "Réchargement du stock",
                   softWrap: true,
                   maxLines: 2,
                   textAlign: TextAlign.center,
@@ -141,9 +141,7 @@ class _StockOeufsState extends State<StockOeufs> {
                     title: Text(
                       "oui".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: true,
                     groupValue: recharger_par_plateau,
@@ -155,9 +153,7 @@ class _StockOeufsState extends State<StockOeufs> {
                     title: Text(
                       "non".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: false,
                     groupValue: recharger_par_plateau,
@@ -189,7 +185,7 @@ class _StockOeufsState extends State<StockOeufs> {
                             style: GoogleFonts.alike(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                fontSize: 18),
                           )),
               ),
               Padding(
@@ -252,6 +248,8 @@ class _StockOeufsState extends State<StockOeufs> {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("oeuf_tables")
                               .doc(oeuf.uid)
                               .update({

@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_constructors_in_immutables, unused_local_variable, unused_field, prefer_interpolation_to_compose_strings, use_build_context_synchronously, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/poussins.dart';
 import 'package:deogracias/provider/provider_signaler_poussin.dart';
 import 'package:deogracias/services/user.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerPoussin extends StatefulWidget {
-  SignalerPoussin({super.key});
-
+  SignalerPoussin({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerPoussin> createState() => _SignalerPoussinState();
 }
@@ -45,7 +46,7 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
     final provider = Provider.of<ProviderSignalerPoussin>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     mort = provider.mort;
     _description = provider.description;
@@ -55,7 +56,7 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -84,7 +85,7 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -380,6 +381,17 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers.uid)
+                              .update({
+                            "perte": budget_tiers.perte + _montant_saisi
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("poussins")
                               .doc(poussin.uid)
                               .update({
@@ -390,6 +402,8 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("pertes")
                               .add({
                             "created_at": DateTime.now(),
@@ -399,6 +413,8 @@ class _SignalerPoussinState extends State<SignalerPoussin> {
                           });
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("poussins")
                               .doc(poussin.uid)
                               .update({

@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_constructors_in_immutables, unused_local_variable, unused_field, prefer_interpolation_to_compose_strings, use_build_context_synchronously, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/provider/provider_signaler_oeuf_casse.dart';
 import 'package:deogracias/services/user.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerOeufCasse extends StatefulWidget {
-  SignalerOeufCasse({super.key});
-
+  SignalerOeufCasse({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerOeufCasse> createState() => _SignalerOeufCasseState();
 }
@@ -40,7 +41,7 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
     final provider = Provider.of<ProviderSignalerOeufCasse>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     _description = provider.description;
     _nombre = provider.nombre;
@@ -48,7 +49,7 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
     _montant = mon * Oeuf_tables.prix_unitaire;
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -77,7 +78,7 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -158,7 +159,7 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Décrivez la cause ",
+                    "Décrivez la cause de la mort ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -255,6 +256,16 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
+                            .collection("budget")
+                            .doc(budget_tiers.uid)
+                            .update(
+                                {"perte": budget_tiers.perte + _nombre_saisi});
+
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("oeuf_tables")
                             .doc(Oeuf_tables.uid)
                             .update({
@@ -266,6 +277,8 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("pertes")
                             .add({
                           "created_at": DateTime.now(),

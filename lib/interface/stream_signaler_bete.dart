@@ -2,6 +2,7 @@
 
 import 'package:deogracias/base_donne/servicebasededonnees.dart';
 import 'package:deogracias/modele/betes.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,12 @@ class StreamSignalerBete extends StatelessWidget {
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
         StreamProvider(
+          create: (context) =>
+              context.read<serviceBD>().budget_tiers(vague_uid),
+          initialData: BudgetTiers(
+              uid: "", solde_total: 0, depense: 0, perte: 0, created_at: ""),
+        ),
+        StreamProvider(
             create: (context) =>
                 context.read<serviceBD>().bete(vague_uid, bete_uid),
             initialData: Betes(
@@ -33,7 +40,9 @@ class StreamSignalerBete extends StatelessWidget {
                 nombre_mort: 0,
                 updated_at: ""))
       ],
-      child: SignalerBete(),
+      child: SignalerBete(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, non_constant_identifier_names, prefer_interpolation_to_compose_strings, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:deogracias/modele/ventes_fientes.dart';
 import 'package:deogracias/services/user.dart';
@@ -11,19 +13,18 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class HistoriqueDuVenteDeFiente extends StatelessWidget {
-  const HistoriqueDuVenteDeFiente({super.key});
-
+  const HistoriqueDuVenteDeFiente({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final fiente = Provider.of<Fientes>(context);
     final vente_fiente = Provider.of<VenteFientes>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -49,7 +50,10 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                     budget.solde_total,
                     fiente.prix_unitaire,
                     fiente.nombre_restant,
-                    fiente.montant_vendu);
+                    fiente.montant_vendu,
+                    budget_tiers.uid,
+                    budget_tiers.solde_total,
+                    vague_uid);
               },
               icon: Icon(Icons.edit)),
           Image.asset(
@@ -76,7 +80,7 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -250,7 +254,7 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "Effectuée par ",
+                          "Vendu par ",
                           style: GoogleFonts.alike(
                               color: Colors.lightBlue.shade800,
                               fontWeight: FontWeight.bold),
@@ -339,7 +343,7 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Total de vente",
+                            "Total de vente".toUpperCase(),
                             style: GoogleFonts.alike(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -380,7 +384,10 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
       int budget_solde_total,
       int bete_prix_unitaire,
       int bete_nombre_restant,
-      int bete_montant_vendu) async {
+      int bete_montant_vendu,
+      String budget_tiers_uid,
+      int budget_tiers_solde_total,
+      String vague_uid) async {
     TextEditingController _nombre = TextEditingController();
     TextEditingController _montant = TextEditingController();
     _nombre.text = vente_nombre.toString();
@@ -503,6 +510,17 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                                     (nombre * bete_prix_unitaire)
                               });
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": budget_tiers_solde_total +
+                                    (nombre * bete_prix_unitaire)
+                              });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_fientes")
                                   .doc(vente_uid)
                                   .update({
@@ -513,6 +531,8 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("fientes")
                                   .doc(bete_uid)
                                   .update({
@@ -530,6 +550,17 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                                     (nombre * bete_prix_unitaire)
                               });
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": budget_tiers_solde_total +
+                                    (nombre * bete_prix_unitaire)
+                              });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_fientes")
                                   .doc(vente_uid)
                                   .update({
@@ -540,6 +571,8 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("fientes")
                                   .doc(bete_uid)
                                   .update({
@@ -573,6 +606,21 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers_uid)
+                                  .update({
+                                "solde_total": montant < vente_montant
+                                    ? budget_tiers_solde_total -
+                                        (vente_montant - montant)
+                                    : budget_tiers_solde_total +
+                                        (montant - vente_montant)
+                              });
+
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("vente_betes")
                                   .doc(vente_uid)
                                   .update({
@@ -583,6 +631,8 @@ class HistoriqueDuVenteDeFiente extends StatelessWidget {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(vague_uid)
                                   .collection("betes")
                                   .doc(bete_uid)
                                   .update({

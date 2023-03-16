@@ -2,10 +2,13 @@
 
 import 'package:deogracias/base_donne/servicebasededonnees.dart';
 import 'package:deogracias/interface/historique_de_vente_de_oeuf_de_table.dart';
+import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/modele/vente_oeuf_tables.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../modele/budget_tiers.dart';
 
 class StreamHistoriqueVenteOeufTable extends StatelessWidget {
   const StreamHistoriqueVenteOeufTable(
@@ -21,6 +24,25 @@ class StreamHistoriqueVenteOeufTable extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (_) => serviceBD()),
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().budget_tiers(vague_uid),
+            initialData: BudgetTiers(
+                uid: "", solde_total: 0, depense: 0, perte: 0, created_at: "")),
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().oeuf_table(vague_uid),
+            initialData: OeufTables(
+                uid: "",
+                user_uid: user_uid,
+                nom: "",
+                nombre_initial: 0,
+                nombre_restant: 0,
+                nombre_casse: 0,
+                prix_unitaire: 0,
+                prix_unitaire_plateaux: 0,
+                montant_vendu: 0,
+                created_at: "")),
         StreamProvider(
             create: (context) => context
                 .read<serviceBD>()
@@ -57,7 +79,9 @@ class StreamHistoriqueVenteOeufTable extends StatelessWidget {
                 date_inscription: "",
                 deleted: false))
       ],
-      child: HistoriqueDeVenteDeOeufDeTable(),
+      child: HistoriqueDeVenteDeOeufDeTable(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

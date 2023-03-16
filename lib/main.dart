@@ -52,6 +52,7 @@ import 'package:deogracias/provider/provider_signaler_bete.dart';
 import 'package:deogracias/provider/provider_signaler_bete_mort_retablie.dart';
 import 'package:deogracias/provider/provider_signaler_oeuf_casse.dart';
 import 'package:deogracias/provider/provider_signaler_poussin.dart';
+import 'package:deogracias/provider/provider_vague_admin.dart';
 import 'package:deogracias/provider/provider_vente_a_credit.dart';
 import 'package:deogracias/provider/provider_vente_bete.dart';
 import 'package:deogracias/provider/provider_vente_fiente.dart';
@@ -228,6 +229,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ProviderNouvelleVague(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProviderVagueAdmin(),
         ),
       ],
       child: MaterialApp(

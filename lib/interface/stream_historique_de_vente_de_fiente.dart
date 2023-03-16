@@ -8,6 +8,8 @@ import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../modele/budget_tiers.dart';
+
 class StreamHistoriqueVenteFiente extends StatelessWidget {
   const StreamHistoriqueVenteFiente(
       {super.key,
@@ -24,6 +26,11 @@ class StreamHistoriqueVenteFiente extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider(create: (_) => serviceBD()),
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().budget_tiers(vague_uid),
+            initialData: BudgetTiers(
+                uid: "", solde_total: 0, depense: 0, perte: 0, created_at: "")),
         StreamProvider(
             create: (context) =>
                 context.read<serviceBD>().vente_fiente(vague_uid, vente_uid),
@@ -71,7 +78,9 @@ class StreamHistoriqueVenteFiente extends StatelessWidget {
                 date_inscription: "",
                 deleted: false))
       ],
-      child: HistoriqueDuVenteDeFiente(),
+      child: HistoriqueDuVenteDeFiente(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

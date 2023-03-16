@@ -30,7 +30,9 @@ class StreamRechargerFiente extends StatelessWidget {
                 nombre_restant: 0,
                 montant_vendu: 0))
       ],
-      child: RechargerFiente(),
+      child: RechargerFiente(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

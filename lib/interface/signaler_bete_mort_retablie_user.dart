@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_signaler_bete_mort_retablie.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerBeteMortRetablieUser extends StatefulWidget {
-  SignalerBeteMortRetablieUser({super.key});
-
+  SignalerBeteMortRetablieUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBeteMortRetablieUser> createState() =>
       _SignalerBeteMortRetablieUserState();
@@ -48,7 +49,7 @@ class _SignalerBeteMortRetablieUserState
     final provider = Provider.of<ProviderSignalerBeteMortRetablie>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     mort = provider.mort;
     _description = provider.description;
@@ -87,7 +88,7 @@ class _SignalerBeteMortRetablieUserState
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -355,6 +356,8 @@ class _SignalerBeteMortRetablieUserState
                             ScaffoldMessenger.of(context).showSnackBar(snakbar);
                           } else {
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({
@@ -459,6 +462,17 @@ class _SignalerBeteMortRetablieUserState
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers.uid)
+                                .update({
+                              "perte": budget_tiers.perte + _montant_saisi
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({
@@ -469,6 +483,8 @@ class _SignalerBeteMortRetablieUserState
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("pertes")
                                 .add({
                               "created_at": DateTime.now(),

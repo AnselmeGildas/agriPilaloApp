@@ -1,25 +1,24 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, must_be_immutable, non_constant_identifier_names, prefer_final_fields, unused_field, use_build_context_synchronously
 
-import 'package:deogracias/interface/achat_poussin.dart';
 import 'package:deogracias/interface/connexion.dart';
-import 'package:deogracias/interface/enregister_depense.dart';
-import 'package:deogracias/interface/enregister_perte.dart';
-import 'package:deogracias/interface/historique_vente.dart';
-import 'package:deogracias/interface/list_betes.dart';
-import 'package:deogracias/interface/liste_depense.dart';
-import 'package:deogracias/interface/liste_perte.dart';
 import 'package:deogracias/interface/rubrique_stock.dart';
-import 'package:deogracias/interface/signaler_betes.dart';
-import 'package:deogracias/interface/signaler_oeuf_gate.dart';
-import 'package:deogracias/interface/signaler_poussin.dart';
-import 'package:deogracias/interface/statistique_journaliere.dart';
-import 'package:deogracias/interface/stock_fientes.dart';
-import 'package:deogracias/interface/stock_oeufs.dart';
-import 'package:deogracias/interface/stocks_betes.dart';
-import 'package:deogracias/interface/vente_fiente.dart';
-import 'package:deogracias/interface/ventes_betes.dart';
-import 'package:deogracias/interface/ventes_oeufs_table.dart';
-import 'package:deogracias/interface/welcome_admin.dart';
+import 'package:deogracias/interface/stream_historique_vente.dart';
+import 'package:deogracias/interface/stream_vague_achat_poussins.dart';
+import 'package:deogracias/interface/stream_vague_for_welcome.dart';
+import 'package:deogracias/interface/stream_vague_list_bete.dart';
+import 'package:deogracias/interface/stream_vague_list_depense.dart';
+import 'package:deogracias/interface/stream_vague_list_pertes.dart';
+import 'package:deogracias/interface/stream_vague_rubrique_des_stocks.dart';
+import 'package:deogracias/interface/stream_vague_signaler_betes.dart';
+import 'package:deogracias/interface/stream_vague_signaler_oeuf.dart';
+import 'package:deogracias/interface/stream_vague_signaler_poussin.dart';
+import 'package:deogracias/interface/stream_vague_statistique_journalier.dart';
+import 'package:deogracias/interface/stream_vague_stock_betes.dart';
+import 'package:deogracias/interface/stream_vague_stock_recharger_fientes.dart';
+import 'package:deogracias/interface/stream_vague_stock_recharger_oeuf.dart';
+import 'package:deogracias/interface/stream_vague_vente_betes.dart';
+import 'package:deogracias/interface/stream_vague_vente_fientes.dart';
+import 'package:deogracias/interface/stream_vague_vente_oeuf_table.dart';
 import 'package:deogracias/provider/provider_vague_admin.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,8 +30,8 @@ import 'package:provider/provider.dart';
 import '../provider/nouvelle_bete.dart';
 
 class DrawerVagueAdmin extends StatelessWidget {
-  DrawerVagueAdmin({super.key});
-
+  DrawerVagueAdmin({super.key, required this.vague_uid});
+  final String vague_uid;
   bool _home = true;
   bool _statistique_journalier = false;
   bool _statistique_generale = false;
@@ -135,8 +134,11 @@ class DrawerVagueAdmin extends StatelessWidget {
                 textColor: _home ? Colors.white : Colors.black,
                 onTap: () {
                   provider.home_true();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (contextb) => AccueilAdmin()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) =>
+                              StreamVagueForWelcome(vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Home",
@@ -150,7 +152,9 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RubriqueStocks()));
+                          builder: (context) => RubriqueStocks(
+                                vague_uid: vague_uid,
+                              )));
                 },
                 tileColor: vagues ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -165,7 +169,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RubriqueStocks()));
+                          builder: (context) => StreamVagueRubriqueDesStocks(
+                              vague_uid: vague_uid)));
                 },
                 tileColor: _rubrique ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -180,7 +185,9 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StatistiqueJournaliere()));
+                          builder: (context) =>
+                              StreamVagueStatistiqueJournalier(
+                                  vague_uid: vague_uid)));
                 },
                 tileColor:
                     _statistique_journalier ? Colors.lightBlue.shade900 : null,
@@ -196,7 +203,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HistoriqueVente()));
+                          builder: (context) => StreamVagueHistoriqueVente(
+                              vague_uid: vague_uid)));
                 },
                 tileColor: _historique ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -208,8 +216,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.ventes_betes_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VenteDesBetes()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueVentesBetes(vague_uid: vague_uid)));
                 },
                 tileColor: _vente_betes ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -224,7 +235,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VenteDeFientes()));
+                          builder: (context) =>
+                              StreamVagueVentesFientes(vague_uid: vague_uid)));
                 },
                 tileColor: _vente_fiente ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -239,7 +251,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VenteOeufTable()));
+                          builder: (context) =>
+                              StreamVagueVenteOeufTable(vague_uid: vague_uid)));
                 },
                 tileColor:
                     _ventes_oeufs_table ? Colors.lightBlue.shade900 : null,
@@ -251,40 +264,13 @@ class DrawerVagueAdmin extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  provider.enregister_depense_true();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EnregisterDepense()));
-                },
-                tileColor:
-                    _enregister_depense ? Colors.lightBlue.shade900 : null,
-                title: Text(
-                  "Enregister une dépense",
-                  style: GoogleFonts.alike(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-              ListTile(
-                onTap: () {
-                  provider.enregister_perte_true();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EnregistrerPerte()));
-                },
-                tileColor: _enregister_perte ? Colors.lightBlue.shade900 : null,
-                title: Text(
-                  "Enregister une perte",
-                  style: GoogleFonts.alike(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-              ListTile(
-                onTap: () {
                   provider.nouvelle_bete_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NouvelleBete()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NouvelleBete(
+                                vague_uid: vague_uid,
+                              )));
                 },
                 tileColor: _nouvelle_bete ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -296,8 +282,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.stock_betes_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StockBetes()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueStockBete(vague_uid: vague_uid)));
                 },
                 tileColor: _stock_betes ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -309,8 +298,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.stock_oeufs_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StockOeufs()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StreamVagueStockRechargerOeuf(
+                              vague_uid: vague_uid)));
                 },
                 tileColor: _stock_oeufs ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -322,8 +314,12 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.stock_fientes_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => StockFientes()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueStockRechargerFientes(
+                                  vague_uid: vague_uid)));
                 },
                 tileColor: _stock_fiante ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -335,8 +331,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.achat_poussin_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AchatPoussin()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueAchatPoussin(vague_uid: vague_uid)));
                 },
                 tileColor: _achat_poussin ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -351,7 +350,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SignalerPoussin()));
+                          builder: (context) => StreamVagueSignalerPoussin(
+                              vague_uid: vague_uid)));
                 },
                 tileColor: _poussin_malade ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -363,8 +363,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.bete_malade_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignalerBetes()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueSignalerBetes(vague_uid: vague_uid)));
                 },
                 tileColor: _bete_malade ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -379,7 +382,8 @@ class DrawerVagueAdmin extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SignalerOeufCasse()));
+                          builder: (context) =>
+                              StreamVagueSignalerOeuf(vague_uid: vague_uid)));
                 },
                 tileColor:
                     _signaler_oeuf_casse ? Colors.lightBlue.shade900 : null,
@@ -392,8 +396,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.liste_betes_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ListeBetes()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueListBetes(vague_uid: vague_uid)));
                 },
                 tileColor: _liste_betes ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -405,8 +412,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.liste_depense_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ListeDepense()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueListDepenses(vague_uid: vague_uid)));
                 },
                 tileColor: _liste_depenses ? Colors.lightBlue.shade900 : null,
                 title: Text(
@@ -418,8 +428,11 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.liste_perte_true();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ListePerte()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StreamVagueListPertes(vague_uid: vague_uid)));
                 },
                 tileColor: _liste_pertes ? Colors.lightBlue.shade900 : null,
                 title: Text(

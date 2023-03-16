@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names
 
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_signaler_bete_mort_retablie.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class SignalerBetesMortRetablie extends StatefulWidget {
-  SignalerBetesMortRetablie({super.key});
-
+  SignalerBetesMortRetablie({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBetesMortRetablie> createState() =>
       _SignalerBetesMortRetablieState();
@@ -32,7 +31,7 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
 
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -56,9 +55,9 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
           ),
           body: Center(child: CircularProgressIndicator(color: Colors.black)));
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -121,7 +120,8 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   StreamSignalerBeteMortRetablie(
-                                      vague_uid: vague.uid, bete_uid: bete.uid),
+                                      vague_uid: widget.vague_uid,
+                                      bete_uid: bete.uid),
                             ));
                       },
                       leading: bete.nom.isNotEmpty
@@ -151,7 +151,7 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       StreamSignalerBeteMortRetablie(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           bete_uid: bete.uid),
                                 ));
                           },

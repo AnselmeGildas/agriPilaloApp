@@ -1,17 +1,16 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, prefer_final_fields, unused_field, non_constant_identifier_names
 
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_vente_fiente.dart';
 import 'package:deogracias/modele/fientes.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class VenteDeFientes extends StatefulWidget {
-  VenteDeFientes({super.key});
-
+  VenteDeFientes({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<VenteDeFientes> createState() => _VenteDeFientesState();
 }
@@ -30,7 +29,7 @@ class _VenteDeFientesState extends State<VenteDeFientes> {
 
     if (fientes.isEmpty) {
       return Scaffold(
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -54,10 +53,9 @@ class _VenteDeFientesState extends State<VenteDeFientes> {
           ),
           body: Center(child: CircularProgressIndicator(color: Colors.black)));
     }
-    final vague = Provider.of<Vagues>(context);
 
     return Scaffold(
-        drawer: DrawerAdmin(),
+        drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -120,7 +118,7 @@ class _VenteDeFientesState extends State<VenteDeFientes> {
                             MaterialPageRoute(
                               builder: (context) => StreamVenteFiente(
                                 fiente_uid: fiente.uid,
-                                vague_uid: vague.uid,
+                                vague_uid: widget.vague_uid,
                               ),
                             ));
                       },
@@ -155,7 +153,7 @@ class _VenteDeFientesState extends State<VenteDeFientes> {
                                 MaterialPageRoute(
                                   builder: (context) => StreamVenteFiente(
                                     fiente_uid: fiente.uid,
-                                    vague_uid: vague.uid,
+                                    vague_uid: widget.vague_uid,
                                   ),
                                 ));
                           },

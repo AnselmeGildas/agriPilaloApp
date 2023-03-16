@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, non_constant_identifier_names, use_build_context_synchronously, no_leading_underscores_for_local_identifiers, unused_local_variable, unrelated_type_equality_checks
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,17 +9,15 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class StockDuFiente extends StatelessWidget {
-  const StockDuFiente({super.key});
-
+  const StockDuFiente({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final fiente = Provider.of<Fientes>(context);
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -31,7 +30,8 @@ class StockDuFiente extends StatelessWidget {
                     fiente.uid,
                     fiente.nombre_restant,
                     fiente.nombre_initial,
-                    fiente.prix_unitaire);
+                    fiente.prix_unitaire,
+                    vague_uid);
               },
               icon: Icon(Icons.edit)),
           Image.asset(
@@ -57,7 +57,7 @@ class StockDuFiente extends StatelessWidget {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -65,7 +65,7 @@ class StockDuFiente extends StatelessWidget {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -118,7 +118,7 @@ class StockDuFiente extends StatelessWidget {
                 height: 14,
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width * 0.97,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -281,7 +281,8 @@ class StockDuFiente extends StatelessWidget {
       String fiente_uid,
       int nombre_restant,
       int nombre_initial,
-      int prix_unitaire) async {
+      int prix_unitaire,
+      String vague_uid) async {
     TextEditingController nom = TextEditingController();
     TextEditingController nombre = TextEditingController();
     TextEditingController prix_unitaire = TextEditingController();
@@ -411,6 +412,8 @@ class StockDuFiente extends StatelessWidget {
 
                                 if (nombre_restant > _nombre) {
                                   await FirebaseFirestore.instance
+                                      .collection("vagues")
+                                      .doc(vague_uid)
                                       .collection("fientes")
                                       .doc(fiente_uid)
                                       .update({
@@ -423,6 +426,8 @@ class StockDuFiente extends StatelessWidget {
                                   });
                                 } else {
                                   await FirebaseFirestore.instance
+                                      .collection("vagues")
+                                      .doc(vague_uid)
                                       .collection("fientes")
                                       .doc(fiente_uid)
                                       .update({
@@ -437,6 +442,8 @@ class StockDuFiente extends StatelessWidget {
                                 _speak("Mise à jour effectué avec succès");
                               } else {
                                 final result = await FirebaseFirestore.instance
+                                    .collection("vagues")
+                                    .doc(vague_uid)
                                     .collection("fientes")
                                     .where("nom", isEqualTo: nom)
                                     .get();
@@ -449,6 +456,8 @@ class StockDuFiente extends StatelessWidget {
 
                                   if (nombre_restant > _nombre) {
                                     await FirebaseFirestore.instance
+                                        .collection("vagues")
+                                        .doc(vague_uid)
                                         .collection("fientes")
                                         .doc(fiente_uid)
                                         .update({
@@ -461,6 +470,8 @@ class StockDuFiente extends StatelessWidget {
                                     });
                                   } else {
                                     await FirebaseFirestore.instance
+                                        .collection("vagues")
+                                        .doc(vague_uid)
                                         .collection("fientes")
                                         .doc(fiente_uid)
                                         .update({

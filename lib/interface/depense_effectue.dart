@@ -1,22 +1,21 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, unused_local_variable, prefer_interpolation_to_compose_strings, non_constant_identifier_names
 
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/depense.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class DepenseEffectue extends StatelessWidget {
-  const DepenseEffectue({super.key});
-
+  const DepenseEffectue({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<donnesUtilisateur>(context);
     final depense = Provider.of<Depenses>(context);
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

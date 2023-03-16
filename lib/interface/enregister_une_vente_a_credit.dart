@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/provider/provider_vente_a_credit.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,9 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
-
 class EnregisterUneVenteAcredit extends StatefulWidget {
-  const EnregisterUneVenteAcredit({super.key});
-
+  const EnregisterUneVenteAcredit({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<EnregisterUneVenteAcredit> createState() =>
       _EnregisterUneVenteAcreditState();
@@ -46,7 +45,7 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
     _montant = provider.montant.isNotEmpty ? int.parse(provider.montant) : 0;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         actions: [
           Image.asset(
@@ -74,7 +73,7 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -317,6 +316,8 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("ventes_a_credits")
                             .add({
                           "created_at": DateTime.now(),

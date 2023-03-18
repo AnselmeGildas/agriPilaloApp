@@ -68,12 +68,6 @@ class _ListeBetesState extends State<ListeBetes> {
                   provider.afficher_void();
                 },
                 icon: Icon(Icons.search, color: Colors.black)),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 50,
-              width: 50,
-            ),
           ],
           elevation: 0,
           centerTitle: false,

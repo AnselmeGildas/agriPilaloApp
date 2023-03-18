@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PIYALO",
+                    "Agri PILALO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
             backgroundColor: Colors.white,
             elevation: 0,
             title: Text(
-              "Agri Piyalo",
+              "Agri Pilalo",
               style: GoogleFonts.alike(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
                           bottomRight: Radius.circular(40)),
                       image: DecorationImage(
                           image: AssetImage(
-                            "images/image2.jpeg",
+                            "images/image8.jfif",
                           ),
                           fit: BoxFit.cover)),
                 ),

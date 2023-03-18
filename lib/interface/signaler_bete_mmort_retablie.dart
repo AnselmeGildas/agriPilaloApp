@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_constructors_in_immutables, unused_local_variable, unused_field, prefer_interpolation_to_compose_strings, use_build_context_synchronously, prefer_final_fields
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_admin.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
 import 'package:deogracias/modele/budget_tiers.dart';
@@ -58,7 +58,7 @@ class _SignalerBeteMortRetablieState extends State<SignalerBeteMortRetablie> {
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

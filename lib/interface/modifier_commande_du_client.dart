@@ -43,6 +43,8 @@ class ModifierCommandeDuClient extends StatelessWidget {
     _coordonnees = provider.coordonnees;
     final commande = Provider.of<Commandes>(context);
     achat.text = commande.achat;
+    heure_livraison.text = commande.heure_livraison;
+    date_livraison.text = commande.date_livraison;
     description.text = commande.description;
     date_livraison.text = commande.date_livraison;
     exigences.text = commande.exigences;
@@ -66,7 +68,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Votre commande",
+          "Commande",
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
         ),
@@ -79,7 +81,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -87,7 +89,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -144,7 +146,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Que voulez-vous acheter ?",
+                    "Que voulez-vous acheter svp ?",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -176,7 +178,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Décrivez la commande",
+                    "Décrivez la commande svp",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -209,7 +211,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Date de livraison",
+                    "Date de livraison svp !",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -234,9 +236,6 @@ class ModifierCommandeDuClient extends StatelessWidget {
                     date_livraison.text = commande.date_livraison;
                   }
                 },
-                onChanged: (value) {
-                  provider.changer_description(value);
-                },
                 controller: date_livraison,
                 autocorrect: true,
                 enableSuggestions: true,
@@ -257,7 +256,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Heure de livraison",
+                    "Heure de livraison svp",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 21,
@@ -279,7 +278,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
                           DateFormat('HH:mm:ss').format(parsedTime);
                       heure_livraison.text = formatTime;
                     } else {
-                      heure_livraison.text = "";
+                      heure_livraison.text = commande.heure_livraison;
                     }
                   },
                   controller: heure_livraison,
@@ -380,7 +379,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
                         child: Container(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "Allez vous supportez les frais de transports?",
+                              "Allez vous supportez les frais de transports puisque vous ne pouvez pas venir vous-mêmes ?",
                               style: GoogleFonts.alike(
                                   color: Colors.white,
                                   fontSize: 18,
@@ -555,9 +554,8 @@ class ModifierCommandeDuClient extends StatelessWidget {
                           "coordonnees_gps": coordonnees_gps.text,
                           "indication": indication.text
                         });
-
-                        String username = 'agripiyalo@gmail.com';
-                        String password = 'ghcaxojthaqzmhdc';
+                        String username = 'agripilalo@gmail.com';
+                        String password = 'kgbadpzwmbaxkzch';
 
                         final smtpServer = gmail(username, password);
                         // Use the SmtpServer class to configure an SMTP server:
@@ -567,7 +565,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
 
                         // Create our message.
                         final message = Message()
-                          ..from = Address(username, 'Agri Pitalo Entreprise')
+                          ..from = Address(username, 'Agri Pilalo Entreprise')
                           ..recipients.add(commande.client_uid.trim())
                           ..ccRecipients
                           //.addAll(['destCc1@example.com', 'destCc2@example.com'])

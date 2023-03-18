@@ -19,6 +19,7 @@ import 'package:deogracias/interface/stream_vague_stock_recharger_oeuf.dart';
 import 'package:deogracias/interface/stream_vague_vente_betes.dart';
 import 'package:deogracias/interface/stream_vague_vente_fientes.dart';
 import 'package:deogracias/interface/stream_vague_vente_oeuf_table.dart';
+import 'package:deogracias/interface/welcome_admin.dart';
 import 'package:deogracias/provider/provider_vague_admin.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -134,6 +135,21 @@ class DrawerVagueAdmin extends StatelessWidget {
                 textColor: _home ? Colors.white : Colors.black,
                 onTap: () {
                   provider.home_true();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (contextb) => AccueilAdmin()));
+                },
+                title: Text(
+                  "Acuueil",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor:
+                    _enregister_depense ? Colors.lightBlue.shade900 : null,
+                textColor: _enregister_depense ? Colors.white : Colors.black,
+                onTap: () {
+                  provider.enregister_depense_true();
                   Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -54,7 +54,7 @@ class _AchatPoussinState extends State<AchatPoussin> {
     _nombre = provider.nombre;
     _prix_unitaire = provider.prix_unitaire;
     _montant = provider.montant;
-    _montant_saisi = _montant.isNotEmpty ? int.parse(_montant) : 0;
+
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
     _prix_uniatire_saisi =
         _prix_unitaire.isNotEmpty ? int.parse(_prix_unitaire) : 0;
@@ -205,7 +205,7 @@ class _AchatPoussinState extends State<AchatPoussin> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Prix uniatire d'achat",
+                    "Prix uniatire d'achat de ces poussins",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -336,9 +336,9 @@ class _AchatPoussinState extends State<AchatPoussin> {
                   onPressed: () async {
                     try {
                       provider.affiche_true();
-                      total = reduire && montant.text.isNotEmpty
-                          ? int.parse(montant.text)
-                          : total;
+                      _montant_saisi =
+                          montant.text.isNotEmpty ? int.parse(montant.text) : 0;
+
                       if (origine.text.isEmpty ||
                           nombre.text.isEmpty ||
                           prix_unitaire.text.isEmpty) {
@@ -389,7 +389,9 @@ class _AchatPoussinState extends State<AchatPoussin> {
                             .collection("budget")
                             .doc(budget.uid)
                             .update({
-                          "depense": budget.depense + total,
+                          "depense": reduire
+                              ? budget.depense + _montant_saisi
+                              : budget.depense + total,
                         });
 
                         await FirebaseFirestore.instance
@@ -397,7 +399,11 @@ class _AchatPoussinState extends State<AchatPoussin> {
                             .doc(widget.vague_uid)
                             .collection("budget")
                             .doc(budget_tiers.uid)
-                            .update({"depense": budget_tiers.depense + total});
+                            .update({
+                          "depense": !reduire
+                              ? budget_tiers.depense + total
+                              : budget_tiers.depense + _montant_saisi
+                        });
 
                         await FirebaseFirestore.instance
                             .collection("vagues")
@@ -411,7 +417,9 @@ class _AchatPoussinState extends State<AchatPoussin> {
                               poussin.nombre_initial + _nombre_saisi,
                           "nombre_bon_etat":
                               poussin.nombre_bon_etat + _nombre_saisi,
-                          "total_achat": poussin.total_achat + total
+                          "total_achat": !reduire
+                              ? poussin.total_achat + total
+                              : poussin.total_achat + _montant_saisi
                         });
 
                         await FirebaseFirestore.instance
@@ -425,7 +433,7 @@ class _AchatPoussinState extends State<AchatPoussin> {
                           "origine": _origine,
                           "nombre": _nombre_saisi,
                           "prix_unitaire": _prix_uniatire_saisi,
-                          "montant": total
+                          "montant": !reduire ? total : _montant_saisi
                         });
 
                         origine.clear();

@@ -110,7 +110,7 @@ class EnregistrerPerte extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Description de la perte",
+                    "Description de la perte svp !",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -124,6 +124,7 @@ class EnregistrerPerte extends StatelessWidget {
                   _speak("Décrivez la perte ");
                 },
                 controller: _desc,
+                maxLines: 7,
                 autocorrect: true,
                 enableSuggestions: true,
                 decoration: InputDecoration(

@@ -2,9 +2,11 @@
 
 import 'package:deogracias/interface/appreciations.dart';
 import 'package:deogracias/interface/connexion.dart';
+import 'package:deogracias/interface/list_des_vagues.dart';
 import 'package:deogracias/interface/liste_des_clients.dart';
 import 'package:deogracias/interface/commandes_journalieres.dart';
 import 'package:deogracias/interface/vagues.dart';
+import 'package:deogracias/interface/vagues_clotures.dart';
 import 'package:deogracias/interface/welcome_admin.dart';
 import 'package:deogracias/provider/provider_drawer_admin.dart';
 import 'package:deogracias/services/user.dart';
@@ -142,12 +144,14 @@ class DrawerAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.change_vagues_clotures();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ListeClients()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VaguesClotures()));
                 },
                 tileColor: _vagues_clotures ? Colors.lightBlue.shade900 : null,
                 title: Text(
-                  "Vagues dèjà clôturées",
+                  "Vagues clôturées",
                   style: GoogleFonts.alike(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
@@ -156,7 +160,7 @@ class DrawerAdmin extends StatelessWidget {
                 onTap: () {
                   provider.change_list_vagues();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ListeClients()));
+                      MaterialPageRoute(builder: (context) => ListVagues()));
                 },
                 tileColor: _list_vagues ? Colors.lightBlue.shade900 : null,
                 title: Text(

@@ -103,11 +103,11 @@ class NouvelleBete extends StatelessWidget {
                 height: 40,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
+                padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Nom de l'animal ",
+                      "Nom de la bête svp ! ",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontSize: 18,
@@ -117,9 +117,6 @@ class NouvelleBete extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: TextField(
-                  onTap: () {
-                    _speak("Nom de cette bete ");
-                  },
                   controller: _nom,
                   autocorrect: true,
                   enableSuggestions: true,
@@ -140,7 +137,7 @@ class NouvelleBete extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.only(left: 15, bottom: 12),
+                padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -182,7 +179,7 @@ class NouvelleBete extends StatelessWidget {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Nombre initial",
+                      "Nombre initial svp !",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontSize: 18,
@@ -252,6 +249,8 @@ class NouvelleBete extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           final result = await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
                               .collection("betes")
                               .where("nom", isEqualTo: nom)
                               .get();

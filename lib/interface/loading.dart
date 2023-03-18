@@ -34,7 +34,7 @@ class _LoadingState extends State<Loading> {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PIYALO",
+                    "Agri PILALO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,

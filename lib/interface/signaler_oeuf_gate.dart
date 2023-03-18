@@ -45,9 +45,7 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
     affiche = provider.affiche;
     _description = provider.description;
     _nombre = provider.nombre;
-    int mon = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
-    _montant = mon * Oeuf_tables.prix_unitaire;
-
+    bool par_plateau = provider.par_plateau;
     return Scaffold(
       drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
@@ -119,17 +117,77 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
               height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 10),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Nombre de " + Oeuf_tables.nom + " cassés ou gatés",
-                    style: GoogleFonts.alike(
+                    "Voulez renseigner le nombre de poussins par plateaux ? ",
+                    style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   )),
             ),
+            Column(
+              children: [
+                RadioListTile(
+                  title: Text(
+                    "Oui".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  value: true,
+                  groupValue: par_plateau,
+                  onChanged: (value) {
+                    provider.change_par_plateau(value!);
+                  },
+                ),
+                RadioListTile(
+                  title: Text(
+                    "Non".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  value: false,
+                  groupValue: par_plateau,
+                  onChanged: (value) {
+                    provider.change_par_plateau(value!);
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            !par_plateau
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 12, right: 5),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Nombre de " + Oeuf_tables.nom + " cassés ou gatés",
+                          style: GoogleFonts.alike(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 12, right: 5),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Nombre de plateaux d'" +
+                              Oeuf_tables.nom +
+                              " cassés ou gatés",
+                          style: GoogleFonts.alike(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
@@ -155,11 +213,11 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Décrivez la cause de la mort ",
+                    "Décrivez la cause svp ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -199,6 +257,12 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
                   onPressed: () async {
                     try {
                       provider.affiche_true();
+                      _nombre_saisi =
+                          nombre.text.isNotEmpty ? int.parse(nombre.text) : 0;
+                      if (par_plateau) {
+                        _nombre_saisi = _nombre_saisi * 30;
+                      }
+                      _montant = _nombre_saisi * Oeuf_tables.prix_unitaire;
 
                       if (nombre.text.isEmpty || description.text.isEmpty) {
                         provider.affiche_false();
@@ -224,10 +288,8 @@ class _SignalerOeufCasseState extends State<SignalerOeufCasse> {
                       } else if (_nombre_saisi > Oeuf_tables.nombre_restant) {
                         provider.affiche_false();
                         _speak(
-                            "Nombre insuffisant. Le nombre saisi est strictement supérieur au nombre restant de poussins. Il ne reste que " +
-                                Oeuf_tables.nombre_restant.toString() +
-                                " de " +
-                                Oeuf_tables.nom);
+                            "Nombre insuffisant. Le nombre saisi est strictement supérieur au nombre restant d'oeuf de table. Il ne reste que " +
+                                Oeuf_tables.nombre_restant.toString());
                         final snakbar = SnackBar(
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),

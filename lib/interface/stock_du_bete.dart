@@ -118,169 +118,229 @@ class StockDuBete extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30))),
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    SizedBox(
-                      height: 22,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width * 0.96,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.lightBlue.shade800),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.96,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.lightBlue.shade800),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Disponibilité du bete ".toUpperCase(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.vertical_align_bottom,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Disponibilité du bete ".toUpperCase(),
+                            "Nombre initial",
                             style: GoogleFonts.alike(
-                                color: Colors.white,
+                                color: Colors.lightBlue.shade800,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Icon(
-                            Icons.vertical_align_bottom,
-                            color: Colors.white,
+                          Expanded(
+                            child: Text(
+                              bete.nombre_initial.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre initial",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          bete.nombre_initial.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre vendu",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          (bete.nombre_initial - bete.nombre_restant)
-                              .toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre restant",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          bete.nombre_restant.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre malade",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          bete.nombre_malade.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre mort",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          bete.nombre_mort.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width * 0.96,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.lightBlue.shade800),
-                      child: Row(
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Total de vente",
+                            "Nombre vendu",
                             style: GoogleFonts.alike(
-                                color: Colors.white,
+                                color: Colors.lightBlue.shade800,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            bete.montant_vendu.toString() + " XOF",
-                            style: GoogleFonts.alike(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              (bete.nombre_initial - bete.nombre_restant)
+                                  .toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Nombre restant",
+                            style: GoogleFonts.alike(
+                                color: Colors.lightBlue.shade800,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              bete.nombre_restant.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Nombre malade",
+                            style: GoogleFonts.alike(
+                                color: Colors.lightBlue.shade800,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              bete.nombre_malade.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Nombre mort",
+                            style: GoogleFonts.alike(
+                                color: Colors.lightBlue.shade800,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              bete.nombre_mort.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      bete.prix_unitaire == 0
+                          ? Container()
+                          : Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      "Prix unitairede vente ",
+                                      style: GoogleFonts.alike(
+                                          color: Colors.lightBlue.shade800,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        bete.prix_unitaire.toString() + " XOF",
+                                        style: GoogleFonts.alike(
+                                            color: Colors.lightBlue.shade800,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                              ],
+                            ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.96,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.lightBlue.shade800),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "Total de vente",
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              bete.montant_vendu.toString() + " XOF",
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

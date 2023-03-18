@@ -95,7 +95,7 @@ class _VenteDeFienteState extends State<VenteDeFiente> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -331,6 +331,32 @@ class _VenteDeFienteState extends State<VenteDeFiente> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Vous devez renseigner le prix total de vente en réduction. Veuillez vous inspirer du montant normal total pour appliquer la réduction",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          backgroundColor: Colors.redAccent.withOpacity(.8),
+                          elevation: 10,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(5),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                      } else if (reduire &&
+                          (_nombre * fiente.prix_unitaire) < total) {
+                        _speak(
+                            "Vous devez saisir le montant total en réduction de vente inférieur à  " +
+                                (_nombre * fiente.prix_unitaire).toString());
+                        provider.affiche_false();
+
+                        final snakbar = SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Vous devez saisir le montant total en réduction de vente inférieur à " +
+                                  (_nombre * fiente.prix_unitaire).toString(),
                               textAlign: TextAlign.center,
                               style: GoogleFonts.lato(
                                   color: Colors.white,

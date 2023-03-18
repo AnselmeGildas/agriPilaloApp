@@ -45,7 +45,7 @@ class ProblemeEmploye extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(

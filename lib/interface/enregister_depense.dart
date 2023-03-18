@@ -110,7 +110,7 @@ class EnregisterDepense extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Description de la dépense ",
+                    "Description de la dépense svp ! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -120,10 +120,8 @@ class EnregisterDepense extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Décrivez la dépense ");
-                },
                 controller: _desc,
+                maxLines: 7,
                 autocorrect: true,
                 enableSuggestions: true,
                 decoration: InputDecoration(

@@ -81,7 +81,7 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -130,7 +130,7 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Nom du client ",
+                    "Nom du client svp ! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -140,9 +140,6 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("nom et prénom du client ");
-                },
                 controller: nom_client_saisie,
                 autocorrect: true,
                 enableSuggestions: true,
@@ -216,9 +213,6 @@ class _EnregisterUneVenteAcreditState extends State<EnregisterUneVenteAcredit> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Décrivez brièvement la vente éffectuée ");
-                },
                 controller: description_saisie,
                 autocorrect: true,
                 enableSuggestions: true,

@@ -94,7 +94,7 @@ class _SignalerBeteState extends State<SignalerBete> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),

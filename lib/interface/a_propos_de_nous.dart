@@ -40,7 +40,7 @@ class AProposDeNous extends StatelessWidget {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -48,7 +48,7 @@ class AProposDeNous extends StatelessWidget {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -106,7 +106,7 @@ class AProposDeNous extends StatelessWidget {
                         height: 20,
                       ),
                       Text(
-                        "Agri PIYALO, situé au Bénin, dans le département de la DONGA, commune de Ouaké, arrondissement  de Sèmèrè 2 , village de N'Djakada, non loin du montagne Alindaou, est spécialisée dans l'élévage. Ainsi vous offrons la possibilité à nos clients d'avoir de bon plats en mettant à leur disposition des oeufs de tables,pintades, dindons, poulets, canards, goliath ..., de moindre prix et de meilleure qualité. Nos clients peuvent depuis leur maison lancer leur commande peut importe qu'ils soient disposés à venir chercher leur commande ou pas. Par ailleurs, nous offrons des formations de meilleure qualité en production animale. Plus besoin de se déplacer, lancer vos commandes via Agri PIYALO disponible sur Play Store.",
+                        "Agri PILALO, situé au Bénin, dans le département de la DONGA, commune de Ouaké, arrondissement  de Sèmèrè 2 , village de N'Djakada, non loin du montagne Alindaou, est spécialisée dans l'élévage. Ainsi vous offrons la possibilité à nos clients d'avoir de bon plats en mettant à leur disposition des oeufs de tables,pintades, dindons, poulets, canards, goliath ..., de moindre prix et de meilleure qualité. Nos clients peuvent depuis leur maison lancer leur commande peut importe qu'ils soient disposés à venir chercher leur commande ou pas. Par ailleurs, nous offrons des formations de meilleure qualité en production animale. Plus besoin de se déplacer, lancer vos commandes via Agri Pilalo disponible sur Play Store.",
                         textAlign: TextAlign.justify,
                         style: GoogleFonts.alike(fontWeight: FontWeight.bold),
                       ),

@@ -19,7 +19,7 @@ class TermesConditionsUtilisation extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Conditions d'utilisation de l'application",
+          "Conditions",
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold),
         ),
@@ -40,7 +40,7 @@ class TermesConditionsUtilisation extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -48,7 +48,7 @@ class TermesConditionsUtilisation extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -143,7 +143,7 @@ class TermesConditionsUtilisation extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                              "Si vous êtes un employé de  Agri PIYALO, alors vous êtes autorisé à créér un compte. Pour ce faire,vous devez ",
+                              "Si vous êtes un employé de  Agri PILALO, alors vous êtes autorisé à créér un compte. Pour ce faire,vous devez ",
                               textAlign: TextAlign.justify,
                               style: GoogleFonts.alike(
                                   fontWeight: FontWeight.bold)),
@@ -270,7 +270,7 @@ class TermesConditionsUtilisation extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                              "Vous devriez en tant qu'employé, éviter de créer de multiple comptes sur l'application application ",
+                              "Vous devriez en tant qu'employé, éviter de créer de multiple comptes sur l'application ",
                               textAlign: TextAlign.justify,
                               style: GoogleFonts.alike(
                                   fontWeight: FontWeight.bold)),

@@ -62,7 +62,7 @@ class Login extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -78,7 +78,7 @@ class Login extends StatelessWidget {
               height: 40,
             ),
             Text(
-              "Se connecter au compte",
+              "Connexion au compte",
               textAlign: TextAlign.center,
               style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
             ),

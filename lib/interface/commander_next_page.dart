@@ -95,7 +95,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -103,7 +103,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -355,10 +355,10 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                                 "indication": indication
                               });
                             }
-                            String username = 'agripiyalo@gmail.com';
-                            String _password = 'ghcaxojthaqzmhdc';
+                            String username = 'agripilalo@gmail.com';
+                            String password = 'kgbadpzwmbaxkzch';
 
-                            final smtpServer = gmail(username, _password);
+                            final smtpServer = gmail(username, password);
                             // Use the SmtpServer class to configure an SMTP server:
                             // final smtpServer = SmtpServer('smtp.domain.com');
                             // See the named arguments of SmtpServer for further configuration
@@ -367,7 +367,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                             // Create our message.
                             final message = Message()
                               ..from =
-                                  Address(username, 'Agri Pitalo Entreprise')
+                                  Address(username, 'Agri Pilalo Entreprise')
                               ..recipients.add(widget.email.trim())
                               ..ccRecipients
                               //.addAll(['destCc1@example.com', 'destCc2@example.com'])

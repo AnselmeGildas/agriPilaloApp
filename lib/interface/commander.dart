@@ -121,7 +121,7 @@ class _CommandeState extends State<Commande> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -129,7 +129,7 @@ class _CommandeState extends State<Commande> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -944,7 +944,7 @@ class _CommandeState extends State<Commande> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Votre nom",
+                    "Votre nom svp !",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 19,
@@ -1055,7 +1055,6 @@ class _CommandeState extends State<Commande> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                  onTap: () {},
                   autocorrect: true,
                   enableSuggestions: true,
                   decoration: InputDecoration(
@@ -1093,6 +1092,7 @@ class _CommandeState extends State<Commande> {
                   onTap: () {
                     _speak("Décrivez en détail la commande");
                   },
+                  maxLines: 7,
                   autocorrect: true,
                   enableSuggestions: true,
                   decoration: InputDecoration(
@@ -1236,7 +1236,7 @@ class _CommandeState extends State<Commande> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Allez vous venir chercher votre commande ?",
+                    "Allez vous pouvoir venir chercher votre commande ?",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -1402,10 +1402,9 @@ class _CommandeState extends State<Commande> {
                                   "indication": ""
                                 });
                               }
-                              String username = 'agripiyalo@gmail.com';
-                              String _password = 'ghcaxojthaqzmhdc';
-
-                              final smtpServer = gmail(username, _password);
+                              String username = 'agripilalo@gmail.com';
+                              String password = 'kgbadpzwmbaxkzch';
+                              final smtpServer = gmail(username, password);
                               // Use the SmtpServer class to configure an SMTP server:
                               // final smtpServer = SmtpServer('smtp.domain.com');
                               // See the named arguments of SmtpServer for further configuration
@@ -1414,7 +1413,7 @@ class _CommandeState extends State<Commande> {
                               // Create our message.
                               final message = Message()
                                 ..from =
-                                    Address(username, 'Agri Pitalo Entreprise')
+                                    Address(username, 'Agri Pilalo Entreprise')
                                 ..recipients.add(email.trim())
                                 ..ccRecipients
                                 //.addAll(['destCc1@example.com', 'destCc2@example.com'])

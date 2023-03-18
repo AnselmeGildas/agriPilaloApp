@@ -73,12 +73,6 @@ class _ListePerteState extends State<ListePerte> {
                 provider.afficher_void();
               },
               icon: Icon(Icons.search, color: Colors.black)),
-          Image.asset(
-            "images/icon2.jpg",
-            scale: 4.5,
-            height: 100,
-            width: 100,
-          ),
         ],
         elevation: 0,
         centerTitle: false,
@@ -140,18 +134,17 @@ class _ListePerteState extends State<ListePerte> {
                     ),
                     trailing: IconButton(
                         onPressed: () {
-                          _update(
+                          _Delete(
                               context,
                               perte.uid,
-                              perte.description,
                               perte.montant,
+                              widget.vague_uid,
                               budget.uid,
                               budget.perte,
                               budget_tiers.uid,
-                              budget_tiers.perte,
-                              widget.vague_uid);
+                              budget_tiers.perte);
                         },
-                        icon: Icon(Icons.edit)),
+                        icon: Icon(Icons.delete)),
                     subtitle: Row(children: [
                       Icon(Icons.sell_outlined),
                       SizedBox(
@@ -195,18 +188,17 @@ class _ListePerteState extends State<ListePerte> {
                         ),
                         trailing: IconButton(
                             onPressed: () {
-                              _update(
+                              _Delete(
                                   context,
                                   perte.uid,
-                                  perte.description,
                                   perte.montant,
+                                  widget.vague_uid,
                                   budget.uid,
                                   budget.perte,
                                   budget_tiers.uid,
-                                  budget_tiers.perte,
-                                  widget.vague_uid);
+                                  budget_tiers.perte);
                             },
-                            icon: Icon(Icons.edit)),
+                            icon: Icon(Icons.delete)),
                         subtitle: Row(
                           children: [
                             Icon(Icons.sell_outlined),
@@ -238,64 +230,31 @@ class _ListePerteState extends State<ListePerte> {
     );
   }
 
-  Future<void> _update(
+  Future<void> _Delete(
       BuildContext context,
       String depense_uid,
-      String depense_description,
-      int depense_montzant,
+      int montant_depense,
+      String vague_uid,
       String budget_uid,
       int budget_depense,
       String budget_tiers_uid,
-      int budget_tiers_perte,
-      String vague_uid) async {
-    TextEditingController _description = TextEditingController();
-    TextEditingController _montant = TextEditingController();
-    _description.text = depense_description;
-    _montant.text = depense_montzant.toString();
-    int _depense = 0;
+      int budget_tiers_depense) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: Text(
-            "Mise à jour de la perte",
+            "Suppression de perte",
             style: GoogleFonts.alike(fontWeight: FontWeight.bold),
           ),
           content: SingleChildScrollView(
             child: ListBody(
               // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                SizedBox(
-                  height: 25,
-                ),
+              children: <Widget>[
                 Text(
-                  "Description de la perte",
+                  "Vous etes sur le point de supprimer  cette perte de la base de données de cette entreprise",
                   style: GoogleFonts.alike(fontWeight: FontWeight.bold),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _description,
-                    enableSuggestions: true,
-                    autocorrect: true,
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  "Montant de la perte ",
-                  style: GoogleFonts.alike(fontWeight: FontWeight.bold),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _montant,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
                 ),
               ],
             ),
@@ -327,57 +286,35 @@ class _ListePerteState extends State<ListePerte> {
                       ),
                       onPressed: () async {
                         try {
-                          _depense = _montant.text.isNotEmpty
-                              ? int.parse(_montant.text)
-                              : 0;
-                          if (_description.text.isEmpty ||
-                              _montant.text.isEmpty) {
-                            _speak(
-                                "Tous les champs n'ont pas été renseigné. Réessayez s'il vous plait ");
-                          } else {
-                            await FirebaseFirestore.instance
-                                .collection("budget")
-                                .doc(budget_uid)
-                                .update({
-                              "perte": _depense > depense_montzant
-                                  ? budget_depense +
-                                      (_depense - depense_montzant)
-                                  : budget_depense -
-                                      (depense_montzant - _depense)
-                            });
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
+                              .collection("pertes")
+                              .doc(depense_uid)
+                              .delete();
 
-                            await FirebaseFirestore.instance
-                                .collection("vagues")
-                                .doc(vague_uid)
-                                .collection("budget")
-                                .doc(budget_tiers_uid)
-                                .update({
-                              "perte": _depense > depense_montzant
-                                  ? budget_tiers_perte +
-                                      (_depense - depense_montzant)
-                                  : budget_tiers_perte -
-                                      (depense_montzant - _depense)
-                            });
+                          await FirebaseFirestore.instance
+                              .collection("budget")
+                              .doc(budget_uid)
+                              .update(
+                                  {"perte": budget_depense - montant_depense});
 
-                            await FirebaseFirestore.instance
-                                .collection("vagues")
-                                .doc(vague_uid)
-                                .collection("pertes")
-                                .doc(depense_uid)
-                                .update({
-                              "montant": _depense,
-                              "description": _description.text
-                            });
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers_uid)
+                              .update({
+                            "perte": budget_tiers_depense - montant_depense
+                          });
 
-                            _speak("Mise à jour effectué avec succès");
-                            Navigator.of(dialogContext).pop();
-                          }
+                          _speak("Suppression effectué avec succès");
 
                           // ignore: empty_catches
                         } catch (e) {
-                          _speak(
-                              "Une erreur inattendue s'est produite. Vérifiez votre connection internet et réessayez s'il vous plait");
+                          _speak("une erreur s'est produite");
                         }
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),
@@ -399,8 +336,8 @@ class _ListePerteState extends State<ListePerte> {
                         ),
                       ),
                       onPressed: () {
-                        _speak("Mise à jour de la perte annulée");
-                        Navigator.of(dialogContext).pop();
+                        _speak("Suppression du perte annulée");
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),

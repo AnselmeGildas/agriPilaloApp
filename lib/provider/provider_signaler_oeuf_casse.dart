@@ -5,9 +5,19 @@ class ProviderSignalerOeufCasse with ChangeNotifier {
   bool _affiche = false;
   String _nombre = "";
   String _description = "";
+  bool _par_plateau = true;
+
+  bool get par_plateau {
+    return _par_plateau;
+  }
 
   String get description {
     return _description;
+  }
+
+  void change_par_plateau(bool? value) {
+    _par_plateau = value!;
+    notifyListeners();
   }
 
   void change_description(String? value) {

@@ -64,7 +64,7 @@ class _ApprecierNosServicesState extends State<ApprecierNosServices> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -72,7 +72,7 @@ class _ApprecierNosServicesState extends State<ApprecierNosServices> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -104,7 +104,7 @@ class _ApprecierNosServicesState extends State<ApprecierNosServices> {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Nom du client",
+                      "Votre nom svp !",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontSize: 18,

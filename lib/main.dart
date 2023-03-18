@@ -109,6 +109,9 @@ class MyApp extends StatelessWidget {
                 date_inscription: "",
                 deleted: false)),
         StreamProvider(
+            create: (context) => context.read<serviceBD>().list_des_assistances,
+            initialData: <Assistances>[]),
+        StreamProvider(
             create: (context) => context.read<serviceBD>().list_des_clients,
             initialData: <Clients>[]),
         StreamProvider(

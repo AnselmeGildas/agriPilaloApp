@@ -78,7 +78,7 @@ class SignUp extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -135,7 +135,7 @@ class SignUp extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Votre nom",
+                    "Votre nom svp !",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -168,7 +168,7 @@ class SignUp extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Votre prénom",
+                    "Votre prénom svp !",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -289,12 +289,11 @@ class SignUp extends StatelessWidget {
                       initialDate: DateTime.now(),
                       firstDate: DateTime(1950),
                       lastDate: DateTime(2100));
-                  String format =
-                      DateFormat('dd-MM-yyyy').format(dateSelectionned!);
+                  String format = dateSelectionned != null
+                      ? DateFormat('dd-MM-yyyy').format(dateSelectionned)
+                      : "";
                   if (format.isNotEmpty) {
                     date_naissance.text = format;
-                  } else {
-                    date_naissance.text = "";
                   }
                 },
                 controller: date_naissance,
@@ -488,8 +487,8 @@ class SignUp extends StatelessWidget {
                         } else {
                           _code = RandomDigits.getInteger(5);
 
-                          String username = 'agripiyalo@gmail.com';
-                          String password = 'ghcaxojthaqzmhdc';
+                          String username = 'agripilalo@gmail.com';
+                          String password = 'kgbadpzwmbaxkzch';
 
                           final smtpServer = gmail(username, password);
                           // Use the SmtpServer class to configure an SMTP server:
@@ -499,7 +498,7 @@ class SignUp extends StatelessWidget {
 
                           // Create our message.
                           final message = Message()
-                            ..from = Address(username, 'Agri PIYALO Entreprise')
+                            ..from = Address(username, 'Agri PILALO Entreprise')
                             ..recipients.add(email.trim())
                             ..ccRecipients
                             //.addAll(['destCc1@example.com', 'destCc2@example.com'])
@@ -508,7 +507,7 @@ class SignUp extends StatelessWidget {
                             // ignore: prefer_interpolation_to_compose_strings
                             ..text = " " +
                                 _code.toString().toUpperCase() +
-                                " \n Veuillez saisir ce code dans un bref dèlai";
+                                " \n Voici le code de validation de votre adresse E-Mail pour la création de compte sur Agri Pilalo. Veuillez saisir ce code dans un bref dèlai";
                           //..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
 
                           final sendReport = await send(message, smtpServer);
@@ -521,8 +520,8 @@ class SignUp extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => ValidateUserEmail(
                                       email: email,
-                                      user_nom: nom,
-                                      user_prenom: prenom,
+                                      user_nom: nom_utilisateur.text,
+                                      user_prenom: prenom_utilisateur.text,
                                       user_telephone: numero,
                                       user_date_naissance: date_naissance.text,
                                       sexe: sexe,

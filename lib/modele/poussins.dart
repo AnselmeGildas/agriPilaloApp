@@ -34,7 +34,7 @@ class PoussinsUnJour {
     Timestamp updated = (document.data() as Map)['updated_at'];
     return PoussinsUnJour(
         uid: document.id,
-        total_achat: 10000,
+        total_achat: (document.data() as Map)['total_achat'],
         user_uid: (document.data() as Map<String, dynamic>)['user_uid'],
         nom: (document.data() as Map<String, dynamic>)['nom'],
         created_at: DateFormat("dd-MM-yyyy").format(created.toDate()),

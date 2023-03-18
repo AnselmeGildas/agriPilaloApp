@@ -21,8 +21,6 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
   @override
   void initState() {
     super.initState();
-    _speak(
-        "Vous devriez nous renseigner le mail utilisé pour enregistrer vos commandes");
   }
 
   String email = "";
@@ -55,7 +53,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Agri PIYALO",
+            "Agri Pilalo",
             style: GoogleFonts.alike(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
           ),
@@ -67,7 +65,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -75,7 +73,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -83,7 +81,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
                 height: 40,
               ),
               Text(
-                "Commandes déjà passées",
+                "Commandes passées",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
               ),
@@ -127,7 +125,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Adresse E-Mail",
+                      "Votre adresse E-Mail svp !",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

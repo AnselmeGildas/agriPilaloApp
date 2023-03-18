@@ -34,7 +34,7 @@ class AssistanceAuClient extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         title: Text(
-          "Assistance au client",
+          "Assistance",
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
         ),
@@ -47,7 +47,7 @@ class AssistanceAuClient extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -55,7 +55,7 @@ class AssistanceAuClient extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -418,9 +418,8 @@ class AssistanceAuClient extends StatelessWidget {
                             if (message_user.text.isEmpty) {
                               _speak("Vous n'avez pas saisi le message.");
                             } else {
-                              _speak("Envoi de mail en cours");
-                              String username = 'agripiyalo@gmail.com';
-                              String password = 'ghcaxojthaqzmhdc';
+                              String username = 'agripilalo@gmail.com';
+                              String password = 'kgbadpzwmbaxkzch';
 
                               final smtpServer = gmail(username, password);
                               // Use the SmtpServer class to configure an SMTP server:
@@ -431,7 +430,7 @@ class AssistanceAuClient extends StatelessWidget {
                               // Create our message.
                               final message = Message()
                                 ..from =
-                                    Address(username, 'Agri PIYALO Entreprise')
+                                    Address(username, 'Agri PIYLALO Entreprise')
                                 ..recipients.add(client_email.trim())
                                 ..ccRecipients
                                 //.addAll(['destCc1@example.com', 'destCc2@example.com'])

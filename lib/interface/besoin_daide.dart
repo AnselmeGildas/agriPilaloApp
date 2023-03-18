@@ -66,7 +66,7 @@ class _BesoinDAideState extends State<BesoinDAide> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -82,7 +82,7 @@ class _BesoinDAideState extends State<BesoinDAide> {
               height: 40,
             ),
             Text(
-              "Démande d'assistance ",
+              "Démande d'assistance",
               textAlign: TextAlign.center,
               style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
             ),
@@ -123,7 +123,7 @@ class _BesoinDAideState extends State<BesoinDAide> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Nom d'utilisateur ",
+                    "Votre nom d'utilisateur svp ! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -133,9 +133,6 @@ class _BesoinDAideState extends State<BesoinDAide> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Votre nom et prénom ");
-                },
                 controller: nom_utilisateur,
                 autocorrect: true,
                 enableSuggestions: true,
@@ -209,13 +206,11 @@ class _BesoinDAideState extends State<BesoinDAide> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Votre numéro avec code du pays sans le signe + ");
-                },
                 controller: numero_saisie,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 autocorrect: true,
+                maxLength: 8,
                 enableSuggestions: true,
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -225,6 +220,7 @@ class _BesoinDAideState extends State<BesoinDAide> {
                     hintStyle: TextStyle(
                       color: Colors.black,
                     ),
+                    counterText: "",
                     fillColor: Colors.white,
                     filled: true),
                 onChanged: (value) {
@@ -249,7 +245,7 @@ class _BesoinDAideState extends State<BesoinDAide> {
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
                 onTap: () {
-                  _speak("Votre préoccupation s'il vous plait ");
+                  _speak("Décrivez votre préoccupation s'il vous plait ");
                 },
                 controller: message_saisie,
                 autocorrect: true,

@@ -73,7 +73,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
           ),
         ],
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         title: Text(
           bete.nom,
           style: GoogleFonts.alike(
@@ -104,7 +104,7 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                 height: 40,
               ),
               Text(
-                "Vente de betes",
+                "Vente de la bête",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
               ),
@@ -501,6 +501,36 @@ class _VenteDeBeteState extends State<VenteDeBete> {
                                   " " +
                                   bete.nom +
                                   " puisque le prix unitaire de vente n'a pas été prédefini");
+                              provider.affiche_false();
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Vous devez saisir le montant total en réduction de vente de ces " +
+                                        _nombre.toString() +
+                                        " " +
+                                        bete.nom +
+                                        " puisque le prix unitaire de vente n'a pas été prédefini",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
+                            } else if (_montant_en_reduction > total) {
+                              _speak(
+                                  "Vous devez saisir un montant total réduction de vente inférieu à  " +
+                                      total.toString());
                               provider.affiche_false();
 
                               final snakbar = SnackBar(

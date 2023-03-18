@@ -73,7 +73,7 @@ class _MessageAuDeveloppeurState extends State<MessageAuDeveloppeur> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -81,7 +81,7 @@ class _MessageAuDeveloppeurState extends State<MessageAuDeveloppeur> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -113,7 +113,7 @@ class _MessageAuDeveloppeurState extends State<MessageAuDeveloppeur> {
                 child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Votre nom et prénom",
+                      "Votre nom d'utilisateur svp",
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontSize: 18,
@@ -278,9 +278,8 @@ class _MessageAuDeveloppeurState extends State<MessageAuDeveloppeur> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
-                          String username = 'agripiyalo@gmail.com';
-                          String password = 'ghcaxojthaqzmhdc';
-
+                          String username = 'agripilalo@gmail.com';
+                          String password = 'kgbadpzwmbaxkzch';
                           final smtpServer = gmail(username, password);
                           // Use the SmtpServer class to configure an SMTP server:
                           // final smtpServer = SmtpServer('smtp.domain.com');

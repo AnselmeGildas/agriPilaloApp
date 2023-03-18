@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names
 
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,11 @@ class StreamDepense extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().budget_tiers(vague_uid),
+            initialData: BudgetTiers(
+                uid: "", solde_total: 0, depense: 0, perte: 0, created_at: "")),
         StreamProvider(
             create: (context) =>
                 context.read<serviceBD>().depense(vague_uid, depense_uid),

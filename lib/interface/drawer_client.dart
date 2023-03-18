@@ -55,7 +55,7 @@ class DrawerClient extends StatelessWidget {
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Text(
-                          "Agri PIYALO",
+                          "Agri PILALO",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.alike(
                             color: Colors.black,

@@ -67,12 +67,6 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
                   provider.afficher_void();
                 },
                 icon: Icon(Icons.search, color: Colors.black)),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 50,
-              width: 50,
-            ),
           ],
           elevation: 0,
           centerTitle: false,
@@ -137,11 +131,15 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
                           : Container(),
                       title: Text(
                         bete.nom,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.alike(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                          "Nombre restant : " + bete.nombre_restant.toString()),
+                        "Nombre restant : " + bete.nombre_restant.toString(),
+                        style: GoogleFonts.alike(fontWeight: FontWeight.bold),
+                      ),
                     )
                   : bete.nom.toLowerCase().contains(_search.toLowerCase())
                       ? ListTile(
@@ -168,12 +166,18 @@ class _SignalerBetesMortRetablieState extends State<SignalerBetesMortRetablie> {
                               : Container(),
                           title: Text(
                             bete.nom,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.alike(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
-                          subtitle: Text("Nombre restant : " +
-                              bete.nombre_restant.toString()),
+                          subtitle: Text(
+                            "Nombre restant : " +
+                                bete.nombre_restant.toString(),
+                            style:
+                                GoogleFonts.alike(fontWeight: FontWeight.bold),
+                          ),
                         )
                       : Container();
             },

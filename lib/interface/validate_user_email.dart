@@ -82,7 +82,7 @@ class ValidateUserEmail extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -90,12 +90,12 @@ class ValidateUserEmail extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15.0),
@@ -148,10 +148,10 @@ class ValidateUserEmail extends StatelessWidget {
                 "Un code a été envoyé à l'email " +
                     email +
                     "\n Veuillez le saisir",
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 style: GoogleFonts.alike(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
             ),
@@ -163,7 +163,7 @@ class ValidateUserEmail extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Saisissez le code ***",
+                  "Veuillez saisir ce code svp !",
                   textAlign: TextAlign.left,
                   style: GoogleFonts.alike(
                       color: Colors.white,

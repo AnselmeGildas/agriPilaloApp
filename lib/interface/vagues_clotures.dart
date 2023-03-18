@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, avoid_function_literals_in_foreach_calls
 
-import 'package:deogracias/interface/stream_vague_for_welcome.dart';
+import 'package:deogracias/interface/stream_vague_cloture.dart';
 import 'package:deogracias/modele/vagues.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import '../provider/provider_search.dart';
 import 'drawer_admin.dart';
 
-class LesVagues extends StatelessWidget {
-  const LesVagues({super.key});
+class VaguesClotures extends StatelessWidget {
+  const VaguesClotures({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class LesVagues extends StatelessWidget {
     bool affiche = provider.afficher;
     int nombre = 0;
     vagues.forEach((element) {
-      if (!element.cloture) {
+      if (element.cloture) {
         nombre++;
       }
     });
@@ -42,7 +42,7 @@ class LesVagues extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Vagues",
+            "Vagues cloturées",
             style: GoogleFonts.alike(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
           ),
@@ -91,7 +91,7 @@ class LesVagues extends StatelessWidget {
                   ),
                 )
               : Text(
-                  "Vagues",
+                  "Vagues cloturées",
                   style: GoogleFonts.alike(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -104,14 +104,14 @@ class LesVagues extends StatelessWidget {
           itemBuilder: (context, index) {
             Vagues vague = vagues[index];
             return !affiche
-                ? !vague.cloture
+                ? vague.cloture
                     ? ListTile(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    StreamVagueForWelcome(vague_uid: vague.uid),
+                                    StreamVagueCloture(vague_uid: vague.uid),
                               ));
                         },
                         leading: CircleAvatar(
@@ -148,14 +148,14 @@ class LesVagues extends StatelessWidget {
                       )
                     : Container()
                 : vague.nom.toLowerCase().contains(value.toLowerCase()) &&
-                        !vague.cloture
+                        vague.cloture
                     ? ListTile(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    StreamVagueForWelcome(vague_uid: vague.uid),
+                                    StreamVagueCloture(vague_uid: vague.uid),
                               ));
                         },
                         leading: CircleAvatar(

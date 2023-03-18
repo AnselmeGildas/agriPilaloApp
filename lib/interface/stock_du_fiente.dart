@@ -124,150 +124,173 @@ class StockDuFiente extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30))),
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    SizedBox(
-                      height: 22,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width * 0.96,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.lightBlue.shade800),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.96,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.lightBlue.shade800),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Disponibilité du fiente ".toUpperCase(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.vertical_align_bottom,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Disponibilité du fiente ".toUpperCase(),
+                            "Nombre initial",
                             style: GoogleFonts.alike(
-                                color: Colors.white,
-                                fontSize: 14,
+                                color: Colors.lightBlue.shade800,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Icon(
-                            Icons.vertical_align_bottom,
-                            color: Colors.white,
+                          Expanded(
+                            child: Text(
+                              fiente.nombre_initial.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre initial",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          fiente.nombre_initial.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre vendu",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          (fiente.nombre_initial - fiente.nombre_restant)
-                              .toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Nombre restant",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          fiente.nombre_restant.toString(),
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Prix unitaire",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          fiente.prix_unitaire.toString() + " XOF",
-                          style: GoogleFonts.alike(
-                              color: Colors.lightBlue.shade800,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width * 0.96,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.lightBlue.shade800),
-                      child: Row(
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            "Total de vente",
+                            "Nombre vendu",
                             style: GoogleFonts.alike(
-                                color: Colors.white,
+                                color: Colors.lightBlue.shade800,
                                 fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            fiente.montant_vendu.toString() + " XOF",
-                            style: GoogleFonts.alike(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              (fiente.nombre_initial - fiente.nombre_restant)
+                                  .toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Nombre restant",
+                            style: GoogleFonts.alike(
+                                color: Colors.lightBlue.shade800,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              fiente.nombre_restant.toString(),
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            "Prix unitaire",
+                            style: GoogleFonts.alike(
+                                color: Colors.lightBlue.shade800,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              fiente.prix_unitaire.toString() + " XOF",
+                              style: GoogleFonts.alike(
+                                  color: Colors.lightBlue.shade800,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width * 0.96,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.lightBlue.shade800),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "Total de vente",
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              fiente.montant_vendu.toString() + " XOF",
+                              style: GoogleFonts.alike(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
@@ -281,7 +304,7 @@ class StockDuFiente extends StatelessWidget {
       String fiente_uid,
       int nombre_restant,
       int nombre_initial,
-      int prix_unitaire,
+      int prix_unitaire_fiente,
       String vague_uid) async {
     TextEditingController nom = TextEditingController();
     TextEditingController nombre = TextEditingController();
@@ -289,7 +312,7 @@ class StockDuFiente extends StatelessWidget {
     int _nombre = 0;
     int difference = 0;
     int _prix_unitaire = 0;
-    prix_unitaire.text = prix_unitaire.toString();
+    prix_unitaire.text = prix_unitaire_fiente.toString();
     nom.text = fiente_non;
     nombre.text = nombre_restant.toString();
     return showDialog<void>(
@@ -405,7 +428,7 @@ class StockDuFiente extends StatelessWidget {
                                 prix_unitaire.text.isEmpty) {
                               _speak("Vous devez renseigner tous les champs");
                             } else {
-                              if (nom == fiente_non) {
+                              if (nom.text == fiente_non) {
                                 difference = nombre_restant > _nombre
                                     ? nombre_restant - _nombre
                                     : _nombre - nombre_restant;
@@ -417,7 +440,6 @@ class StockDuFiente extends StatelessWidget {
                                       .collection("fientes")
                                       .doc(fiente_uid)
                                       .update({
-                                    "nom": nom.text,
                                     "nombre_restant": _nombre,
                                     "nombre_initial":
                                         nombre_initial - difference,
@@ -432,7 +454,6 @@ class StockDuFiente extends StatelessWidget {
                                       .doc(fiente_uid)
                                       .update({
                                     "prix_unitaire": _prix_unitaire,
-                                    "nom": nom.text,
                                     "nombre_restant": _nombre,
                                     "nombre_initial":
                                         nombre_initial + difference,
@@ -445,7 +466,7 @@ class StockDuFiente extends StatelessWidget {
                                     .collection("vagues")
                                     .doc(vague_uid)
                                     .collection("fientes")
-                                    .where("nom", isEqualTo: nom)
+                                    .where("nom", isEqualTo: nom.text)
                                     .get();
                                 final is_empty = result.docs.isEmpty;
 

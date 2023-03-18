@@ -34,7 +34,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PIYALO",
+                    "Agri PILALO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -93,7 +93,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
           backgroundColor: Colors.green.shade800,
           appBar: AppBar(
             title: Text(
-              "Agri PIYALO",
+              "Agri PILALO",
               style: GoogleFonts.alike(
                   color: Colors.black,
                   fontSize: 17,
@@ -122,7 +122,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -146,7 +146,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25),
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -162,7 +162,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontSize: 18),
                     ),
                   ),
                 ),

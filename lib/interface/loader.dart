@@ -34,7 +34,7 @@ class _LoaderState extends State<Loader> {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PIYALO",
+                    "Agri PILALO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -93,7 +93,7 @@ class _LoaderState extends State<Loader> {
           backgroundColor: Colors.green.shade800,
           appBar: AppBar(
             title: Text(
-              "Agri PIYALO",
+              "Agri PILALO",
               style: GoogleFonts.alike(
                   color: Colors.black,
                   fontSize: 17,
@@ -122,7 +122,7 @@ class _LoaderState extends State<Loader> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -130,7 +130,7 @@ class _LoaderState extends State<Loader> {
                           bottomRight: Radius.circular(40)),
                       image: DecorationImage(
                           image: AssetImage(
-                            "images/image2.jpeg",
+                            "images/image8.jfif",
                           ),
                           fit: BoxFit.cover)),
                 ),
@@ -146,7 +146,7 @@ class _LoaderState extends State<Loader> {
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25),
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -155,15 +155,13 @@ class _LoaderState extends State<Loader> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 25),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Nous vous souhaitons la bienvenue sur Agri PIYALO.\n Veuillez patienter en attendant que les droits et privilèges d'usage de cette application vous soient octroyés par l'administrateur",
-                      style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
+                  child: Text(
+                    "Nous vous souhaitons la bienvenue sur Agri PIYALO.\n Veuillez patienter en attendant que les droits et privilèges d'usage de cette application vous soient octroyés par l'administrateur",
+                    textAlign: TextAlign.justify,
+                    style: GoogleFonts.alike(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
                   ),
                 ),
                 SizedBox(

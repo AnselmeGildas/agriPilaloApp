@@ -60,7 +60,7 @@ class CommandeParClient extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -68,7 +68,7 @@ class CommandeParClient extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -697,8 +697,8 @@ class CommandeParClient extends StatelessWidget {
                             if (message_user.text.isEmpty) {
                               _speak("Vous n'avez pas saisi le message.");
                             } else {
-                              String username = 'agripiyalo@gmail.com';
-                              String password = 'ghcaxojthaqzmhdc';
+                              String username = 'agripilalo@gmail.com';
+                              String password = 'kgbadpzwmbaxkzch';
 
                               final smtpServer = gmail(username, password);
                               // Use the SmtpServer class to configure an SMTP server:
@@ -709,7 +709,7 @@ class CommandeParClient extends StatelessWidget {
                               // Create our message.
                               final message = Message()
                                 ..from =
-                                    Address(username, 'Agri PIYALO Entreprise')
+                                    Address(username, 'Agri PILALO Entreprise')
                                 ..recipients.add(client_email.trim())
                                 ..ccRecipients
                                 //.addAll(['destCc1@example.com', 'destCc2@example.com'])

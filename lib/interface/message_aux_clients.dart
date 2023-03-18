@@ -59,7 +59,7 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -67,7 +67,7 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -116,7 +116,7 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Votre message  ",
+                    "Votre message svp! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -126,9 +126,6 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Saisissez en détail le message");
-                },
                 controller: message_saisie,
                 autocorrect: true,
                 maxLines: 15,
@@ -204,8 +201,8 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         clients.forEach((element) async {
-                          String username = 'agripiyalo@gmail.com';
-                          String password = 'ghcaxojthaqzmhdc';
+                          String username = 'agripilalo@gmail.com';
+                          String password = 'kgbadpzwmbaxkzch';
 
                           final smtpServer = gmail(username, password);
                           // Use the SmtpServer class to configure an SMTP server:
@@ -215,7 +212,7 @@ class _MessageAuxClientsState extends State<MessageAuxClients> {
 
                           // Create our message.
                           final message = Message()
-                            ..from = Address(username, 'Agri PIYALO Entreprise')
+                            ..from = Address(username, 'Agri PILALO Entreprise')
                             ..recipients.add(element.email.trim())
                             ..ccRecipients
                             //.addAll(['destCc1@example.com', 'destCc2@example.com'])

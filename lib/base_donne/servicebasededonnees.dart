@@ -54,7 +54,7 @@ class serviceBD {
   Stream<List<Vagues>> get list_des_vagues {
     return _Ref.collection("vagues")
         .orderBy("created_at", descending: true)
-        .orderBy("nom", descending: true)
+        //.orderBy("nom", descending: true)
         .snapshots()
         .map(
             (event) => event.docs.map((e) => Vagues.FromFirestore(e)).toList());

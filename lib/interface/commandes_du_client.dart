@@ -37,7 +37,7 @@ class CommandesDuClient extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Vos commandes",
+            "Commandes",
             style: GoogleFonts.alike(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
           ),
@@ -76,7 +76,7 @@ class CommandesDuClient extends StatelessWidget {
           centerTitle: true,
           title: !afficher
               ? Text(
-                  "Vos commandes",
+                  "Commandes",
                   style: GoogleFonts.alike(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

@@ -40,7 +40,7 @@ class ContactsEntreprise extends StatelessWidget {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -48,7 +48,7 @@ class ContactsEntreprise extends StatelessWidget {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -106,7 +106,7 @@ class ContactsEntreprise extends StatelessWidget {
                         height: 25,
                       ),
                       Text(
-                        "Pour nous joindre, veuillez contacter le (229) 66 97 90 69 / (228) 93 98 65 69 / (228) 91 21 20 37 ou envoyer un message à l'adrsse E-Mail agripiyalo@gmail.com. \nPour signaler un problème en rapport avec cette application, veuillez contacter le (229) 97 39 20 26 / (229) 95 97 70 91 ou envoyer un messgae à l'adrsse marcellindeveloppeur@gmail.com",
+                        "Pour nous joindre, veuillez contacter le (229) 66 97 90 69 / (228) 93 98 65 69 / (228) 91 21 20 37 / (228) 93 98 65 69 / (228) 91 21 20 37 ou envoyer un message à l'adrsse E-Mail agripilalo@gmail.com. \nPour signaler un problème en rapport avec cette application, veuillez contacter le (229) 97 39 20 26 / (229) 95 97 70 91 ou envoyer un messgae à l'adrsse marcellindeveloppeur@gmail.com",
                         textAlign: TextAlign.justify,
                         style: GoogleFonts.alike(fontWeight: FontWeight.bold),
                       ),

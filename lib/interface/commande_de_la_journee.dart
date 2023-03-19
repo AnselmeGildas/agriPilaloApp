@@ -113,511 +113,545 @@ class CommandeJournaliere extends StatelessWidget {
               height: 40,
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.92,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        style: BorderStyle.solid,
-                        width: 2,
-                        color: Colors.redAccent.withOpacity(.8))),
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: Text(
-                    "Informations sur la commande".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.alike(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                )),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Commande : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.achat,
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Description : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.description,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            commande.exigences.isNotEmpty
-                ? Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Exigences démandées : ",
-                          style: GoogleFonts.alike(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Expanded(
-                            child: Text(
-                          commande.exigences,
-                          style: GoogleFonts.alike(
-                              color: Colors.white, fontSize: 16),
-                          softWrap: true,
-                          maxLines: 10,
-                        ))
-                      ],
+              width: MediaQuery.of(context).size.width * 0.96,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40,
                     ),
-                  )
-                : Container(),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Commande : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: commande.traite
-                          ? Text(
-                              "Traitée".toUpperCase(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.indigo,
-                                  fontWeight: FontWeight.bold),
-                              softWrap: true,
-                              maxLines: 2,
-                            )
-                          : Text(
-                              "Non traitée".toUpperCase(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.redAccent,
-                                  fontWeight: FontWeight.bold),
-                              softWrap: true,
-                              maxLines: 2,
-                            ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Date de livraison : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.date_livraison,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Heure de livraison : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.heure_livraison,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Passée le : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.created_at + " à " + commande.created_at_heure,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Livraison serait fait par : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.venir_chercher_commande
-                        ? "Client".toUpperCase()
-                        : "Par l'entreprise",
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Acceptation de supporter les frais de transports : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.supporter_frais_transports
-                        ? "OUI".toUpperCase()
-                        : "NON".toUpperCase(),
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Par : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    client.nom,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "E-Mail : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    client.email,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Contact : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    client.numero,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total de commandé passées : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    client.nombre_commande.toString(),
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            affiche
-                ? Column(
-                    children: [
-                      SizedBox(
-                        height: 48,
-                        width: MediaQuery.of(context).size.width * 0.94,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.brown.shade800),
-                            onPressed: () {
-                              provider.traiter_commande();
-                            },
-                            child: Text(
-                              "Traiter la commande".toUpperCase(),
+                    Container(
+                        height: 45,
+                        alignment: Alignment.center,
+                        color: Colors.lightBlue.shade900,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Informations sur la commande",
                               textAlign: TextAlign.center,
                               style: GoogleFonts.alike(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
-                            )),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  )
-                : Container(),
-            traite
-                ? Column(
-                    children: [
-                      RadioListTile(
-                        title: Text(
-                          "Commande déjà traitée",
+                            ),
+                            Icon(
+                              Icons.rule_sharp,
+                              color: Colors.white,
+                            )
+                          ],
+                        )),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Commande : ",
                           style: GoogleFonts.alike(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
                         ),
-                        value: true,
-                        groupValue: statut,
-                        onChanged: (value) {
-                          provider.change_statut(value);
-                        },
-                      ),
-                      RadioListTile(
-                        title: Text(
-                          "Commande non encore traitée",
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.achat,
+                          textAlign: TextAlign.justify,
                           style: GoogleFonts.alike(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: Colors.lightBlue,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Description  : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade900,
+                              fontWeight: FontWeight.bold),
                         ),
-                        value: false,
-                        groupValue: statut,
-                        onChanged: (value) {
-                          provider.change_statut(value);
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 48,
-                        width: MediaQuery.of(context).size.width * 0.94,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.brown.shade800),
-                            onPressed: () async {
-                              try {
-                                provider.circul_true();
-                                await FirebaseFirestore.instance
-                                    .collection("commandes")
-                                    .doc(commande.uid)
-                                    .update({
-                                  "traite": statut,
-                                });
-                                provider.circul_false();
-
-                                _speak(
-                                    "Traitement de la commande éffectué avec succès");
-                                final snakbar = SnackBar(
-                                  content: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Traitement de la commande éffectué avec succès",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.lato(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.black87,
-                                  elevation: 10,
-                                  behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.all(5),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snakbar);
-                              } catch (e) {
-                                provider.circul_false();
-                                _speak("Une erreur s'est produite");
-                                final snakbar = SnackBar(
-                                  content: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Une erreur s'est produite",
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.lato(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  backgroundColor:
-                                      Colors.redAccent.withOpacity(.8),
-                                  elevation: 10,
-                                  behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.all(5),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snakbar);
-                              }
-                            },
-                            child: circul
-                                ? CircularProgressIndicator(
-                                    color: Colors.white,
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.description,
+                          textAlign: TextAlign.justify,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    commande.exigences.isNotEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Exigences démandées : ",
+                                style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  child: Text(
+                                commande.exigences,
+                                style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                            ],
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Commande : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: commande.traite
+                                ? Text(
+                                    "Traitée".toUpperCase(),
+                                    style: GoogleFonts.alike(
+                                        color: Colors.green.shade800,
+                                        fontWeight: FontWeight.bold),
                                   )
                                 : Text(
-                                    "Traitement du commande".toUpperCase(),
-                                    textAlign: TextAlign.center,
+                                    "Non traitée".toUpperCase(),
                                     style: GoogleFonts.alike(
-                                        color: Colors.white,
+                                        color: Colors.redAccent,
                                         fontWeight: FontWeight.bold),
-                                  )),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      )
-                    ],
-                  )
-                : Container(),
-            SizedBox(
-              height: 48,
-              width: MediaQuery.of(context).size.width * 0.94,
-              child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.black87),
-                  onPressed: () {
-                    RepondreClient(
-                        context,
-                        client.nom,
-                        user.prenom,
-                        client.email,
-                        commande.achat,
-                        commande.created_at,
-                        commande.created_at_heure);
-                  },
-                  child: Text(
-                    "Répondre au client".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  )),
+                                  ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Date de livraison : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.date_livraison,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Heure de livraison : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.heure_livraison,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Passée le : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.created_at +
+                              " à " +
+                              commande.created_at_heure,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Livraison serait fait par : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.venir_chercher_commande
+                              ? "Client".toUpperCase()
+                              : "Par l'entreprise",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Supporter les frais de transports ? : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.supporter_frais_transports
+                              ? "OUI".toUpperCase()
+                              : "NON".toUpperCase(),
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Nom du client : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          client.nom,
+                          textAlign: TextAlign.justify,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Adresse E-Mail : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          client.email,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Contact : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          client.numero,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total de commandé passées : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          client.nombre_commande.toString(),
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    affiche
+                        ? Column(
+                            children: [
+                              SizedBox(
+                                height: 48,
+                                width: MediaQuery.of(context).size.width * 0.94,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.brown.shade800),
+                                    onPressed: () {
+                                      provider.traiter_commande();
+                                    },
+                                    child: Text(
+                                      "Traiter la commande".toUpperCase(),
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.alike(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    traite
+                        ? Column(
+                            children: [
+                              RadioListTile(
+                                title: Text(
+                                  "Commande déjà traitée",
+                                  style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                value: true,
+                                groupValue: statut,
+                                onChanged: (value) {
+                                  provider.change_statut(value);
+                                },
+                              ),
+                              RadioListTile(
+                                title: Text(
+                                  "Commande non encore traitée",
+                                  style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                value: false,
+                                groupValue: statut,
+                                onChanged: (value) {
+                                  provider.change_statut(value);
+                                },
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 48,
+                                width: MediaQuery.of(context).size.width * 0.94,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.brown.shade800),
+                                    onPressed: () async {
+                                      try {
+                                        provider.circul_true();
+                                        await FirebaseFirestore.instance
+                                            .collection("commandes")
+                                            .doc(commande.uid)
+                                            .update({
+                                          "traite": statut,
+                                        });
+                                        provider.circul_false();
+
+                                        _speak(
+                                            "Traitement de la commande éffectué avec succès");
+                                        final snakbar = SnackBar(
+                                          content: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Traitement de la commande éffectué avec succès",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.lato(
+                                                  color: Colors.white,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.black87,
+                                          elevation: 10,
+                                          behavior: SnackBarBehavior.floating,
+                                          margin: EdgeInsets.all(5),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snakbar);
+                                      } catch (e) {
+                                        provider.circul_false();
+                                        _speak("Une erreur s'est produite");
+                                        final snakbar = SnackBar(
+                                          content: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Une erreur s'est produite",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.lato(
+                                                  color: Colors.white,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          backgroundColor:
+                                              Colors.redAccent.withOpacity(.8),
+                                          elevation: 10,
+                                          behavior: SnackBarBehavior.floating,
+                                          margin: EdgeInsets.all(5),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snakbar);
+                                      }
+                                    },
+                                    child: circul
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : Text(
+                                            "Traitement du commande"
+                                                .toUpperCase(),
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.alike(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                              ),
+                              SizedBox(
+                                height: 25,
+                              )
+                            ],
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: 48,
+                      width: MediaQuery.of(context).size.width * 0.94,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black87),
+                          onPressed: () {
+                            RepondreClient(
+                                context,
+                                client.nom,
+                                user.prenom,
+                                client.email,
+                                commande.achat,
+                                commande.created_at,
+                                commande.created_at_heure);
+                          },
+                          child: Text(
+                            "Répondre au client".toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.alike(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    )
+                  ],
+                ),
+              ),
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             )
           ],
         ),
@@ -708,8 +742,7 @@ class CommandeJournaliere extends StatelessWidget {
 
                               // Create our message.
                               final message = Message()
-                                ..from =
-                                    Address(username, 'Agri PILALO Entreprise')
+                                ..from = Address(username, 'Agripilayo')
                                 ..recipients.add(client_email.trim())
                                 ..ccRecipients
                                 //.addAll(['destCc1@example.com', 'destCc2@example.com'])
@@ -738,7 +771,6 @@ class CommandeJournaliere extends StatelessWidget {
                             }
                           } catch (e) {
                             _speak("Une erreur s'est produite");
-                            Navigator.of(context).pop();
                           }
                         },
                         child: Padding(

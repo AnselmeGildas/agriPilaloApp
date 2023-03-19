@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_depense.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class EnregisterDepenseUser extends StatelessWidget {
-  EnregisterDepenseUser({super.key});
+  EnregisterDepenseUser({
+    super.key,
+    required this.vague_uid,
+  });
+  final String vague_uid;
+
   bool affiche = false;
   String description = "";
   String montant = "";
@@ -26,12 +32,13 @@ class EnregisterDepenseUser extends StatelessWidget {
     final provider = Provider.of<ProviderDepense>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     description = provider.description;
     montant = provider.montant;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: vague_uid),
       appBar: AppBar(
         actions: [
           Image.asset(
@@ -59,7 +66,7 @@ class EnregisterDepenseUser extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -67,7 +74,7 @@ class EnregisterDepenseUser extends StatelessWidget {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -103,7 +110,7 @@ class EnregisterDepenseUser extends StatelessWidget {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Description ",
+                    "Description de la dépense svp ! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -113,10 +120,8 @@ class EnregisterDepenseUser extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Décrivez la dépense ");
-                },
                 controller: _desc,
+                maxLines: 7,
                 autocorrect: true,
                 enableSuggestions: true,
                 decoration: InputDecoration(
@@ -205,6 +210,8 @@ class EnregisterDepenseUser extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(vague_uid)
                             .collection("depenses")
                             .add({
                           "user_uid": user.uid,
@@ -212,6 +219,13 @@ class EnregisterDepenseUser extends StatelessWidget {
                           "description": description,
                           "montant": _montant,
                         });
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(vague_uid)
+                            .collection("budget")
+                            .doc(budget_tiers.uid)
+                            .update(
+                                {"depense": budget_tiers.depense + _montant});
                         await FirebaseFirestore.instance
                             .collection("budget")
                             .doc(budget.uid)

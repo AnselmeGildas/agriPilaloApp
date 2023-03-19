@@ -23,12 +23,6 @@ class Commande extends StatefulWidget {
 }
 
 class _CommandeState extends State<Commande> {
-  bool nom_bool = false;
-  bool email_bool = false;
-  bool numero_bool = false;
-  bool achat_bool = false;
-  bool description_bool = false;
-  bool exigences_bool = false;
   bool is_empty = true;
   String client_uid = "";
   String nom = "";
@@ -77,12 +71,6 @@ class _CommandeState extends State<Commande> {
     description = gestion_commande.description;
     exigences_client = gestion_commande.exigences;
     final _provider = Provider.of<ProviderGestionDepartement>(context);
-    nom_bool = gestion_commande.nom_bool;
-    email_bool = gestion_commande.email_bool;
-    numero_bool = gestion_commande.numero_bool;
-    achat_bool = gestion_commande.achat_bool;
-    description_bool = gestion_commande.description_bool;
-    exigences_bool = gestion_commande.exigences_bool;
     venir_chercher = _provider.venir_chercher;
     departement = _provider.departement;
     commu = _provider.commune;
@@ -988,6 +976,10 @@ class _CommandeState extends State<Commande> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
+                onTap: () {
+                  _speak(
+                      "Veuillez saisir une adresse valide car nous vous répondrions via cette dernière");
+                },
                 enableSuggestions: true,
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -1079,7 +1071,7 @@ class _CommandeState extends State<Commande> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Descrivez la commande",
+                    "Descrivez en détail votre commande",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 19,
@@ -1089,9 +1081,6 @@ class _CommandeState extends State<Commande> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                  onTap: () {
-                    _speak("Décrivez en détail la commande");
-                  },
                   maxLines: 7,
                   autocorrect: true,
                   enableSuggestions: true,
@@ -1114,11 +1103,11 @@ class _CommandeState extends State<Commande> {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Date de livraison",
+                    "Date de livraison de votre commande",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 21,
@@ -1154,11 +1143,11 @@ class _CommandeState extends State<Commande> {
             ),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Heure de livraison",
+                    "Précisez l'heure de livraison de votre commande svp",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 21,
@@ -1179,8 +1168,6 @@ class _CommandeState extends State<Commande> {
                       String formatTime =
                           DateFormat('HH:mm:ss').format(parsedTime);
                       heure_livraison.text = formatTime;
-                    } else {
-                      heure_livraison.text = "";
                     }
                   },
                   controller: heure_livraison,
@@ -1194,11 +1181,11 @@ class _CommandeState extends State<Commande> {
                 )),
             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Vos exigences pour cette commande(optionnel)",
+                    "Quelles sont toutes vos exigences pour cette commande(optionnel)?",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 19,
@@ -1208,10 +1195,6 @@ class _CommandeState extends State<Commande> {
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak(
-                      "Dites nous toutes vos exigences pour cette commande. Cette information n'est pas obligatoire");
-                },
                 autocorrect: true,
                 enableSuggestions: true,
                 decoration: InputDecoration(
@@ -1249,9 +1232,7 @@ class _CommandeState extends State<Commande> {
                   title: Text(
                     "oui".toUpperCase(),
                     style: GoogleFonts.alike(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   value: true,
                   groupValue: venir_chercher,
@@ -1263,9 +1244,7 @@ class _CommandeState extends State<Commande> {
                   title: Text(
                     "non".toUpperCase(),
                     style: GoogleFonts.alike(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   value: false,
                   groupValue: venir_chercher,
@@ -1378,11 +1357,11 @@ class _CommandeState extends State<Commande> {
                                   nombre = (document.data()
                                       as Map)['nombre_commande'];
                                 });
-                                nombre += 1;
+
                                 await FirebaseFirestore.instance
                                     .collection("clients")
                                     .doc(email)
-                                    .update({"nombre_commande": nombre});
+                                    .update({"nombre_commande": nombre + 1});
 
                                 await FirebaseFirestore.instance
                                     .collection("commandes")
@@ -1412,8 +1391,7 @@ class _CommandeState extends State<Commande> {
 
                               // Create our message.
                               final message = Message()
-                                ..from =
-                                    Address(username, 'Agri Pilalo Entreprise')
+                                ..from = Address(username, 'Agripilayo')
                                 ..recipients.add(email.trim())
                                 ..ccRecipients
                                 //.addAll(['destCc1@example.com', 'destCc2@example.com'])

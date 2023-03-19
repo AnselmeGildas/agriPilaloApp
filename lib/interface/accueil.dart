@@ -36,7 +36,7 @@ class _AccueilState extends State<Accueil> {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PILALO",
+                    "AGRIPILAYO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -61,7 +61,7 @@ class _AccueilState extends State<Accueil> {
                             child: Text(
                               "Confirmer",
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: GoogleFonts.alike(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             )),
@@ -73,7 +73,7 @@ class _AccueilState extends State<Accueil> {
                             }),
                             child: Text(
                               "Annuler",
-                              style: TextStyle(
+                              style: GoogleFonts.alike(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ))
@@ -95,7 +95,7 @@ class _AccueilState extends State<Accueil> {
         backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           title: Text(
-            "Agri PILALO",
+            "AGRIPILAYO",
             style: GoogleFonts.alike(
                 color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
           ),
@@ -147,7 +147,7 @@ class _AccueilState extends State<Accueil> {
                         fontSize: 60),
                   ),
                   Text(
-                    "ienvenue sur AgriPILALO",
+                    "ienvenue sur AGRIPILAYO",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 20,

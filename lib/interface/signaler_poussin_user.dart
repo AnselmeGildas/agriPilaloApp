@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/poussins.dart';
 import 'package:deogracias/provider/provider_signaler_poussin.dart';
 import 'package:deogracias/services/user.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerPoussinUser extends StatefulWidget {
-  SignalerPoussinUser({super.key});
-
+  SignalerPoussinUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerPoussinUser> createState() => _SignalerPoussinUserState();
 }
@@ -27,7 +28,6 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
   String _description = "";
 
   String _nombre = "";
-
   String _montant = "";
 
   int _nombre_saisi = 0;
@@ -46,7 +46,7 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
     final provider = Provider.of<ProviderSignalerPoussin>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     mort = provider.mort;
     _description = provider.description;
@@ -56,7 +56,7 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
 
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -85,7 +85,7 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -93,7 +93,7 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -381,6 +381,17 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers.uid)
+                              .update({
+                            "perte": budget_tiers.perte + _montant_saisi
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("poussins")
                               .doc(poussin.uid)
                               .update({
@@ -391,6 +402,8 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("pertes")
                               .add({
                             "created_at": DateTime.now(),
@@ -400,6 +413,8 @@ class _SignalerPoussinUserState extends State<SignalerPoussinUser> {
                           });
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("poussins")
                               .doc(poussin.uid)
                               .update({

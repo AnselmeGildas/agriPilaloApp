@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class VenteDesBetesUser extends StatefulWidget {
-  VenteDesBetesUser({super.key});
-
+  VenteDesBetesUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<VenteDesBetesUser> createState() => _VenteDesBetesUserState();
 }
@@ -31,7 +31,9 @@ class _VenteDesBetesUserState extends State<VenteDesBetesUser> {
 
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerUser(),
+          drawer: DrawerUser(
+            vague_uid: widget.vague_uid,
+          ),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -57,7 +59,9 @@ class _VenteDesBetesUserState extends State<VenteDesBetesUser> {
     }
     final vague = Provider.of<Vagues>(context);
     return Scaffold(
-        drawer: DrawerUser(),
+        drawer: DrawerUser(
+          vague_uid: widget.vague_uid,
+        ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -67,12 +71,6 @@ class _VenteDesBetesUserState extends State<VenteDesBetesUser> {
                   provider.afficher_void();
                 },
                 icon: Icon(Icons.search, color: Colors.black)),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 50,
-              width: 50,
-            ),
           ],
           elevation: 0,
           centerTitle: false,

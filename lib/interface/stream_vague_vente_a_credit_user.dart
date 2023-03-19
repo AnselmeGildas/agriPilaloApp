@@ -1,6 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
-
 import 'package:deogracias/interface/vente_a_credit_non_paye_user.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,11 @@ class StreamVenteACreditNonPayeUser extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
+        StreamProvider(
+            create: (context) =>
+                context.read<serviceBD>().budget_tiers(vague_uid),
+            initialData: BudgetTiers(
+                uid: "", solde_total: 0, depense: 0, perte: 0, created_at: "")),
         StreamProvider(
             create: (context) => context
                 .read<serviceBD>()
@@ -57,7 +62,9 @@ class StreamVenteACreditNonPayeUser extends StatelessWidget {
                 date_inscription: "",
                 deleted: false))
       ],
-      child: VenteACreditNonPayeUser(),
+      child: VenteACreditNonPayeUser(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

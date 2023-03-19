@@ -11,8 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class EnregisterUneVenteAcreditUser extends StatefulWidget {
-  const EnregisterUneVenteAcreditUser({super.key});
-
+  const EnregisterUneVenteAcreditUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<EnregisterUneVenteAcreditUser> createState() =>
       _EnregisterUneVenteAcreditUserState();
@@ -46,7 +46,7 @@ class _EnregisterUneVenteAcreditUserState
     _montant = provider.montant.isNotEmpty ? int.parse(provider.montant) : 0;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         actions: [
           Image.asset(
@@ -74,7 +74,7 @@ class _EnregisterUneVenteAcreditUserState
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -82,7 +82,7 @@ class _EnregisterUneVenteAcreditUserState
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -131,7 +131,7 @@ class _EnregisterUneVenteAcreditUserState
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Nom du client ",
+                    "Nom du client svp ! ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -141,9 +141,6 @@ class _EnregisterUneVenteAcreditUserState
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("nom et prénom du client ");
-                },
                 controller: nom_client_saisie,
                 autocorrect: true,
                 enableSuggestions: true,
@@ -217,9 +214,6 @@ class _EnregisterUneVenteAcreditUserState
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
-                onTap: () {
-                  _speak("Décrivez brièvement la vente éffectuée ");
-                },
                 controller: description_saisie,
                 autocorrect: true,
                 enableSuggestions: true,
@@ -317,6 +311,8 @@ class _EnregisterUneVenteAcreditUserState
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("ventes_a_credits")
                             .add({
                           "created_at": DateTime.now(),

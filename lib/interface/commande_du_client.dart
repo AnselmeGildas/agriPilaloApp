@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_interpolation_to_compose_strings, unused_element, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_interpolation_to_compose_strings, unused_element, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:deogracias/interface/commandes_du_client.dart';
 import 'package:deogracias/interface/drawer_client.dart';
 import 'package:deogracias/interface/stream_modifier_commande_du_client.dart';
+import 'package:deogracias/modele/client.dart';
 import 'package:deogracias/modele/commandes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -15,6 +17,7 @@ class CommandeDuClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final commande = Provider.of<Commandes>(context);
+    final client = Provider.of<Clients>(context);
     return Scaffold(
       backgroundColor: Colors.green.shade800,
       drawer: DrawerClient(),
@@ -78,230 +81,263 @@ class CommandeDuClient extends StatelessWidget {
               height: 40,
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.92,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        style: BorderStyle.solid,
-                        width: 2,
-                        color: Colors.redAccent.withOpacity(.8))),
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: Text(
-                    "Informations sur votre commande".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.alike(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14),
-                  ),
-                )),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Commande : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.achat,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
+              width: MediaQuery.of(context).size.width * 0.94,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Text(
-                    "Description : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
                   SizedBox(
-                    width: 4,
+                    height: 40,
                   ),
-                  Expanded(
-                      child: Text(
-                    commande.description,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            commande.exigences.isNotEmpty
-                ? Padding(
+                  Container(
+                      height: 45,
+                      alignment: Alignment.center,
+                      color: Colors.lightBlue.shade900,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Informations sur la commande",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.alike(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Icon(
+                            Icons.rule_sharp,
+                            color: Colors.white,
+                          )
+                        ],
+                      )),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
                     padding:
                         const EdgeInsets.only(left: 10, right: 10, bottom: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Exigences démandées : ",
+                          "Commande : ",
                           style: GoogleFonts.alike(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.achat,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Description : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.description,
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ))
+                      ],
+                    ),
+                  ),
+                  commande.exigences.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Exigences démandées : ",
+                                style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  child: Text(
+                                commande.exigences,
+                                style: GoogleFonts.alike(
+                                    color: Colors.lightBlue.shade800,
+                                    fontWeight: FontWeight.bold),
+                              ))
+                            ],
+                          ),
+                        )
+                      : Container(),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Statut de la commande : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: commande.traite
+                                ? Text(
+                                    "Traitée".toUpperCase(),
+                                    style: GoogleFonts.alike(
+                                        color: Colors.green.shade900,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : Text(
+                                    "Non traitée".toUpperCase(),
+                                    style: GoogleFonts.alike(
+                                        color: Colors.redAccent,
+                                        fontWeight: FontWeight.bold),
+                                  ))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Date de livraison : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.date_livraison,
+                          style: GoogleFonts.alike(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.lightBlue.shade800),
+                        ))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Passée le : ",
+                          style: GoogleFonts.alike(
+                              color: Colors.lightBlue.shade800,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: Text(
+                          commande.created_at +
+                              " à " +
+                              commande.created_at_heure,
+                          style: GoogleFonts.alike(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.lightBlue.shade800),
+                        ))
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.green.shade800),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            StreamModifierCommandeDuClient(
+                                                client_uid: commande.client_uid,
+                                                commande_uid: commande.uid)));
+                              },
+                              child: Text(
+                                "Modifier".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.alike(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )),
                         ),
                         SizedBox(
                           width: 4,
                         ),
-                        Expanded(
-                            child: Text(
-                          commande.exigences,
-                          style: GoogleFonts.alike(
-                              color: Colors.white, fontSize: 16),
-                          softWrap: true,
-                          maxLines: 10,
-                        ))
+                        SizedBox(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent),
+                              onPressed: () {
+                                _DeleteCommande(
+                                    context,
+                                    commande.client_uid,
+                                    commande.uid,
+                                    commande.achat,
+                                    client.nombre_commande);
+                              },
+                              child: Text(
+                                "Supprimer".toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.alike(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                        )
                       ],
                     ),
-                  )
-                : Container(),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Commande : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: commande.traite
-                          ? Text(
-                              "Traitée".toUpperCase(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.indigo, fontSize: 14),
-                              softWrap: true,
-                              maxLines: 2,
-                            )
-                          : Text(
-                              "Non traitée".toUpperCase(),
-                              style: GoogleFonts.alike(
-                                  color: Colors.redAccent, fontSize: 14),
-                              softWrap: true,
-                              maxLines: 2,
-                            ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Date de livraison : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.date_livraison,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 2,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Passée le : ",
-                    style: GoogleFonts.alike(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Expanded(
-                      child: Text(
-                    commande.created_at + " à " + commande.created_at_heure,
-                    style: GoogleFonts.alike(color: Colors.white, fontSize: 16),
-                    softWrap: true,
-                    maxLines: 10,
-                  ))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.46,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.brown.shade800),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      StreamModifierCommandeDuClient(
-                                          client_uid: commande.client_uid,
-                                          commande_uid: commande.uid)));
-                        },
-                        child: Text(
-                          "Modifier".toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.alike(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.46,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent),
-                        onPressed: () {
-                          _DeleteCommande(context, commande.client_uid,
-                              commande.uid, commande.achat);
-                        },
-                        child: Text(
-                          "Supprimer".toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.alike(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        )),
+                    height: 20,
                   )
                 ],
               ),
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             )
           ],
         ),
@@ -309,24 +345,25 @@ class CommandeDuClient extends StatelessWidget {
     );
   }
 
-  Future<void> _DeleteCommande(
-    BuildContext context,
-    String client_uid,
-    String commande_uid,
-    String achat,
-  ) async {
-    int i = 0;
+  Future<void> _DeleteCommande(BuildContext context, String client_uid,
+      String commande_uid, String achat, int client_nombre_commande) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text("Etes vous sur ?".toUpperCase()),
+          title: Text(
+            "Etes vous sur ?".toUpperCase(),
+            style: GoogleFonts.alike(fontWeight: FontWeight.bold),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text("Vous etes sur le point de supprimer cette commande d' " +
-                    achat),
+                Text(
+                  "Vous etes sur le point de supprimer cette commande d' " +
+                      achat,
+                  style: GoogleFonts.alike(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           ),
@@ -342,13 +379,13 @@ class CommandeDuClient extends StatelessWidget {
                     height: 40,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo,
+                          backgroundColor: Colors.lightBlue.shade800,
                           textStyle: TextStyle()),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Confirmer'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -356,33 +393,30 @@ class CommandeDuClient extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        Navigator.of(context).pop();
                         try {
-                          final result = await FirebaseFirestore.instance
-                              .collection("commandes")
-                              .where("client_uid", isEqualTo: client_uid)
-                              .get();
-                          final documents = result.docs;
-
-                          for (var document in documents) {
-                            if (document.id.isNotEmpty) {
-                              i++;
-                            }
-                          }
-
-                          if (i <= 1) {
+                          if (client_nombre_commande <= 1) {
                             await FirebaseFirestore.instance
                                 .collection("clients")
                                 .doc(client_uid)
                                 .delete();
+                          } else {
+                            await FirebaseFirestore.instance
+                                .collection("commandes")
+                                .doc(commande_uid)
+                                .delete();
+                            await FirebaseFirestore.instance
+                                .collection("clients")
+                                .doc(client_uid)
+                                .update({
+                              "nombre_commande": client_nombre_commande - 1
+                            });
                           }
-                          await FirebaseFirestore.instance
-                              .collection("commandes")
-                              .doc(commande_uid)
-                              .delete();
-
                           _speak("votre commande a été supprimée avec succès");
-
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommandesDuClient(),
+                              ));
                           // ignore: empty_catches
                         } catch (e) {
                           _speak("Une erreur inattendue s'est produite ");
@@ -400,7 +434,7 @@ class CommandeDuClient extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Annuler'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -409,7 +443,7 @@ class CommandeDuClient extends StatelessWidget {
                       ),
                       onPressed: () {
                         _speak("Suppression de la commande annulée");
-                        Navigator.of(context).pop();
+                        Navigator.of(dialogContext).pop();
                       },
                     ),
                   ),

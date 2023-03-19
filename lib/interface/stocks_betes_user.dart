@@ -2,7 +2,6 @@
 
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/interface/stream_recharger_stock_bete_user.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class StockBetesUser extends StatefulWidget {
-  StockBetesUser({super.key});
-
+  StockBetesUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<StockBetesUser> createState() => _StockBetesUserState();
 }
@@ -31,7 +30,10 @@ class _StockBetesUserState extends State<StockBetesUser> {
 
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerUser(),
+          backgroundColor: Colors.green.shade800,
+          drawer: DrawerUser(
+            vague_uid: widget.vague_uid,
+          ),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -53,11 +55,13 @@ class _StockBetesUserState extends State<StockBetesUser> {
                   fontSize: 17),
             ),
           ),
-          body: Center(child: CircularProgressIndicator(color: Colors.black)));
+          body: Center(child: CircularProgressIndicator(color: Colors.white)));
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-        drawer: DrawerUser(),
+        drawer: DrawerUser(
+          vague_uid: widget.vague_uid,
+        ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -114,7 +118,8 @@ class _StockBetesUserState extends State<StockBetesUser> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   StreamRechargerStockBeteUser(
-                                      vague_uid: vague.uid, bete_uid: bete.uid),
+                                      vague_uid: widget.vague_uid,
+                                      bete_uid: bete.uid),
                             ));
                       },
                       leading: bete.nom.isNotEmpty
@@ -148,7 +153,7 @@ class _StockBetesUserState extends State<StockBetesUser> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       StreamRechargerStockBeteUser(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           bete_uid: bete.uid),
                                 ));
                           },

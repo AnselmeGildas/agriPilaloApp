@@ -11,8 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class StockOeufsUser extends StatefulWidget {
-  StockOeufsUser({super.key});
-
+  StockOeufsUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<StockOeufsUser> createState() => _StockOeufsUserState();
 }
@@ -35,7 +35,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
     recharger_par_plateau = provider.recharger_par_plateau;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -63,7 +63,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -71,7 +71,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -81,7 +81,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  "Réchargement du stock de " + oeuf.nom,
+                  "Réchargement du stock",
                   softWrap: true,
                   maxLines: 2,
                   textAlign: TextAlign.center,
@@ -141,9 +141,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                     title: Text(
                       "oui".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: true,
                     groupValue: recharger_par_plateau,
@@ -155,9 +153,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                     title: Text(
                       "non".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: false,
                     groupValue: recharger_par_plateau,
@@ -189,7 +185,7 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                             style: GoogleFonts.alike(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                                fontSize: 18),
                           )),
               ),
               Padding(
@@ -252,6 +248,8 @@ class _StockOeufsUserState extends State<StockOeufsUser> {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("oeuf_tables")
                               .doc(oeuf.uid)
                               .update({

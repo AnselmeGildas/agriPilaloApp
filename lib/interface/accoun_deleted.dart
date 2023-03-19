@@ -34,7 +34,7 @@ class _AccountDeletedState extends State<AccountDeleted> {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PILALO",
+                    "Agri PILAYO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,

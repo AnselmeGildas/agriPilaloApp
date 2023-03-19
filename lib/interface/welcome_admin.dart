@@ -85,7 +85,7 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                       fit: BoxFit.cover)),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 25),
@@ -96,7 +96,7 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                   style: GoogleFonts.alike(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20),
+                      fontSize: 18),
                 ),
               ),
             ),
@@ -174,9 +174,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       budget.solde_total.toString(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -184,9 +184,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       "XOF".toUpperCase(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
                                   ],
                                 )
@@ -213,9 +213,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       benefice.toString(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -223,9 +223,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       "XOF".toUpperCase(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
                                   ],
                                 )
@@ -266,9 +266,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       budget.depense.toString(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -276,9 +276,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       "XOF".toUpperCase(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
                                   ],
                                 )
@@ -305,9 +305,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       budget.perte.toString(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 10,
@@ -315,9 +315,9 @@ class _AccueilAdminState extends State<AccueilAdmin> {
                                     Text(
                                       "XOF".toUpperCase(),
                                       style: GoogleFonts.alike(
-                                          color: Colors.lightBlue.shade900,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
+                                        color: Colors.lightBlue.shade900,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     )
                                   ],
                                 )

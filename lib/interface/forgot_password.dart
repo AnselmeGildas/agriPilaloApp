@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, use_build_context_synchronously, non_constant_identifier_names, prefer_const_constructors_in_immutables
 
+import 'package:deogracias/interface/drawer_client.dart';
 import 'package:deogracias/provider/reset_password_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import 'creer_compte.dart';
 
 class ResetPassword extends StatefulWidget {
   ResetPassword({
@@ -37,35 +36,24 @@ class _ResetPasswordState extends State<ResetPassword> {
     email = _provider.email;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
+      drawer: DrawerClient(),
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-        leading: Image.asset(
-          "images/icon2.jpg",
-          scale: 4.5,
-          height: 100,
-          width: 100,
-        ),
         elevation: 0,
         centerTitle: false,
         title: Text(
           "Reset password",
-          style: TextStyle(
+          style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
         ),
         actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => SignUp()));
-              },
-              child: Text(
-                "Sign up",
-                style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic),
-              ))
+          Image.asset(
+            "images/icon2.jpg",
+            scale: 4.5,
+            height: 100,
+            width: 100,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -78,7 +66,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -91,26 +79,39 @@ class _ResetPasswordState extends State<ResetPassword> {
                       fit: BoxFit.cover)),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
+            ),
+            Text(
+              "Mot de passe oublié ?",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "M".toUpperCase(),
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 57),
+                Container(
+                  alignment: Alignment.center,
+                  height: 2,
+                  width: 40,
+                  color: Colors.white,
                 ),
-                Text(
-                  "ot de passe oublié",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  alignment: Alignment.center,
+                  height: 15,
+                  width: 15,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: 2,
+                  width: 40,
+                  color: Colors.white,
                 ),
               ],
             ),
@@ -122,11 +123,11 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Adresse E-Mail",
+                  "Votre adresse E-mail svp",
                   textAlign: TextAlign.left,
-                  style: TextStyle(
+                  style: GoogleFonts.alike(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -247,7 +248,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           : Text(
                               "Reset password".toUpperCase(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: GoogleFonts.alike(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),

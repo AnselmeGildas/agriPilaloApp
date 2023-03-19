@@ -1,16 +1,22 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, must_be_immutable, non_constant_identifier_names, prefer_final_fields, unused_field, use_build_context_synchronously
 
+import 'package:deogracias/interface/enregistrer_vente_a_credit_user.dart';
 import 'package:deogracias/interface/home_page.dart';
-import 'package:deogracias/interface/signaler_betes_morts_retablie_user.dart';
-import 'package:deogracias/interface/signaler_betes_user.dart';
-import 'package:deogracias/interface/signaler_oeuf_gate_user.dart';
-import 'package:deogracias/interface/signaler_poussin_mort_retzablie_user.dart';
-import 'package:deogracias/interface/signaler_poussin_user.dart';
-import 'package:deogracias/interface/stock_fientes_user.dart';
-import 'package:deogracias/interface/stock_oeufs_user.dart';
-import 'package:deogracias/interface/stocks_betes_user.dart';
-import 'package:deogracias/interface/ventes_betes_user.dart';
-import 'package:deogracias/interface/ventes_des_fientes_user.dart';
+import 'package:deogracias/interface/stream_signaler_betes_morts_retablies_user.dart';
+import 'package:deogracias/interface/stream_vague_enregistrer_depense_user.dart';
+import 'package:deogracias/interface/stream_vague_enregistrer_perte_user.dart';
+import 'package:deogracias/interface/stream_vague_recharger_betes_user.dart';
+import 'package:deogracias/interface/stream_vague_recharger_fientes_user.dart';
+import 'package:deogracias/interface/stream_vague_recharger_oeuf_user.dart';
+import 'package:deogracias/interface/stream_vague_signaler_oeuf_user.dart';
+import 'package:deogracias/interface/stream_vague_signaler_poussin_mort_retablie_user.dart';
+import 'package:deogracias/interface/stream_vague_signaler_poussin_user.dart';
+import 'package:deogracias/interface/stream_vague_statistique_journalir_user.dart';
+import 'package:deogracias/interface/stream_vague_vente_oeuf_table_user.dart';
+import 'package:deogracias/interface/stream_vague_ventes_betes_user.dart';
+import 'package:deogracias/interface/stream_vague_ventes_fientes_user.dart';
+import 'package:deogracias/interface/stream_vagues_list_ventes_a_credits_non_payes.dart';
+import 'package:deogracias/interface/stream_vagues_signaler_betes_user.dart';
 import 'package:deogracias/provider/provider_drawer_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +27,8 @@ import 'package:provider/provider.dart';
 import 'connexion.dart';
 
 class DrawerUser extends StatelessWidget {
-  DrawerUser({super.key});
-
+  DrawerUser({super.key, required this.vague_uid});
+  final String vague_uid;
   bool home = true;
   bool vente_oeuf = false;
   bool vente_bete = false;
@@ -35,6 +41,11 @@ class DrawerUser extends StatelessWidget {
   bool recharger_oeuf = false;
   bool recharger_bete = false;
   bool recharger_fiente = false;
+  bool statistique_journalier = false;
+  bool enregistrer_vente_a_credit = false;
+  bool ventes_a_credits = false;
+  bool enregistrer_perte = false;
+  bool enregistrer_depense = false;
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProviderDrawerUser>(context);
@@ -50,6 +61,11 @@ class DrawerUser extends StatelessWidget {
     recharger_bete = provider.recharger_bete;
     recharger_fiente = provider.recharger_fiente;
     recharger_oeuf = provider.recharger_oeuf;
+    statistique_journalier = provider.statistique_journalier;
+    enregistrer_vente_a_credit = provider.enregistrer_vente;
+    ventes_a_credits = provider.ventes_a_credits;
+    enregistrer_depense = provider.enregistrer_depense;
+    enregistrer_perte = provider.enregistrer_perte;
     return SizedBox(
       child: Padding(
         padding: const EdgeInsets.only(top: 90),
@@ -77,7 +93,7 @@ class DrawerUser extends StatelessWidget {
                     SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Text(
-                          "Agri PIYALO",
+                          "Agripilayo",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.alike(
                             color: Colors.black,
@@ -100,21 +116,22 @@ class DrawerUser extends StatelessWidget {
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-              /*ListTile(
+              ListTile(
                 tileColor: vente_oeuf ? Colors.lightBlue.shade900 : null,
                 onTap: () {
                   provider.change_vente_oeuf();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => VenteOeufTableUser()));
-                },-*
+                          builder: (contextb) => StreamVagueVenteOeufTableUser(
+                              vague_uid: vague_uid)));
+                },
                 title: Text(
                   "Ventes d'oeuf de tables",
                   style: GoogleFonts.alike(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-              ),*/
+              ),
               ListTile(
                 tileColor: vente_bete ? Colors.lightBlue.shade900 : null,
                 onTap: () {
@@ -122,7 +139,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => VenteDesBetesUser()));
+                          builder: (contextb) => StreamVagueVentesBetesUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Ventes de betes",
@@ -137,7 +155,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => VenteDeFientesUser()));
+                          builder: (contextb) => StreamVagueVentesFientesUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Vente de fientes",
@@ -152,7 +171,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => StockOeufsUser()));
+                          builder: (contextb) => StreamVagueRechargerOeufUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Récharger le stock d'oeuf de tables",
@@ -167,7 +187,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => StockBetesUser()));
+                          builder: (contextb) => StreamVagueRechargerBetesUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Récharger le stock de bete",
@@ -182,10 +203,100 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => StockFientesUser()));
+                          builder: (contextb) =>
+                              StreamVagueStockRechargerFientesUser(
+                                  vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Récharger le stock de fiente",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor:
+                    statistique_journalier ? Colors.lightBlue.shade900 : null,
+                onTap: () {
+                  provider.change_statistique_journalier();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) =>
+                              StreamVagueStatistiqueJournalierUser(
+                                  vague_uid: vague_uid)));
+                },
+                title: Text(
+                  "Statistique journalière",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor: enregistrer_vente_a_credit
+                    ? Colors.lightBlue.shade900
+                    : null,
+                onTap: () {
+                  provider.change_enregistrer_vente_a_credit();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) => EnregisterUneVenteAcreditUser(
+                              vague_uid: vague_uid)));
+                },
+                title: Text(
+                  "Enregister une vente à crédits",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor: ventes_a_credits ? Colors.lightBlue.shade900 : null,
+                onTap: () {
+                  provider.change_ventes_a_credits();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) =>
+                              StreamVagueListDesVentesACreditsNonPayesUser(
+                                  vague_uid: vague_uid)));
+                },
+                title: Text(
+                  "Ventes à crédits non payés",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor:
+                    enregistrer_depense ? Colors.lightBlue.shade900 : null,
+                onTap: () {
+                  provider.change_enregistrer_depense();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) =>
+                              StreamVagueEnregistrerDepenseUser(
+                                  vague_uid: vague_uid)));
+                },
+                title: Text(
+                  "Enregister une depense",
+                  style: GoogleFonts.alike(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                tileColor: enregistrer_perte ? Colors.lightBlue.shade900 : null,
+                onTap: () {
+                  provider.change_enregistrer_perte();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (contextb) =>
+                              StreamVagueEnregistrerPerteUser(
+                                  vague_uid: vague_uid)));
+                },
+                title: Text(
+                  "Enregister une perte",
                   style: GoogleFonts.alike(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
@@ -197,7 +308,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => SignalerPoussinUser()));
+                          builder: (contextb) => StreamVagueSignalerPoussinUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Signaler un poussin",
@@ -212,7 +324,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => SignalerBetesUser()));
+                          builder: (contextb) => StreamVagueSignalerBetesUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Signaler une bete",
@@ -227,7 +340,8 @@ class DrawerUser extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (contextb) => SignalerOeufCasseUser()));
+                          builder: (contextb) => StreamVagueSignalerOeufUser(
+                              vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Signaler un oeuf cassé",
@@ -244,7 +358,8 @@ class DrawerUser extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (contextb) =>
-                              SignalerBetesMortRetablieUser()));
+                              StreamVagueSignalerBetesMortsRetablieUser(
+                                  vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Signaler une bete rétablie ou morte ayant été malade",
@@ -262,7 +377,8 @@ class DrawerUser extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (contextb) =>
-                              SignalerPoussinMortRetabliUser()));
+                              StreamVagueSignalerPOussinMortRetablieUser(
+                                  vague_uid: vague_uid)));
                 },
                 title: Text(
                   "Signaler un poussin rétabli ou mort ayant été malade",
@@ -272,7 +388,6 @@ class DrawerUser extends StatelessWidget {
               ),
               ListTile(
                 onTap: () {
-                  _speak("Vous devriez d'abord confirmé");
                   _showMyDialog(context);
                 },
                 textColor: Colors.redAccent,

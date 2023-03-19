@@ -110,8 +110,10 @@ class VaguesClotures extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    StreamVagueCloture(vague_uid: vague.uid),
+                                builder: (context) => StreamVagueCloture(
+                                  vague_uid: vague.uid,
+                                  user_uid: vague.user_uid,
+                                ),
                               ));
                         },
                         leading: CircleAvatar(
@@ -154,8 +156,10 @@ class VaguesClotures extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    StreamVagueCloture(vague_uid: vague.uid),
+                                builder: (context) => StreamVagueCloture(
+                                  vague_uid: vague.uid,
+                                  user_uid: vague.user_uid,
+                                ),
                               ));
                         },
                         leading: CircleAvatar(

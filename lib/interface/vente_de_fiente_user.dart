@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings, use_build_context_synchronously, non_constant_identifier_names, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, prefer_interpolation_to_compose_strings, use_build_context_synchronously, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, prefer_typing_uninitialized_variables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/fientes.dart';
 import 'package:deogracias/provider/provider_vente_fiente.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,11 @@ import '../modele/budget.dart';
 import '../services/user.dart';
 
 class VenteDeFienteUser extends StatefulWidget {
-  VenteDeFienteUser({super.key});
+  VenteDeFienteUser({
+    super.key,
+    required this.vague_uid,
+  });
+  final String vague_uid;
 
   @override
   State<VenteDeFienteUser> createState() => _VenteDeFienteUserState();
@@ -45,14 +50,16 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
     final fiente = Provider.of<Fientes>(context);
     final provider = Provider.of<ProviderVenteFiente>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_ters = Provider.of<BudgetTiers>(context);
     reduire = provider.reduire;
     total1 = provider.nombre.isNotEmpty ? int.parse(provider.nombre) : 0;
     total = total1 * fiente.prix_unitaire;
     nombre = provider.nombre;
     montant_total = provider.montant_total;
+
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -67,7 +74,7 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
         elevation: 0,
         centerTitle: false,
         title: Text(
-          "Vente de " + fiente.nom,
+          fiente.nom,
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
         ),
@@ -80,7 +87,7 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -88,12 +95,12 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Text(
               "Vente de fiente",
@@ -133,7 +140,7 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
               height: 44,
             ),
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(10.0),
               child: Text(
                 "Vous disposez de " +
                     fiente.nombre_restant.toString() +
@@ -337,6 +344,32 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
                           margin: EdgeInsets.all(5),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                      } else if (reduire &&
+                          (_nombre * fiente.prix_unitaire) < total) {
+                        _speak(
+                            "Vous devez saisir le montant total en réduction de vente inférieur à  " +
+                                (_nombre * fiente.prix_unitaire).toString());
+                        provider.affiche_false();
+
+                        final snakbar = SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Vous devez saisir le montant total en réduction de vente inférieur à " +
+                                  (_nombre * fiente.prix_unitaire).toString(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          backgroundColor: Colors.redAccent.withOpacity(.8),
+                          elevation: 10,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(5),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else if (_nombre > fiente.nombre_restant) {
                         _speak("Nombre insuffisant");
                         provider.affiche_false();
@@ -365,8 +398,18 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
                             .doc(budget.uid)
                             .update(
                                 {"solde_total": budget.solde_total + total});
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
+                            .collection("budget")
+                            .doc(budget_ters.uid)
+                            .update({
+                          "solde_total": budget_ters.solde_total + total
+                        });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("vente_fientes")
                             .add({
                           "created_at": DateTime.now(),
@@ -375,10 +418,12 @@ class _VenteDeFienteUserState extends State<VenteDeFienteUser> {
                           "nombre": _nombre,
                           "montant": total,
                           "updated": false,
-                          "updated_at": DateTime.now()
+                          'updated_at': DateTime.now()
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("fientes")
                             .doc(fiente.uid)
                             .update({

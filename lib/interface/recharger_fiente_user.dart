@@ -11,8 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class RechargerFienteUser extends StatefulWidget {
-  RechargerFienteUser({super.key});
-
+  RechargerFienteUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<RechargerFienteUser> createState() => _RechargerFienteUserState();
 }
@@ -34,7 +34,7 @@ class _RechargerFienteUserState extends State<RechargerFienteUser> {
     nombre = provider.nombre;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -62,7 +62,7 @@ class _RechargerFienteUserState extends State<RechargerFienteUser> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -70,7 +70,7 @@ class _RechargerFienteUserState extends State<RechargerFienteUser> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
@@ -80,7 +80,7 @@ class _RechargerFienteUserState extends State<RechargerFienteUser> {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  "Réchargement du stock de " + fiente.nom,
+                  "Réchargement du stock",
                   softWrap: true,
                   maxLines: 2,
                   textAlign: TextAlign.center,
@@ -193,6 +193,8 @@ class _RechargerFienteUserState extends State<RechargerFienteUser> {
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("fientes")
                               .doc(fiente.uid)
                               .update({

@@ -7,14 +7,35 @@ import 'package:deogracias/modele/vagues.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/user.dart';
+
 class StreamVagueInformation extends StatelessWidget {
-  const StreamVagueInformation({super.key, required this.vague_uid});
+  const StreamVagueInformation(
+      {super.key, required this.vague_uid, required this.user_uid});
   final String vague_uid;
+  final String user_uid;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         Provider<serviceBD>(create: (_) => serviceBD()),
+        StreamProvider(
+            create: (context) => context.read<serviceBD>().user_data(user_uid),
+            initialData: donnesUtilisateur(
+                nom: "",
+                prenom: "",
+                email: "",
+                telephone: "",
+                role: "",
+                sexe: "",
+                date_naissance: "",
+                uid: "",
+                photo_url: "",
+                admin: false,
+                is_active: true,
+                mdp: "",
+                date_inscription: "",
+                deleted: false)),
         StreamProvider(
             create: (context) => context.read<serviceBD>().vague(vague_uid),
             initialData: Vagues(

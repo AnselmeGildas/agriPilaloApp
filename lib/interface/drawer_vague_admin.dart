@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, must_be_immutable, non_constant_identifier_names, prefer_final_fields, unused_field, use_build_context_synchronously
 
 import 'package:deogracias/interface/connexion.dart';
-import 'package:deogracias/interface/rubrique_stock.dart';
 import 'package:deogracias/interface/stream_historique_vente.dart';
 import 'package:deogracias/interface/stream_vague_achat_poussins.dart';
 import 'package:deogracias/interface/stream_vague_for_welcome.dart';
@@ -19,6 +18,7 @@ import 'package:deogracias/interface/stream_vague_stock_recharger_oeuf.dart';
 import 'package:deogracias/interface/stream_vague_vente_betes.dart';
 import 'package:deogracias/interface/stream_vague_vente_fientes.dart';
 import 'package:deogracias/interface/stream_vague_vente_oeuf_table.dart';
+import 'package:deogracias/interface/vagues.dart';
 import 'package:deogracias/interface/welcome_admin.dart';
 import 'package:deogracias/provider/provider_vague_admin.dart';
 import 'package:deogracias/services/user.dart';
@@ -165,12 +165,8 @@ class DrawerVagueAdmin extends StatelessWidget {
               ListTile(
                 onTap: () {
                   provider.vague_true();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RubriqueStocks(
-                                vague_uid: vague_uid,
-                              )));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LesVagues()));
                 },
                 tileColor: vagues ? Colors.lightBlue.shade900 : null,
                 title: Text(

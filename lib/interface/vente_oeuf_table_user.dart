@@ -17,6 +17,7 @@ import '../services/user.dart';
 class VenteOeufTableUser extends StatefulWidget {
   VenteOeufTableUser({super.key, required this.vague_uid});
   final String vague_uid;
+
   @override
   State<VenteOeufTableUser> createState() => _VenteOeufTableUserState();
 }
@@ -33,7 +34,9 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
   bool affiche = false;
 
   bool reduire = false;
+
   bool vente_par_plateau = true;
+
   int _nombre = 0;
 
   int _montant = 0;
@@ -59,7 +62,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
     montant_total = provider.montant_total;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -356,7 +359,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                               ? int.parse(nombre_vendu.text)
                               : int.parse(nombre_vendu.text) * 30
                           : 0;
-                      reduire ? total = _montant : total;
+
                       if (nombre_vendu.text.isEmpty ||
                           total <= 0 ||
                           _nombre <= 0) {
@@ -426,12 +429,40 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                           margin: EdgeInsets.all(5),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
+                      } else if (reduire && total < _montant) {
+                        _speak(
+                            "Vous devez saisir le montant total en réduction de vente inférieur à " +
+                                total.toString());
+                        provider.affiche_false();
+
+                        final snakbar = SnackBar(
+                          content: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Vous devez saisir le montant total en réduction de vente inférieur à " +
+                                  total.toString(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          backgroundColor: Colors.redAccent.withOpacity(.8),
+                          elevation: 10,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.all(5),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else {
                         await FirebaseFirestore.instance
                             .collection("budget")
                             .doc(budget.uid)
-                            .update(
-                                {"solde_total": budget.solde_total + total});
+                            .update({
+                          "solde_total": !reduire
+                              ? budget.solde_total + total
+                              : budget.solde_total + _montant
+                        });
 
                         await FirebaseFirestore.instance
                             .collection("vagues")
@@ -439,7 +470,9 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                             .collection("budget")
                             .doc(budget_tiers.uid)
                             .update({
-                          "solde_total": budget_tiers.solde_total + total
+                          "solde_total": !reduire
+                              ? budget_tiers.solde_total + total
+                              : budget_tiers.solde_total + _montant
                         });
 
                         await FirebaseFirestore.instance
@@ -451,7 +484,7 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                           "user_uid": user.uid,
                           "oeuf_uid": oeuf.uid,
                           "nombre": _nombre,
-                          "montant": total,
+                          "montant": !reduire ? total : _montant,
                           "updated": false,
                           "updated_at": DateTime.now(),
                           "unite": vente_par_plateau ? false : true,
@@ -464,7 +497,9 @@ class _VenteOeufTableUserState extends State<VenteOeufTableUser> {
                             .doc(oeuf.uid)
                             .update({
                           "nombre_restant": oeuf.nombre_restant - _nombre,
-                          "montant_vendu": oeuf.montant_vendu + total,
+                          "montant_vendu": !reduire
+                              ? oeuf.montant_vendu + total
+                              : oeuf.montant_vendu + _montant,
                           "updated_at": DateTime.now(),
                         });
 

@@ -3,15 +3,14 @@
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/interface/stream_recharger_fiente_user.dart';
 import 'package:deogracias/modele/fientes.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class StockFientesUser extends StatefulWidget {
-  StockFientesUser({super.key});
-
+  StockFientesUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<StockFientesUser> createState() => _StockFientesUserState();
 }
@@ -30,7 +29,9 @@ class _StockFientesUserState extends State<StockFientesUser> {
 
     if (fientes.isEmpty) {
       return Scaffold(
-          drawer: DrawerUser(),
+          drawer: DrawerUser(
+            vague_uid: widget.vague_uid,
+          ),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -54,9 +55,11 @@ class _StockFientesUserState extends State<StockFientesUser> {
           ),
           body: Center(child: CircularProgressIndicator(color: Colors.black)));
     }
-    final vague = Provider.of<Vagues>(context);
+
     return Scaffold(
-        drawer: DrawerUser(),
+        drawer: DrawerUser(
+          vague_uid: widget.vague_uid,
+        ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -66,12 +69,6 @@ class _StockFientesUserState extends State<StockFientesUser> {
                   provider.afficher_void();
                 },
                 icon: Icon(Icons.search, color: Colors.black)),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 50,
-              width: 50,
-            ),
           ],
           elevation: 0,
           centerTitle: false,
@@ -118,7 +115,8 @@ class _StockFientesUserState extends State<StockFientesUser> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => StreamRechargerFienteUser(
-                                  vague_uid: vague.uid, fiente_uid: fiente.uid),
+                                  vague_uid: widget.vague_uid,
+                                  fiente_uid: fiente.uid),
                             ));
                       },
                       leading: fiente.nom.isNotEmpty
@@ -152,7 +150,7 @@ class _StockFientesUserState extends State<StockFientesUser> {
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       StreamRechargerFienteUser(
-                                          vague_uid: vague.uid,
+                                          vague_uid: widget.vague_uid,
                                           fiente_uid: fiente.uid),
                                 ));
                           },

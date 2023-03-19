@@ -2,7 +2,6 @@
 
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/interface/stream_signaler_bete_user.dart';
-import 'package:deogracias/modele/vagues.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 import '../modele/betes.dart';
 
 class SignalerBetesUser extends StatefulWidget {
-  SignalerBetesUser({super.key});
-
+  SignalerBetesUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBetesUser> createState() => _SignalerBetesUserState();
 }
@@ -31,7 +30,9 @@ class _SignalerBetesUserState extends State<SignalerBetesUser> {
 
     if (betes.isEmpty) {
       return Scaffold(
-          drawer: DrawerUser(),
+          drawer: DrawerUser(
+            vague_uid: widget.vague_uid,
+          ),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -56,10 +57,10 @@ class _SignalerBetesUserState extends State<SignalerBetesUser> {
           body: Center(child: CircularProgressIndicator(color: Colors.black)));
     }
 
-    final vague = Provider.of<Vagues>(context);
-
     return Scaffold(
-        drawer: DrawerUser(),
+        drawer: DrawerUser(
+          vague_uid: widget.vague_uid,
+        ),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: Colors.white,
@@ -69,12 +70,6 @@ class _SignalerBetesUserState extends State<SignalerBetesUser> {
                   provider.afficher_void();
                 },
                 icon: Icon(Icons.search, color: Colors.black)),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 50,
-              width: 50,
-            ),
           ],
           elevation: 0,
           centerTitle: false,
@@ -122,7 +117,7 @@ class _SignalerBetesUserState extends State<SignalerBetesUser> {
                             MaterialPageRoute(
                               builder: (context) => StreamSignalerBeteUser(
                                 bete_uid: bete.uid,
-                                vague_uid: vague.uid,
+                                vague_uid: widget.vague_uid,
                               ),
                             ));
                       },
@@ -152,7 +147,8 @@ class _SignalerBetesUserState extends State<SignalerBetesUser> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => StreamSignalerBeteUser(
-                                      vague_uid: vague.uid, bete_uid: bete.uid),
+                                      vague_uid: widget.vague_uid,
+                                      bete_uid: bete.uid),
                                 ));
                           },
                           leading: bete.nom.isNotEmpty

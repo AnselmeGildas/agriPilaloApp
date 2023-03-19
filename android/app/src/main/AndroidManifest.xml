@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="agri.agriapp.agripiyalo">
    <application
-        android:label="Agri Pilalo"
+        android:label="AGRIPILAYO"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

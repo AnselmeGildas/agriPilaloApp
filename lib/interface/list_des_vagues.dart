@@ -112,8 +112,10 @@ class ListVagues extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                StreamVagueInformation(vague_uid: vague.uid),
+                            builder: (context) => StreamVagueInformation(
+                              vague_uid: vague.uid,
+                              user_uid: vague.user_uid,
+                            ),
                           ));
                     },
                     leading: CircleAvatar(
@@ -181,6 +183,7 @@ class ListVagues extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => StreamVagueInformation(
+                                    user_uid: vague.user_uid,
                                     vague_uid: vague.uid),
                               ));
                         },
@@ -237,6 +240,7 @@ class ListVagues extends StatelessWidget {
     int budget_tiers_perte = 0;
     int budget_tiers_depense = 0;
     String budget_tiers_uid = "budget_tiers";
+    String _password = "";
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -303,18 +307,20 @@ class ListVagues extends StatelessWidget {
                       ),
                       onPressed: () async {
                         try {
+                          _password = password.text.isNotEmpty
+                              ? sha1
+                                  .convert(utf8.encode(password.text.trim()))
+                                  .toString()
+                              : "";
                           if (!is_admin) {
                             _speak(
                                 "Cher utilisateur, vous n'avez pas les droits récquis pour pouvoir éffectuer cette action surla base de données. Désolé");
                           } else if (password.text.isEmpty) {
                             _speak(
                                 "Nous dévrions avant tout valider votre identité. Pour cela, vous devrez saisir votre mot de passe");
-                          } else if (sha1
-                                  .convert(utf8.encode(password.text.trim()))
-                                  .toString() !=
-                              user_password) {
+                          } else if (_password != user_password) {
                             _speak(
-                                "Le mot de passe saisi ne correspond pas au votre. Rééssayer s'il vous plait");
+                                "Le mot de passe saisi ne correspond pas au votre. Réessayez s'il vous plait");
                           } else {
                             _speak("suppression en cours");
 
@@ -349,7 +355,7 @@ class ListVagues extends StatelessWidget {
                                 .delete();
 
                             _speak("Suppression effectué avec succès");
-                            Navigator.of(context).pop();
+                            Navigator.of(dialogContext).pop();
                           }
                           // ignore: empty_catches
                         } catch (e) {
@@ -377,7 +383,7 @@ class ListVagues extends StatelessWidget {
                       ),
                       onPressed: () {
                         _speak("Suppression du vague annulée");
-                        Navigator.of(context).pop();
+                        Navigator.of(dialogContext).pop();
                       },
                     ),
                   ),

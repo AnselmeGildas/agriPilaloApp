@@ -417,7 +417,7 @@ class DepenseEffectue extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Confirmer'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -490,7 +490,7 @@ class DepenseEffectue extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Annuler'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),

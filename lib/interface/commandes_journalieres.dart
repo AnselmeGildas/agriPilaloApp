@@ -79,12 +79,6 @@ class CommandesJournalieres extends StatelessWidget {
                   color: Colors.black,
                   size: 30,
                 )),
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 100,
-              width: 100,
-            ),
           ],
           elevation: 0,
           centerTitle: true,
@@ -145,7 +139,7 @@ class CommandesJournalieres extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: Colors.indigo,
+                            backgroundColor: Colors.lightBlue.shade900,
                             child: Text(
                               "AP",
                               style: GoogleFonts.alike(color: Colors.white),
@@ -188,7 +182,7 @@ class CommandesJournalieres extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: Colors.indigo,
+                            backgroundColor: Colors.lightBlue.shade900,
                             child: Text(
                               "AP",
                               style: GoogleFonts.alike(color: Colors.white),

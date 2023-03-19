@@ -59,7 +59,7 @@ class _SignalerBeteMortRetablieUserState
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
 
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -96,7 +96,7 @@ class _SignalerBeteMortRetablieUserState
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),

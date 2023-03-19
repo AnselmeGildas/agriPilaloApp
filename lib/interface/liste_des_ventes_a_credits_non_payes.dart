@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, non_constant_identifier_names, avoid_function_literals_in_foreach_calls
 
-import 'package:deogracias/interface/stream_vente_a_credit_non_paye.dart';
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/provider/provider_search.dart';
+import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'drawer_admin.dart';
+import 'stream_vente_a_credit_non_paye.dart';
 
 class VentesACreditsNonPayes extends StatefulWidget {
   VentesACreditsNonPayes({super.key, required this.vague_uid});
@@ -27,7 +28,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
     final provider = Provider.of<Search>(context);
     affiche = provider.afficher;
     value = provider.value;
-
+    final user = Provider.of<donnesUtilisateur>(context);
     int nombre = 0;
 
     ventes_a_credits.forEach((element) {
@@ -39,7 +40,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
     if (nombre <= 0) {
       return Scaffold(
           backgroundColor: Colors.green.shade800,
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -65,7 +66,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
     }
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -75,12 +76,6 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
                 provider.afficher_void();
               },
               icon: Icon(Icons.search, color: Colors.black)),
-          Image.asset(
-            "images/icon2.jpg",
-            scale: 4.5,
-            height: 50,
-            width: 50,
-          ),
         ],
         elevation: 0,
         centerTitle: false,
@@ -121,7 +116,7 @@ class _VentesACreditsNonPayesState extends State<VentesACreditsNonPayes> {
           itemBuilder: (context, index) {
             VentesACredits vente_a_credit = ventes_a_credits[index];
             return !affiche
-                ? !vente_a_credit.paye
+                ? !vente_a_credit.paye && vente_a_credit.user_uid == user.uid
                     ? ListTile(
                         onTap: () {
                           Navigator.push(

@@ -191,13 +191,19 @@ class _ListeBetesState extends State<ListeBetes> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text("Suppression".toUpperCase()),
+          title: Text(
+            "Suppression".toUpperCase(),
+            style: GoogleFonts.alike(fontWeight: FontWeight.bold),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text("Vous etes sur le point de supprimer  " +
-                    bete_nom +
-                    " de la base de données de cette entreprise"),
+                Text(
+                  "Vous etes sur le point de supprimer  " +
+                      bete_nom +
+                      " de la base de données de cette entreprise",
+                  style: GoogleFonts.alike(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
           ),
@@ -213,13 +219,13 @@ class _ListeBetesState extends State<ListeBetes> {
                     height: 40,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo,
+                          backgroundColor: Colors.lightBlue.shade900,
                           textStyle: TextStyle()),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Confirmer'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -236,12 +242,12 @@ class _ListeBetesState extends State<ListeBetes> {
                               .delete();
 
                           _speak("Suppression effectué avec succès");
+                          Navigator.of(dialogContext).pop();
 
                           // ignore: empty_catches
                         } catch (e) {
                           _speak("une erreur s'est produite");
                         }
-                        Navigator.of(context).pop();
                       },
                     ),
                   ),
@@ -255,7 +261,7 @@ class _ListeBetesState extends State<ListeBetes> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Annuler'.toUpperCase(),
-                          style: TextStyle(
+                          style: GoogleFonts.alike(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
@@ -264,7 +270,7 @@ class _ListeBetesState extends State<ListeBetes> {
                       ),
                       onPressed: () {
                         _speak("Suppression du bete annulée");
-                        Navigator.of(context).pop();
+                        Navigator.of(dialogContext).pop();
                       },
                     ),
                   ),

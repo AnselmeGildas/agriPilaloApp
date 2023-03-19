@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class VenteACreditNonPayeUser extends StatelessWidget {
-  const VenteACreditNonPayeUser({super.key});
-
+  const VenteACreditNonPayeUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<donnesUtilisateur>(context);
     final vente_a_credit = Provider.of<VentesACredits>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -48,7 +50,7 @@ class VenteACreditNonPayeUser extends StatelessWidget {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -437,7 +439,10 @@ class VenteACreditNonPayeUser extends StatelessWidget {
                                     vente_a_credit.achat_effectue,
                                     vente_a_credit.montant,
                                     budget.uid,
-                                    budget.solde_total);
+                                    budget.solde_total,
+                                    budget_tiers.uid,
+                                    budget_tiers.solde_total,
+                                    vague_uid);
                               },
                               child: Text(
                                 "Payez le crédit".toUpperCase(),
@@ -470,7 +475,10 @@ class VenteACreditNonPayeUser extends StatelessWidget {
       String vente_a_credit_achat_effectue,
       int montant,
       String budget_uid,
-      int budget_solde_total) async {
+      int budget_solde_total,
+      String budget_tiers_uid,
+      int budget_tiers_solde_total,
+      String vague_uid) async {
     return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
@@ -519,6 +527,8 @@ class VenteACreditNonPayeUser extends StatelessWidget {
                         onPressed: () async {
                           try {
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(vague_uid)
                                 .collection("ventes_a_credits")
                                 .doc(vente_a_credit_uid)
                                 .update({
@@ -530,6 +540,15 @@ class VenteACreditNonPayeUser extends StatelessWidget {
                                 .doc(budget_uid)
                                 .update({
                               "solde_total": budget_solde_total + montant,
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers_uid)
+                                .update({
+                              "solde_total": budget_tiers_solde_total + montant
                             });
 
                             _speak(

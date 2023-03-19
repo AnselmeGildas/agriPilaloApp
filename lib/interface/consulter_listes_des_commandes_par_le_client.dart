@@ -53,7 +53,7 @@ class _ListeDesCommandesDuClientState extends State<ListeDesCommandesDuClient> {
           elevation: 0,
           centerTitle: true,
           title: Text(
-            "Agri Pilalo",
+            "Agripilayo",
             style: GoogleFonts.alike(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),
           ),

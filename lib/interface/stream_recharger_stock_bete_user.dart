@@ -32,7 +32,9 @@ class StreamRechargerStockBeteUser extends StatelessWidget {
                 nombre_mort: 0,
                 updated_at: ""))
       ],
-      child: RechargerStockDuBeteUser(),
+      child: RechargerStockDuBeteUser(
+        vague_uid: vague_uid,
+      ),
     );
   }
 }

@@ -60,7 +60,7 @@ class StockOeufDeTables extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
                 child: Text(
-                  "Disponibilité de " + oeuf.nom,
+                  "Disponibilité d' " + oeuf.nom,
                   softWrap: true,
                   maxLines: 2,
                   textAlign: TextAlign.center,

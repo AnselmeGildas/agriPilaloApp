@@ -15,8 +15,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class StatistiqueJournalierUser extends StatelessWidget {
-  const StatistiqueJournalierUser({super.key});
-
+  const StatistiqueJournalierUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   Widget build(BuildContext context) {
     Timestamp created = Timestamp.now();
@@ -66,7 +66,9 @@ class StatistiqueJournalierUser extends StatelessWidget {
 
     if (nombre_betes <= 0 && nombre_fientes <= 0 && nombre_oeuf <= 0) {
       return Scaffold(
-        drawer: DrawerUser(),
+        drawer: DrawerUser(
+          vague_uid: vague_uid,
+        ),
         backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
@@ -96,7 +98,9 @@ class StatistiqueJournalierUser extends StatelessWidget {
     }
 
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(
+        vague_uid: vague_uid,
+      ),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

@@ -24,6 +24,7 @@ class CommandesParClient extends StatelessWidget {
     if (commandes.isEmpty) {
       return Scaffold(
         drawer: DrawerAdmin(),
+        backgroundColor: Colors.green.shade800,
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           actions: [
@@ -45,7 +46,7 @@ class CommandesParClient extends StatelessWidget {
         ),
         body: Center(
           child: CircularProgressIndicator(
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       );
@@ -56,14 +57,6 @@ class CommandesParClient extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
-          actions: [
-            Image.asset(
-              "images/icon2.jpg",
-              scale: 4.5,
-              height: 100,
-              width: 100,
-            ),
-          ],
           elevation: 0,
           centerTitle: true,
           title: !afficher
@@ -120,7 +113,7 @@ class CommandesParClient extends StatelessWidget {
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                       leading: CircleAvatar(
-                        backgroundColor: Colors.indigo,
+                        backgroundColor: Colors.lightBlue.shade900,
                         child: Text(
                           "AP",
                           style: GoogleFonts.alike(color: Colors.white),
@@ -158,7 +151,7 @@ class CommandesParClient extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           leading: CircleAvatar(
-                            backgroundColor: Colors.indigo,
+                            backgroundColor: Colors.lightBlue.shade900,
                             child: Text(
                               "AP",
                               style: GoogleFonts.alike(color: Colors.white),

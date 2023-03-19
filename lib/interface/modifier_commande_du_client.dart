@@ -565,7 +565,7 @@ class ModifierCommandeDuClient extends StatelessWidget {
 
                         // Create our message.
                         final message = Message()
-                          ..from = Address(username, 'Agri Pilalo Entreprise')
+                          ..from = Address(username, 'Agripilayo')
                           ..recipients.add(commande.client_uid.trim())
                           ..ccRecipients
                           //.addAll(['destCc1@example.com', 'destCc2@example.com'])

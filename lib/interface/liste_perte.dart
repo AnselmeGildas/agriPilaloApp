@@ -309,12 +309,11 @@ class _ListePerteState extends State<ListePerte> {
                           });
 
                           _speak("Suppression effectué avec succès");
-
+                          Navigator.of(dialogContext).pop();
                           // ignore: empty_catches
                         } catch (e) {
                           _speak("une erreur s'est produite");
                         }
-                        Navigator.of(context).pop();
                       },
                     ),
                   ),
@@ -337,7 +336,7 @@ class _ListePerteState extends State<ListePerte> {
                       ),
                       onPressed: () {
                         _speak("Suppression du perte annulée");
-                        Navigator.of(context).pop();
+                        Navigator.of(dialogContext).pop();
                       },
                     ),
                   ),

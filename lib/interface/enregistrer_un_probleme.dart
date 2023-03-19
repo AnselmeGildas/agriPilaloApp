@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/provider/provider_enregister_probleme.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +29,16 @@ class _EnregistrerProblemeState extends State<EnregistrerProbleme> {
     description = provider.description;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
       appBar: AppBar(
+        leading: Image.asset(
+          "images/icon2.jpg",
+          scale: 4.5,
+          height: 100,
+          width: 100,
+        ),
         actions: [
           Image.asset(
-            "images/icon2.jpg",
+            "images/image2.jpeg",
             scale: 4.5,
             height: 100,
             width: 100,

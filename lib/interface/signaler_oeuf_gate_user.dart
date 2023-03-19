@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/modele/oeuf_table.dart';
 import 'package:deogracias/provider/provider_signaler_oeuf_casse.dart';
 import 'package:deogracias/services/user.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerOeufCasseUser extends StatefulWidget {
-  SignalerOeufCasseUser({super.key});
-
+  SignalerOeufCasseUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerOeufCasseUser> createState() => _SignalerOeufCasseUserState();
 }
@@ -40,15 +41,13 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
     final provider = Provider.of<ProviderSignalerOeufCasse>(context);
     final user = Provider.of<donnesUtilisateur>(context);
     final budget = Provider.of<Budget>(context);
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     affiche = provider.affiche;
     _description = provider.description;
     _nombre = provider.nombre;
-    int mon = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
-    _montant = mon * Oeuf_tables.prix_unitaire;
-
+    bool par_plateau = provider.par_plateau;
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -77,7 +76,7 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -118,17 +117,77 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
               height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 10),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Nombre de " + Oeuf_tables.nom + " cassés ou gatés",
-                    style: GoogleFonts.alike(
+                    "Voulez renseigner le nombre de poussins par plateaux ? ",
+                    style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   )),
             ),
+            Column(
+              children: [
+                RadioListTile(
+                  title: Text(
+                    "Oui".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  value: true,
+                  groupValue: par_plateau,
+                  onChanged: (value) {
+                    provider.change_par_plateau(value!);
+                  },
+                ),
+                RadioListTile(
+                  title: Text(
+                    "Non".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  value: false,
+                  groupValue: par_plateau,
+                  onChanged: (value) {
+                    provider.change_par_plateau(value!);
+                  },
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            !par_plateau
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 12, right: 5),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Nombre de " + Oeuf_tables.nom + " cassés ou gatés",
+                          style: GoogleFonts.alike(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, bottom: 12, right: 5),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Nombre de plateaux d'" +
+                              Oeuf_tables.nom +
+                              " cassés ou gatés",
+                          style: GoogleFonts.alike(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: TextField(
@@ -154,11 +213,11 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, bottom: 12),
+              padding: const EdgeInsets.only(left: 15, bottom: 12, right: 5),
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Décrivez la cause ",
+                    "Décrivez la cause svp ",
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontSize: 18,
@@ -198,6 +257,12 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
                   onPressed: () async {
                     try {
                       provider.affiche_true();
+                      _nombre_saisi =
+                          nombre.text.isNotEmpty ? int.parse(nombre.text) : 0;
+                      if (par_plateau) {
+                        _nombre_saisi = _nombre_saisi * 30;
+                      }
+                      _montant = _nombre_saisi * Oeuf_tables.prix_unitaire;
 
                       if (nombre.text.isEmpty || description.text.isEmpty) {
                         provider.affiche_false();
@@ -223,10 +288,8 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
                       } else if (_nombre_saisi > Oeuf_tables.nombre_restant) {
                         provider.affiche_false();
                         _speak(
-                            "Nombre insuffisant. Le nombre saisi est strictement supérieur au nombre restant de poussins. Il ne reste que " +
-                                Oeuf_tables.nombre_restant.toString() +
-                                " de " +
-                                Oeuf_tables.nom);
+                            "Nombre insuffisant. Le nombre saisi est strictement supérieur au nombre restant d'oeuf de table. Il ne reste que " +
+                                Oeuf_tables.nombre_restant.toString());
                         final snakbar = SnackBar(
                           content: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -255,6 +318,16 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
+                            .collection("budget")
+                            .doc(budget_tiers.uid)
+                            .update(
+                                {"perte": budget_tiers.perte + _nombre_saisi});
+
+                        await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("oeuf_tables")
                             .doc(Oeuf_tables.uid)
                             .update({
@@ -266,6 +339,8 @@ class _SignalerOeufCasseUserState extends State<SignalerOeufCasseUser> {
                         });
 
                         await FirebaseFirestore.instance
+                            .collection("vagues")
+                            .doc(widget.vague_uid)
                             .collection("pertes")
                             .add({
                           "created_at": DateTime.now(),

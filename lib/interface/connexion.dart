@@ -99,7 +99,7 @@ class Login extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  "Adresse E-Mail ** ",
+                  "Adresse E-Mail",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

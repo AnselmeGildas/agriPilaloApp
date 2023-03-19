@@ -65,6 +65,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
     supporter_frais_transport = provider.supporter_frais_transports;
     indication = provider.indication;
     coordonnees_gps = provider.coordonnees_gps;
+    int nombre = 0;
     affiche = provider.affiche;
     return Scaffold(
         drawer: DrawerClient(),
@@ -145,9 +146,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                     title: Text(
                       "oui".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: true,
                     groupValue: supporter_frais_transport,
@@ -159,9 +158,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                     title: Text(
                       "non".toUpperCase(),
                       style: GoogleFonts.alike(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     value: false,
                     groupValue: supporter_frais_transport,
@@ -192,7 +189,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                   controller: _coordonnees,
                   onTap: () {
                     _speak(
-                        "Servez vous de Google Map pour obtenir les coordonnéés G *P S ");
+                        "Servez vous de Google Map pour obtenir ces coordonnéés ");
                   },
                   autocorrect: true,
                   enableSuggestions: true,
@@ -229,7 +226,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: TextField(
                   onTap: () {
-                    _speak("Indiquez en détail le lieu de livraison");
+                    _speak("Indiquez le lieu de livraison");
                   },
                   controller: _indication,
                   autocorrect: true,
@@ -261,8 +258,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                           backgroundColor: Colors.black87),
                       onPressed: () async {
                         try {
-                          if (indication.isEmpty && coordonnees_gps.isEmpty ||
-                              _indication.text.isEmpty ||
+                          if (_indication.text.isEmpty &&
                               _coordonnees.text.isEmpty) {
                             provider.affiche_false();
                             _speak(
@@ -331,10 +327,24 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                                     supporter_frais_transport,
                                 "created_at": DateTime.now(),
                                 "updated_at": DateTime.now(),
-                                "coordonnees_gps": coordonnees_gps,
-                                "indication": indication
+                                "coordonnees_gps": _coordonnees.text,
+                                "indication": _indication.text
                               });
                             } else {
+                              await FirebaseFirestore.instance
+                                  .collection("clients")
+                                  .doc(widget.email)
+                                  .get()
+                                  .then((DocumentSnapshot document) {
+                                nombre =
+                                    (document.data() as Map)['nombre_commande'];
+                              });
+
+                              await FirebaseFirestore.instance
+                                  .collection("clients")
+                                  .doc(widget.email)
+                                  .update({"nombre_commande": nombre + 1});
+
                               await FirebaseFirestore.instance
                                   .collection("commandes")
                                   .add({
@@ -351,10 +361,12 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
                                     supporter_frais_transport,
                                 "created_at": DateTime.now(),
                                 "updated_at": DateTime.now(),
-                                "coordonnees_gps": coordonnees_gps,
-                                "indication": indication
+                                "coordonnees_gps": _coordonnees.text,
+                                "indication": _indication.text
                               });
                             }
+                            _coordonnees.clear();
+                            _indication.clear();
                             String username = 'agripilalo@gmail.com';
                             String password = 'kgbadpzwmbaxkzch';
 
@@ -366,8 +378,7 @@ class _CommanderSecondPageState extends State<CommanderSecondPage> {
 
                             // Create our message.
                             final message = Message()
-                              ..from =
-                                  Address(username, 'Agri Pilalo Entreprise')
+                              ..from = Address(username, 'Agripilayo')
                               ..recipients.add(widget.email.trim())
                               ..ccRecipients
                               //.addAll(['destCc1@example.com', 'destCc2@example.com'])

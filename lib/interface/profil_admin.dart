@@ -93,7 +93,6 @@ class ProfilAdmin extends StatelessWidget {
                               .child('$file_name');
                           await ref.putFile(File(image.path));
                           ref.getDownloadURL().then((value) async {
-                            _provider.change_photo_url(value);
                             await FirebaseFirestore.instance
                                 .collection("users")
                                 .doc(_user.uid)
@@ -399,7 +398,7 @@ Future<void> _showMyDialog(BuildContext context, String user_nom,
                           });
 
                           _speak("Mise à jour effectué avec succès");
-                          Navigator.of(context).pop();
+                          Navigator.of(dialogContext).pop();
                         }
 
                         // ignore: empty_catches
@@ -428,7 +427,7 @@ Future<void> _showMyDialog(BuildContext context, String user_nom,
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(dialogContext).pop();
                     },
                   ),
                 ),

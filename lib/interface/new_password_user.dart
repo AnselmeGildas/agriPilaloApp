@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:deogracias/interface/connexion.dart';
-import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/interface/provider_new_pawword.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,14 +42,19 @@ class _NewPasswordUserState extends State<NewPasswordUser> {
     affiche = provider.affiche;
     is_obscure_nouveau_password = provider.is_obscure_nouveau_password;
     return Scaffold(
-      drawer: DrawerUser(),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
+        leading: Image.asset(
+          "images/icon2.jpg",
+          scale: 4.5,
+          height: 100,
+          width: 100,
+        ),
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         actions: [
           Image.asset(
-            "images/icon2.jpg",
+            "images/image2.jpeg",
             scale: 4.5,
             height: 100,
             width: 100,
@@ -73,7 +76,7 @@ class _NewPasswordUserState extends State<NewPasswordUser> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -81,7 +84,7 @@ class _NewPasswordUserState extends State<NewPasswordUser> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -312,7 +315,7 @@ class _NewPasswordUserState extends State<NewPasswordUser> {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else if (sha1
                               .convert(utf8
-                                  .encode(npuveau_password_saisie.text.trim()))
+                                  .encode(ancien_password_saisie.text.trim()))
                               .toString() !=
                           user.mdp) {
                         provider.affiche_false();
@@ -343,8 +346,10 @@ class _NewPasswordUserState extends State<NewPasswordUser> {
                             .collection("users")
                             .doc(user.uid)
                             .update({
-                          "mdpn": sha1.convert(
-                              utf8.encode(npuveau_password_saisie.text.trim())),
+                          "mdpn": sha1
+                              .convert(utf8
+                                  .encode(npuveau_password_saisie.text.trim()))
+                              .toString(),
                         });
                         provider.affiche_false();
                         _speak(

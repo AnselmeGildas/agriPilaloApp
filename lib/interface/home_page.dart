@@ -1,14 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, non_constant_identifier_names
 
-import 'package:deogracias/interface/drawer_user.dart';
-import 'package:deogracias/interface/enregistrer_depense_user.dart';
 import 'package:deogracias/interface/enregistrer_un_probleme.dart';
-import 'package:deogracias/interface/enregistrer_une_perte_user.dart';
-import 'package:deogracias/interface/enregistrer_vente_a_credit_user.dart';
-import 'package:deogracias/interface/list_des_ventes_a_credit_non_payes_user.dart';
 import 'package:deogracias/interface/new_password_user.dart';
 import 'package:deogracias/interface/profil_user.dart';
-import 'package:deogracias/interface/statistique_journaliere_user.dart';
+import 'package:deogracias/interface/vagues_user.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +21,7 @@ class HomePage extends StatelessWidget {
               builder: ((context) {
                 return AlertDialog(
                   title: Text(
-                    "Agri PILALO",
+                    "AGRIPILAYO",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -81,14 +76,19 @@ class HomePage extends StatelessWidget {
     return WillPopScope(
         onWillPop: ShowExitApp,
         child: Scaffold(
-          drawer: DrawerUser(),
           backgroundColor: Colors.green.shade800,
           appBar: AppBar(
+            leading: Image.asset(
+              "images/icon2.jpg",
+              height: 70,
+              width: 70,
+              scale: 4.5,
+            ),
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
             elevation: 0,
             title: Text(
-              "Agri Pilalo",
+              "Agripilayo",
               style: GoogleFonts.alike(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
             centerTitle: true,
             actions: [
               Image.asset(
-                "images/icon2.jpg",
+                "images/image2.jpeg",
                 height: 70,
                 width: 70,
                 scale: 4.5,
@@ -133,7 +133,7 @@ class HomePage extends StatelessWidget {
                       style: GoogleFonts.alike(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25),
+                          fontSize: 20),
                     ),
                   ),
                 ),
@@ -160,7 +160,7 @@ class HomePage extends StatelessWidget {
                               user.role,
                               style: GoogleFonts.alike(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -245,8 +245,7 @@ class HomePage extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        StatistiqueJournalierUser(),
+                                    builder: (context) => VaguesUser(),
                                   ));
                             },
                             child: Row(
@@ -255,171 +254,7 @@ class HomePage extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "Statistique journalière de vente",
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    style: GoogleFonts.alike(
-                                        color: Colors.lightBlue.shade900,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.lightBlue.shade900,
-                                )
-                              ],
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 25, right: 15, bottom: 10),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EnregisterUneVenteAcreditUser(),
-                                  ));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Enregister une vente à crédit",
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    style: GoogleFonts.alike(
-                                        color: Colors.lightBlue.shade900,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.lightBlue.shade900,
-                                )
-                              ],
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 25, right: 15, bottom: 10),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        VentesACreditsNonPayesUser(),
-                                  ));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Ventes à crédits non payés",
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    style: GoogleFonts.alike(
-                                        color: Colors.lightBlue.shade900,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.lightBlue.shade900,
-                                )
-                              ],
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 25, right: 15, bottom: 10),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EnregistrerPerteUser(),
-                                  ));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Enregister une perte",
-                                    maxLines: 2,
-                                    softWrap: true,
-                                    style: GoogleFonts.alike(
-                                        color: Colors.lightBlue.shade900,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_right_alt,
-                                  color: Colors.lightBlue.shade900,
-                                )
-                              ],
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25),
-                        child: Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: Colors.black12,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 25, right: 15, bottom: 10),
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EnregisterDepenseUser(),
-                                  ));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Enregister une dépense",
+                                    "Vagues",
                                     maxLines: 2,
                                     softWrap: true,
                                     style: GoogleFonts.alike(

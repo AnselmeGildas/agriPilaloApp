@@ -13,8 +13,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerPoussinMortRetabliUser extends StatefulWidget {
-  SignalerPoussinMortRetabliUser({super.key});
-
+  SignalerPoussinMortRetabliUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerPoussinMortRetabliUser> createState() =>
       _SignalerPoussinMortRetabliUserState();
@@ -58,7 +58,9 @@ class _SignalerPoussinMortRetabliUserState
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
 
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(
+        vague_uid: widget.vague_uid,
+      ),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

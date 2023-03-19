@@ -314,12 +314,12 @@ class _ListeDepenseState extends State<ListeDepense> {
                           });
 
                           _speak("Suppression effectué avec succès");
+                          Navigator.of(dialogContext).pop();
 
                           // ignore: empty_catches
                         } catch (e) {
                           _speak("une erreur s'est produite");
                         }
-                        Navigator.of(context).pop();
                       },
                     ),
                   ),
@@ -342,7 +342,7 @@ class _ListeDepenseState extends State<ListeDepense> {
                       ),
                       onPressed: () {
                         _speak("Suppression du dépense annulée");
-                        Navigator.of(context).pop();
+                        Navigator.of(dialogContext).pop();
                       },
                     ),
                   ),

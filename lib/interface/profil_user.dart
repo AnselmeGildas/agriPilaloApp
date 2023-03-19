@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, no_leading_underscores_for_local_identifiers, prefer_interpolation_to_compose_strings, avoid_unnecessary_containers, must_be_immutable, use_build_context_synchronously, deprecated_member_use, prefer_const_constructors_in_immutables, unused_local_variable, unnecessary_string_interpolations
 
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/provider/provider_profil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,14 +27,19 @@ class ProfilUser extends StatelessWidget {
     final _imagePicker = ImagePicker();
 
     return Scaffold(
-      drawer: DrawerUser(),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
+        leading: Image.asset(
+          "images/icon2.jpg",
+          scale: 4.5,
+          height: 100,
+          width: 100,
+        ),
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         actions: [
           Image.asset(
-            "images/icon2.jpg",
+            "images/image2.jpeg",
             scale: 4.5,
             height: 100,
             width: 100,
@@ -94,11 +97,11 @@ class ProfilUser extends StatelessWidget {
                           await ref.putFile(File(image.path));
                           ref.getDownloadURL().then((value) async {
                             _provider.change_photo_url(value);
-                            await FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(_user.uid)
-                                .update({"photo_url": value});
                           });
+                          await FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(_user.uid)
+                              .update({"photo_url": url});
 
                           _speak(
                               "Votre photo de profil a été mise à jour avec succès");
@@ -399,7 +402,7 @@ Future<void> _showMyDialog(BuildContext context, String user_nom,
                           });
 
                           _speak("Mise à jour effectué avec succès");
-                          Navigator.of(context).pop();
+                          Navigator.of(dialogContext).pop();
                         }
 
                         // ignore: empty_catches
@@ -428,7 +431,7 @@ Future<void> _showMyDialog(BuildContext context, String user_nom,
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(dialogContext).pop();
                     },
                   ),
                 ),

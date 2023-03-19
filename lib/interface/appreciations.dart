@@ -68,12 +68,6 @@ class _AppreciationsClientsState extends State<AppreciationsClients> {
                 provider.afficher_void();
               },
               icon: Icon(Icons.search, color: Colors.black)),
-          Image.asset(
-            "images/icon2.jpg",
-            scale: 4.5,
-            height: 100,
-            width: 100,
-          ),
         ],
         elevation: 0,
         centerTitle: false,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_signaler_bete.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class SignalerBeteUser extends StatefulWidget {
-  SignalerBeteUser({super.key});
-
+  SignalerBeteUser({super.key, required this.vague_uid});
+  final String vague_uid;
   @override
   State<SignalerBeteUser> createState() => _SignalerBeteUserState();
 }
@@ -54,9 +55,9 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
     _montant = provider.montant;
     _montant_saisi = _montant.isNotEmpty ? int.parse(_montant) : 0;
     _nombre_saisi = _nombre.isNotEmpty ? int.parse(_nombre) : 0;
-
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     return Scaffold(
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       backgroundColor: Colors.green.shade800,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -85,7 +86,7 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -93,7 +94,7 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -166,7 +167,7 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
               child: Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Ces " + bete.nom + "  sont ils morts ou malades ? ",
+                    "Ces " + bete.nom + " sont ils morts ou malades ? ",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -383,6 +384,17 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
+                              .collection("budget")
+                              .doc(budget_tiers.uid)
+                              .update({
+                            "perte": budget_tiers.perte + _montant_saisi,
+                          });
+
+                          await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("betes")
                               .doc(bete.uid)
                               .update({
@@ -393,6 +405,8 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
                           });
 
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("pertes")
                               .add({
                             "created_at": DateTime.now(),
@@ -402,6 +416,8 @@ class _SignalerBeteUserState extends State<SignalerBeteUser> {
                           });
                         } else {
                           await FirebaseFirestore.instance
+                              .collection("vagues")
+                              .doc(widget.vague_uid)
                               .collection("betes")
                               .doc(bete.uid)
                               .update({

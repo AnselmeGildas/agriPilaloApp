@@ -74,7 +74,7 @@ class _NewPasswordState extends State<NewPassword> {
               height: 0,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -82,7 +82,7 @@ class _NewPasswordState extends State<NewPassword> {
                       bottomRight: Radius.circular(40)),
                   image: DecorationImage(
                       image: AssetImage(
-                        "images/image2.jpeg",
+                        "images/image8.jfif",
                       ),
                       fit: BoxFit.cover)),
             ),
@@ -313,7 +313,7 @@ class _NewPasswordState extends State<NewPassword> {
                         ScaffoldMessenger.of(context).showSnackBar(snakbar);
                       } else if (sha1
                               .convert(utf8
-                                  .encode(npuveau_password_saisie.text.trim()))
+                                  .encode(ancien_password_saisie.text.trim()))
                               .toString() !=
                           user.mdp) {
                         provider.affiche_false();
@@ -344,8 +344,10 @@ class _NewPasswordState extends State<NewPassword> {
                             .collection("users")
                             .doc(user.uid)
                             .update({
-                          "mdpn": sha1.convert(
-                              utf8.encode(npuveau_password_saisie.text.trim())),
+                          "mdpn": sha1
+                              .convert(utf8
+                                  .encode(npuveau_password_saisie.text.trim()))
+                              .toString(),
                         });
                         provider.affiche_false();
                         _speak(

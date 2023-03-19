@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deogracias/interface/drawer_user.dart';
 import 'package:deogracias/modele/betes.dart';
 import 'package:deogracias/modele/budget.dart';
+import 'package:deogracias/modele/budget_tiers.dart';
 import 'package:deogracias/provider/provider_vente_bete.dart';
 import 'package:deogracias/services/user.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class VenteDeBeteUser extends StatefulWidget {
-  VenteDeBeteUser({super.key});
-
+  VenteDeBeteUser({
+    super.key,
+    required this.vague_uid,
+  });
+  final String vague_uid;
   @override
   State<VenteDeBeteUser> createState() => _VenteDeBeteUserState();
 }
@@ -29,11 +33,8 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
   int _nombre = 0;
 
   int _montant = 0;
-
   int _montant_en_reduction = 0;
-
   String montant_reduit = "";
-
   bool reduire = false;
 
   TextEditingController nombre_vendu = TextEditingController();
@@ -41,17 +42,16 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
   TextEditingController prix_total = TextEditingController();
 
   TextEditingController montant_en_reduction = TextEditingController();
-
   int number1 = 0;
 
   int total = 0;
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<donnesUtilisateur>(context);
     final bete = Provider.of<Betes>(context);
     final provider = Provider.of<ProviderVenteBete>(context);
     final budget = Provider.of<Budget>(context);
+    final budget_tiers = Provider.of<BudgetTiers>(context);
     reduire = provider.reduire;
     montant_reduit = provider.montant_reduit;
     nombre = provider.nombre;
@@ -60,7 +60,7 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
     total = number1 * bete.prix_unitaire;
     return Scaffold(
       backgroundColor: Colors.green.shade800,
-      drawer: DrawerUser(),
+      drawer: DrawerUser(vague_uid: widget.vague_uid),
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
@@ -73,9 +73,9 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
           ),
         ],
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         title: Text(
-          "Vente de " + bete.nom,
+          bete.nom,
           style: GoogleFonts.alike(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
         ),
@@ -88,7 +88,7 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                 height: 0,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -96,15 +96,15 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                         bottomRight: Radius.circular(40)),
                     image: DecorationImage(
                         image: AssetImage(
-                          "images/image2.jpeg",
+                          "images/image8.jfif",
                         ),
                         fit: BoxFit.cover)),
               ),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               Text(
-                "Vente de betes",
+                "Vente de la bête",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.alike(color: Colors.white, fontSize: 24),
               ),
@@ -141,18 +141,18 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                 height: 44,
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Text(
-                    "Vous disposez de ".toUpperCase() +
+                    "Vous disposez de " +
                         bete.nombre_restant.toString() +
-                        " unités de ".toUpperCase() +
-                        bete.nom.toUpperCase() +
-                        " en stock de votre entreprise.".toUpperCase(),
+                        " unités de " +
+                        bete.nom +
+                        " en stock de votre entreprise.",
                     textAlign: TextAlign.justify,
                     style: GoogleFonts.alike(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 13)),
+                        fontSize: 19)),
               ),
               SizedBox(
                 height: 50,
@@ -338,8 +338,8 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                     onPressed: () async {
                       try {
                         provider.affiche_true();
-                        _montant = montant_total.isNotEmpty
-                            ? int.parse(montant_total)
+                        _montant = prix_total.text.isNotEmpty
+                            ? int.parse(prix_total.text)
                             : 0;
                         _montant_en_reduction =
                             montant_en_reduction.text.isNotEmpty
@@ -395,7 +395,7 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snakbar);
                         } else if (bete.prix_unitaire == 0) {
-                          if (_montant <= 0) {
+                          if (prix_total.text.isEmpty) {
                             _speak("Vous devez saisir le montant total de vente de " +
                                 _montant.toString() +
                                 " " +
@@ -434,6 +434,17 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers.uid)
+                                .update({
+                              "solde_total": budget_tiers.solde_total + _montant
+                            });
+
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("vente_betes")
                                 .add({
                               "created_at": DateTime.now(),
@@ -447,6 +458,8 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({
@@ -514,6 +527,36 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snakbar);
+                            } else if (_montant_en_reduction > total) {
+                              _speak(
+                                  "Vous devez saisir un montant total réduction de vente inférieu à  " +
+                                      total.toString());
+                              provider.affiche_false();
+
+                              final snakbar = SnackBar(
+                                content: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Vous devez saisir le montant total en réduction de vente de ces " +
+                                        _nombre.toString() +
+                                        " " +
+                                        bete.nom +
+                                        " puisque le prix unitaire de vente n'a pas été prédefini",
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.lato(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    Colors.redAccent.withOpacity(.8),
+                                elevation: 10,
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(5),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snakbar);
                             } else {
                               await FirebaseFirestore.instance
                                   .collection("budget")
@@ -522,8 +565,19 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                                 "solde_total":
                                     budget.solde_total + _montant_en_reduction
                               });
+                              await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
+                                  .collection("budget")
+                                  .doc(budget_tiers.uid)
+                                  .update({
+                                "solde_total": budget_tiers.solde_total +
+                                    _montant_en_reduction
+                              });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
                                   .collection("vente_betes")
                                   .add({
                                 "created_at": DateTime.now(),
@@ -537,6 +591,8 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                               });
 
                               await FirebaseFirestore.instance
+                                  .collection("vagues")
+                                  .doc(widget.vague_uid)
                                   .collection("betes")
                                   .doc(bete.uid)
                                   .update({
@@ -578,8 +634,18 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                                 .update({
                               "solde_total": budget.solde_total + total
                             });
+                            await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
+                                .collection("budget")
+                                .doc(budget_tiers.uid)
+                                .update({
+                              "solde_total": budget_tiers.solde_total + total
+                            });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("vente_betes")
                                 .add({
                               "created_at": DateTime.now(),
@@ -593,6 +659,8 @@ class _VenteDeBeteUserState extends State<VenteDeBeteUser> {
                             });
 
                             await FirebaseFirestore.instance
+                                .collection("vagues")
+                                .doc(widget.vague_uid)
                                 .collection("betes")
                                 .doc(bete.uid)
                                 .update({

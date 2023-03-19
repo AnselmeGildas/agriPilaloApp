@@ -1,13 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_const_constructors_in_immutables, non_constant_identifier_names
 
+import 'package:deogracias/interface/drawer_vague_admin.dart';
 import 'package:deogracias/interface/stream_vente_a_credit.dart';
 import 'package:deogracias/modele/ventes_a_credits.dart';
 import 'package:deogracias/provider/provider_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import 'drawer_admin.dart';
 
 class ListeDesVentesACredits extends StatefulWidget {
   ListeDesVentesACredits({super.key, required this.vague_uid});
@@ -31,7 +30,7 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
     if (ventes_a_credits.isEmpty) {
       return Scaffold(
           backgroundColor: Colors.green.shade800,
-          drawer: DrawerAdmin(),
+          drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -57,7 +56,7 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
     }
 
     return Scaffold(
-      drawer: DrawerAdmin(),
+      drawer: DrawerVagueAdmin(vague_uid: widget.vague_uid),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
@@ -67,12 +66,6 @@ class _ListeDesVentesACreditsState extends State<ListeDesVentesACredits> {
                 provider.afficher_void();
               },
               icon: Icon(Icons.search, color: Colors.black)),
-          Image.asset(
-            "images/icon2.jpg",
-            scale: 4.5,
-            height: 50,
-            width: 50,
-          ),
         ],
         elevation: 0,
         centerTitle: false,
